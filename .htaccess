@@ -1,0 +1,22 @@
+#RewriteEngine on
+#RewriteBase   /upcdatabase/
+#RewriteRule   ^item/([0-9]{7,13})$    upc.php?act=lookup&upc=$1
+#RewriteRule   ^barcode/upce/([0-9]{8})$    barcode.php?act=upce&upc=$1
+#RewriteRule   ^barcode/upca/([0-9]{12})$    barcode.php?act=upca&upc=$1
+#RewriteRule   ^barcode/upc/([0-9]{12})$    barcode.php?act=upca&upc=$1
+#RewriteRule   ^barcode/ean13/([0-9]{13})$    barcode.php?act=ean13&upc=$1
+#RewriteRule   ^barcode/ean8/([0-9]{8})$    barcode.php?act=ean8&upc=$1
+#RewriteRule   ^barcode/ean/([0-9]{13})$    barcode.php?act=ean13&upc=$1
+#RewriteRule   ^barcode/itf14/([0-9]{14})$    barcode.php?act=itf14&upc=$1
+
+ <Files "settings.php">
+    Order Deny,Allow
+    Deny from all
+    Satisfy All
+ </Files>
+
+ <Files "*.sdb">
+    Order Deny,Allow
+    Deny from all
+    Satisfy All
+ </Files>
