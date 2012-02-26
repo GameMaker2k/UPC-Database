@@ -23,6 +23,10 @@ if ($File3Name=="dumpfile.php"||$File3Name=="/dumpfile.php") {
 if($_GET['act']=="csv"||$_GET['act']=="dumpcsv") { 
 @header("Content-Type: text/csv; charset=UTF-8"); 
 @header("Content-Disposition: attachment; filename=\"".$sqlitedatabase.".csv\"");
+$deep_sub_act = null;
+if(isset($_GET['deepsubact'])) { $deep_sub_act = $_GET['deepsubact']; }
+if(isset($_GET['subact'])&&preg_match("/([a-z]+),([a-z]+)/", $_GET['subact'], $subact_part)) {
+	$_GET['subact'] = $subact_part[1]; $deep_sub_act = $subact_part[2]; }
 if($_GET['subact']=="random"||$_GET['subact']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
 $upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
@@ -34,11 +38,21 @@ if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
 $findprefix = $fix_matches[1];
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%';"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="lastupdate") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%'  ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); } 
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="search"&&!isset($_GET['searchterms'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
@@ -48,11 +62,21 @@ if((strlen($_GET['searchterms'])>100||strlen($_GET['searchterms'])<=3)&&
 	$_GET['subact']=="search") {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="lookup") {
 if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) { 
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
@@ -60,7 +84,7 @@ $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_pref
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."'  ORDER BY \"upc\" ASC;"); } }
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."' ORDER BY \"upc\" ASC;"); } }
 if($_GET['subact']==NULL) {
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); 
 $numupc = sql_fetch_assoc($findupc);
@@ -80,6 +104,10 @@ $upcinfo['quantity'] = str_replace("\"", "\"\"", $upcinfo['quantity']); }
 ?>
 "<?php echo $upcinfo['upc']; ?>", "<?php echo $upcinfo['description']; ?>", "<?php echo $upcinfo['sizeweight']; ?>"<?php if($add_quantity_row===true) { ?>, "<?php echo $upcinfo['quantity']; ?>"<?php } ?>
 <?php } } } if($_GET['act']=="xml"||$_GET['act']=="dumpxml") { 
+$deep_sub_act = null;
+if(isset($_GET['deepsubact'])) { $deep_sub_act = $_GET['deepsubact']; }
+if(isset($_GET['subact'])&&preg_match("/([a-z]+),([a-z]+)/", $_GET['subact'], $subact_part)) {
+	$_GET['subact'] = $subact_part[1]; $deep_sub_act = $subact_part[2]; }
 if($_GET['subact']=="random"||$_GET['subact']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
 $upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
@@ -103,11 +131,21 @@ if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
 $findprefix = $fix_matches[1];
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%';"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%'  ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="search"&&!isset($_GET['searchterms'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
@@ -117,11 +155,21 @@ if((strlen($_GET['searchterms'])>100||strlen($_GET['searchterms'])<=3)&&
 	$_GET['subact']=="search") {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="lookup") {
 if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) { 
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
@@ -129,7 +177,7 @@ $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_pref
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."'  ORDER BY \"upc\" ASC;"); } }
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."' ORDER BY \"upc\" ASC;"); } }
 if($_GET['subact']==NULL) {
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); 
 $numupc = sql_fetch_assoc($findupc);
@@ -160,6 +208,10 @@ $upcinfo['quantity'] = str_replace("\"", "\\\"", $upcinfo['quantity']); }
 </<?php echo $sqlitedatabase; ?>>
 <?php } if($_GET['act']=="yaml"||$_GET['act']=="dumpyaml"||
 		   $_GET['act']=="yml"||$_GET['act']=="dumpyml") { 
+$deep_sub_act = null;
+if(isset($_GET['deepsubact'])) { $deep_sub_act = $_GET['deepsubact']; }
+if(isset($_GET['subact'])&&preg_match("/([a-z]+),([a-z]+)/", $_GET['subact'], $subact_part)) {
+	$_GET['subact'] = $subact_part[1]; $deep_sub_act = $subact_part[2]; }
 if($_GET['subact']=="random"||$_GET['subact']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
 $upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
@@ -173,11 +225,21 @@ if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
 $findprefix = $fix_matches[1];
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%';"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%'  ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="search"&&!isset($_GET['searchterms'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
@@ -187,11 +249,21 @@ if((strlen($_GET['searchterms'])>100||strlen($_GET['searchterms'])<=3)&&
 	$_GET['subact']=="search") {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); } 
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="lookup") {
 if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) { 
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
@@ -199,7 +271,7 @@ $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_pref
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."'  ORDER BY \"upc\" ASC;"); } }
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."' ORDER BY \"upc\" ASC;"); } }
 if($_GET['subact']==NULL) {
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); 
 $numupc = sql_fetch_assoc($findupc);
@@ -223,10 +295,13 @@ $upcinfo['quantity'] = str_replace("\"", "\"\"", $upcinfo['quantity']); } */
 <?php if($add_quantity_row===true) { ?>     quantity:      <?php echo $upcinfo['quantity']."\n"; } ?>
 
 <?php } } } if($_GET['act']=="json"||$_GET['act']=="dumpjson") { 
+$deep_sub_act = null;
+if(isset($_GET['deepsubact'])) { $deep_sub_act = $_GET['deepsubact']; }
+if(isset($_GET['subact'])&&preg_match("/([a-z]+),([a-z]+)/", $_GET['subact'], $subact_part)) {
+	$_GET['subact'] = $subact_part[1]; $deep_sub_act = $subact_part[2]; }
 if($_GET['subact']=="random"||$_GET['subact']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
-$upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; 
-var_dump($_GET['subact']); }
+$upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
 @header("Content-Type: application/json; charset=UTF-8"); 
 ?>
 {
@@ -237,11 +312,21 @@ if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
 $findprefix = $fix_matches[1];
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%';"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%'  ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); } 
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="search"&&!isset($_GET['searchterms'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
@@ -251,11 +336,21 @@ if((strlen($_GET['searchterms'])>100||strlen($_GET['searchterms'])<=3)&&
 	$_GET['subact']=="search") {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); } 
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); } 
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="lookup") {
 if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) { 
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
@@ -263,7 +358,7 @@ $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_pref
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."'  ORDER BY \"upc\" ASC;"); } }
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."' ORDER BY \"upc\" ASC;"); } }
 if($_GET['subact']==NULL) {
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); 
 $numupc = sql_fetch_assoc($findupc);
@@ -291,6 +386,10 @@ if($numcount==$numrows) { echo "    }\n"; }
   ]
 }
 <?php } } if($_GET['act']=="serialize"||$_GET['act']=="dumpserialize") { 
+$deep_sub_act = null;
+if(isset($_GET['deepsubact'])) { $deep_sub_act = $_GET['deepsubact']; }
+if(isset($_GET['subact'])&&preg_match("/([a-z]+),([a-z]+)/", $_GET['subact'], $subact_part)) {
+	$_GET['subact'] = $subact_part[1]; $deep_sub_act = $subact_part[2]; }
 if($_GET['subact']=="random"||$_GET['subact']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
 $upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
@@ -300,11 +399,21 @@ if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
 $findprefix = $fix_matches[1];
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%';"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%'  ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"id\" ASC;"); } 
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="search"&&!isset($_GET['searchterms'])) {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
@@ -314,11 +423,21 @@ if((strlen($_GET['searchterms'])>100||strlen($_GET['searchterms'])<=3)&&
 	$_GET['subact']=="search") {
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
 if($_GET['subact']=="search"&&isset($_GET['searchterms'])) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); 
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); }
+if($deep_sub_act=="latest") {
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); }
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); } }
+if($deep_sub_act===null||$deep_sub_act=="upc") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"upc\" ASC;"); }
+if($deep_sub_act=="id") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"id\" ASC;"); } 
+if($deep_sub_act=="latest") {
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_GET['searchterms'])."%' ORDER BY \"lastupdate\" DESC;"); } } }
 if($_GET['subact']=="lookup") {
 if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) { 
 	$_GET['upc'] = null; $_GET['subact'] = NULL; }
@@ -326,7 +445,7 @@ $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_pref
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 if($numrows>0) {
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."'  ORDER BY \"upc\" ASC;"); } }
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."' ORDER BY \"upc\" ASC;"); } }
 if($_GET['subact']==NULL) {
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); 
 $numupc = sql_fetch_assoc($findupc);
