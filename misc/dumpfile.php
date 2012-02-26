@@ -67,10 +67,10 @@ $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 $dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); } 
 if($_GET['subact']=="latest") {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); } 
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); } 
 if($dumpupc!=NULL) {
 while ($upcinfo = sql_fetch_assoc($dumpupc)) {
 $upcinfo['description'] = str_replace("\"", "\"\"", $upcinfo['description']);
@@ -136,10 +136,10 @@ $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 $dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); } 
 if($_GET['subact']=="latest") {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); } 
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); } 
 if($dumpupc==NULL) {
 echo "<item>\n</item>\n\n"; }
 if($dumpupc!=NULL) {
@@ -206,10 +206,10 @@ $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 $dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); } 
 if($_GET['subact']=="latest") {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); } 
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); } 
 if($dumpupc!=NULL) {
 while ($upcinfo = sql_fetch_assoc($dumpupc)) {
 /*$upcinfo['description'] = str_replace("\"", "\"\"", $upcinfo['description']);
@@ -270,10 +270,10 @@ $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 $dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); } 
 if($_GET['subact']=="latest") {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); } 
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); } 
 if($dumpupc!=NULL) { $numcount = 1;
 while ($upcinfo = sql_fetch_assoc($dumpupc)) {
 $upcinfo['description'] = str_replace("\"", "\\\"", $upcinfo['description']);
@@ -333,10 +333,10 @@ $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
 $dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"upc\" ASC;"); } 
 if($_GET['subact']=="latest") {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
 $numupc = sql_fetch_assoc($findupc);
 $numrows = $numupc['COUNT'];
-$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\";"); } 
+$dumpupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); } 
 if($dumpupc!=NULL) { 
 $items = array();
 $ari = 0;
