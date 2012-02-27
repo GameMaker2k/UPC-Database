@@ -28,7 +28,7 @@ if(($_GET['act']=="login"||$_GET['act']=="signin")&&
     header("Location: ".$website_url.$url_file."?act=login"); exit(); }
     if(strlen($_POST['username'])>30) {
     header("Location: ".$website_url.$url_file."?act=login"); exit(); }
-    if(strlen($_POST['password'])>60||$_POST['password']==""||$_POST['password']==NULL) {
+    if(strlen($_POST['password'])>60||$_POST['password']==""||$_POST['password']==null) {
     header("Location: ".$website_url.$url_file."?act=login"); exit(); }
 	$findme = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE name='".sqlite3_escape_string($slite3, $_POST['username'])."';");
 	$numfindme = sql_fetch_assoc($findme);
@@ -141,13 +141,13 @@ if(($_GET['act']=="join"||$_GET['act']=="signup")&&
     $_POST['username'] = remove_spaces($_POST['username']);
     $_POST['email'] = trim($_POST['email']);
     $_POST['email'] = remove_spaces($_POST['email']);
-    if($_POST['username']==""||$_POST['username']==NULL) {
+    if($_POST['username']==""||$_POST['username']==null) {
     header("Location: ".$website_url.$url_file."?act=join"); exit(); }
-    if($_POST['email']==""||$_POST['email']==NULL) {
+    if($_POST['email']==""||$_POST['email']==null) {
     header("Location: ".$website_url.$url_file."?act=join"); exit(); }
     if(strlen($_POST['username'])>30) {
     header("Location: ".$website_url.$url_file."?act=join"); exit(); }
-    if(strlen($_POST['password'])>60||$_POST['password']==""||$_POST['password']==NULL) {
+    if(strlen($_POST['password'])>60||$_POST['password']==""||$_POST['password']==null) {
     header("Location: ".$website_url.$url_file."?act=join"); exit(); }
 	$UserJoined = time(); $HashSalt = salt_hmac();
 	if($usehashtype=="md2") { 
@@ -241,7 +241,7 @@ if($_GET['act']=="join"||$_GET['act']=="signup") { ?>
  </body>
 </html>
 <?php } if($_GET['act']=="usr"||$_GET['act']=="user") { 
-if($_GET['id']<=0) { $_GET['id'] = NULL; }
+if($_GET['id']<=0) { $_GET['id'] = null; }
 if(!is_numeric($_GET['id'])&&!isset($_COOKIE['MemberID'])) {
 	$_GET['id'] = 1; }
 if(!is_numeric($_GET['id'])&&isset($_COOKIE['MemberID'])&&!is_numeric($_COOKIE['MemberID'])) {

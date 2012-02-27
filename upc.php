@@ -17,14 +17,14 @@
 
 require("./settings.php");
 
-$upce = NULL; $upca = NULL; $ean13 = NULL;
+$upce = null; $upca = null; $ean13 = null;
 if(!isset($_GET['act'])&&isset($_POST['act'])) { $_GET['act'] = $_POST['act']; }
 if(!isset($_GET['act'])) { $_GET['act'] = "lookup"; 
 	header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
 if(isset($_GET['act'])&&$_GET['act']=="view") { $_GET['act'] = "lookup"; }
 if(!isset($_GET['subact'])&&isset($_POST['subact'])) { $_GET['subact'] = $_POST['subact']; }
 if(!isset($_POST['subact'])&&isset($_GET['subact'])) { $_POST['subact'] = $_GET['subact']; }
-if(!isset($_GET['subact'])) { $_GET['subact'] = NULL; }
+if(!isset($_GET['subact'])) { $_GET['subact'] = null; }
 if(!isset($_POST['upc'])&&isset($_GET['upc'])) { $_POST['upc'] = $_GET['upc']; }
 if(!isset($_GET['upc'])&&isset($_POST['upc'])) { $_GET['upc'] = $_POST['upc']; }
 if(($_GET['act']=="upca"||$_GET['act']=="upce"||$_GET['act']=="ean8"||
@@ -78,11 +78,11 @@ if($_GET['act']=="login"||$_GET['act']=="signin"||$_GET['act']=="join"||$_GET['a
 	$_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=lookup"); exit(); } }
 if($_GET['act']=="logout"||$_GET['act']=="signout") { 
 	unset($_COOKIE['MemberName']); 
-	setcookie("MemberName", NULL, -1, $cbasedir, $cookieDomain);
+	setcookie("MemberName", null, -1, $cbasedir, $cookieDomain);
 	unset($_COOKIE['MemberID']); 
-	setcookie("MemberID", NULL, -1, $cbasedir, $cookieDomain);
+	setcookie("MemberID", null, -1, $cbasedir, $cookieDomain);
 	unset($_COOKIE['SessPass']); 
-	setcookie("SessPass", NULL, -1, $cbasedir, $cookieDomain);
+	setcookie("SessPass", null, -1, $cbasedir, $cookieDomain);
 	$_GET['act'] = "login"; header("Location: ".$website_url.$url_file."?act=login"); exit(); }
 if(strlen($_POST['upc'])>0&&strlen($_POST['upc'])!=8&&strlen($_POST['upc'])!=12&&strlen($_POST['upc'])!=13) {
 	$_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }

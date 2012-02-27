@@ -105,7 +105,7 @@ if($_GET['act']=="latest") { ?>
    if(!is_numeric($_GET['page'])) { $_GET['page'] = 1; }
    preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
    $findprefix = $fix_matches[1];
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%';"); 
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); 
    $numupc = sql_fetch_assoc($findupc);
    $numrows = $numupc['COUNT'];
    if($numrows>0) {
@@ -114,7 +114,7 @@ if($_GET['act']=="latest") { ?>
    $pagestart = $maxpage - 20;
    if($pagestart<0) { $pagestart = 0; }
    $pagestartshow = $pagestart + 1;
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%';"); 
+   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); 
    if($maxpage>20&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_file."?act=latest&amp;page=".$backpage."\">Prev</a> --\n"; }
@@ -160,8 +160,8 @@ if($_GET['act']=="latest") { ?>
 $_POST['searchterms'] = trim($_POST['searchterms']);
 $_POST['searchterms'] = remove_spaces($_POST['searchterms']);
 if(strlen($_POST['searchterms'])>100||strlen($_POST['searchterms'])<=3) { 
-	$_POST['searchterms'] = NULL; }
-if($_POST['searchterms']==""||$_POST['searchterms']==NULL) {
+	$_POST['searchterms'] = null; }
+if($_POST['searchterms']==""||$_POST['searchterms']==null) {
 header("Location: ".$website_url.$url_file."?act=search"); exit(); }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

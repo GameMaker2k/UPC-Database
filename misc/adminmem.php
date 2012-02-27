@@ -144,17 +144,17 @@ if($_GET['act']=="validatemember") { ?>
   </center>
  </body>
 </html>
-<?php } if($_GET['act']=="editmember"&&isset($_GET['id'])&&$_GET['id']>1&&$_GET['subact']==="editmember") { 
-if(!isset($_POST['username'])) { $_POST['username'] = NULL; }
+<?php } if($_GET['act']=="editmember"&&isset($_GET['id'])&&$_GET['id']>1&&$_GET['subact']=="editmember") { 
+if(!isset($_POST['username'])) { $_POST['username'] = null; }
 if(!isset($_POST['validateitems'])) { $_POST['validateitems'] = "yes"; }
 if(!isset($_POST['admin'])) { $_POST['admin'] = "no"; }
 if($_POST['admin']!="no"&&$_POST['admin']!="yes") { $_POST['admin'] = "yes"; }
 if($_POST['validateitems']!="no"&&$_POST['validateitems']!="yes") { $_POST['validateitems'] = "yes"; }
 $_POST['username'] = trim($_POST['username']);
 $_POST['username'] = remove_spaces($_POST['username']);
-if($_POST['username']==""||$_POST['username']==NULL) {
-	$_GET['id'] = NULL; $_GET['subact'] = NULL; }
-if($_GET['subact']!=NULL&&$_GET['id']!=NULL) {
+if($_POST['username']==""||$_POST['username']==null) {
+	$_GET['id'] = null; $_GET['subact'] = null; }
+if($_GET['subact']!=null&&$_GET['id']!=null) {
 $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id']." AND \"id\"<>1;");
 $nummems = sql_fetch_assoc($findmem);
 $numrows = $nummems['COUNT'];
@@ -178,19 +178,19 @@ if($meminfo['numitems']!=$nummyitems&&$meminfo['numpending']!=$nummypendings) {
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numitems\"=".$nummyitems.",\"numpending\"=".$nummypendings." WHERE \"id\"=".$meminfo['id'].";"); }
 if($trymeminfo['id']!=$meminfo['id']) {
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"validateitems\"='".$_POST['validateitems']."',\"admin\"='".$_POST['admin']."' WHERE \"id\"=".$meminfo['id'].";"); 
-$_GET['id'] = NULL; $_GET['subact'] = NULL; }
+$_GET['id'] = null; $_GET['subact'] = null; }
 if($trymeminfo['id']==$meminfo['id']) {
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"name\"='".$_POST['username']."',\"validateitems\"='".$_POST['validateitems']."',\"admin\"='".$_POST['admin']."' WHERE \"id\"=".$meminfo['id'].";"); 
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."items\" SET \"username\"='".$_POST['username']."' WHERE \"username\"='".$meminfo['name']."';"); 
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."items\" SET \"editname\"='".$_POST['username']."' WHERE \"editname\"='".$meminfo['name']."';"); 
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."pending\" SET \"username\"='".$_POST['username']."' WHERE \"username\"='".$meminfo['name']."';"); 
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."modupc\" SET \"username\"='".$_POST['username']."' WHERE \"username\"='".$meminfo['name']."';"); 
-$_GET['id'] = NULL; $_GET['subact'] = NULL; } } } } 
-if($_GET['act']=="editmember"&&isset($_GET['id'])&&$_GET['id']>1&&$_GET['subact']===NULL) { 
+$_GET['id'] = null; $_GET['subact'] = null; } } } } 
+if($_GET['act']=="editmember"&&isset($_GET['id'])&&$_GET['id']>1&&$_GET['subact']===null) { 
 $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id']." AND \"id\"<>1;");
 $nummems = sql_fetch_assoc($findmem);
 $numrows = $nummems['COUNT'];
-if($numrows<0) { $_GET['id'] = NULL; }
+if($numrows<0) { $_GET['id'] = null; }
 if($numrows>0) { 
 $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id']." AND \"id\"<>1;"); 
 $meminfo = sql_fetch_assoc($findmem);
@@ -230,7 +230,7 @@ $nummymods = $nummems['COUNT'];
   </center>
  </body>
 </html>
-<?php } } if($_GET['act']=="editmember"&&!isset($_GET['id'])&&$_GET['subact']===NULL) { ?>
+<?php } } if($_GET['act']=="editmember"&&!isset($_GET['id'])&&$_GET['subact']===null) { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>

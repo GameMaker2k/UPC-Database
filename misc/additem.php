@@ -66,11 +66,11 @@ if(strlen($_POST['sizeweight'])>30) {
 header("Location: ".$website_url.$url_file."?act=add&upc=".$_GET['upc']); exit(); }
 if(strlen($_POST['quantity'])>30&&$add_quantity_row===true) {
 header("Location: ".$website_url.$url_file."?act=add&upc=".$_GET['upc']); exit(); }
-if($_POST['description']==""||$_POST['description']==NULL) {
+if($_POST['description']==""||$_POST['description']==null) {
 header("Location: ".$website_url.$url_file."?act=add&upc=".$_GET['upc']); exit(); }
-if($_POST['sizeweight']==""||$_POST['sizeweight']==NULL) {
+if($_POST['sizeweight']==""||$_POST['sizeweight']==null) {
 header("Location: ".$website_url.$url_file."?act=add&upc=".$_GET['upc']); exit(); }
-if(($_POST['quantity']==""||$_POST['quantity']==NULL)&&$add_quantity_row===true) {
+if(($_POST['quantity']==""||$_POST['quantity']==null)&&$add_quantity_row===true) {
 header("Location: ".$website_url.$url_file."?act=add&upc=".$_GET['upc']); exit(); }
 $findusrinfo = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_COOKIE['MemberID'].";"); 
 $getuserinfo = sql_fetch_assoc($findusrinfo); 
@@ -124,11 +124,11 @@ if($_GET['act']=="add"&&isset($_POST['upc'])) { ?>
    <?php echo $navbar; ?>
    <h2>Add New Entry</h2>
    <table>
-   <?php if($upce!==NULL&&validate_upce($upce)===true) { ?>
+   <?php if($upce!==null&&validate_upce($upce)===true) { ?>
    <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
-   <?php } if($upca!==NULL&&validate_upca($upca)===true) { ?>
+   <?php } if($upca!==null&&validate_upca($upca)===true) { ?>
    <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
-   <?php } if($ean13!==NULL&&validate_ean13($ean13)===true) { ?>
+   <?php } if($ean13!==null&&validate_ean13($ean13)===true) { ?>
    <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
    </table>

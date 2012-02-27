@@ -30,10 +30,10 @@ if($_GET['act']=="lookup"&&isset($_POST['upc'])&&strlen($_POST['upc'])==13&&
 	validate_ean13($_POST['upc'])===false) { 
 	$_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
 if($_GET['act']=="lookup") { 
-$lookupupc = NULL;
+$lookupupc = null;
 if(isset($_POST['upc'])&&is_numeric($_POST['upc'])) { $lookupupc = $_POST['upc']; }
-if(isset($_POST['upc'])&&!is_numeric($_POST['upc'])) { $lookupupc = NULL; }
-if(!isset($_POST['upc'])) { $lookupupc = NULL; } }
+if(isset($_POST['upc'])&&!is_numeric($_POST['upc'])) { $lookupupc = null; }
+if(!isset($_POST['upc'])) { $lookupupc = null; } }
 if($_GET['act']=="lookup") { 
 if(isset($_POST['upc'])) {
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
@@ -69,7 +69,7 @@ $upcinfo['validated'] = "no"; } } }
 	!preg_match("/^(98[1-3])/", $_POST['upc'])&&!preg_match("/^(99[0-9])/", $_POST['upc'])&&
 	!preg_match("/^(97[7-9])/", $_POST['upc'])&&!preg_match("/^2/", $_POST['upc']))) { ?>
 <title> <?php echo $sitename; ?>: Item Found </title>
-  <?php } if(isset($_POST['upc'])&&$numrows===0&&
+  <?php } if(isset($_POST['upc'])&&$numrows==0&&
 	(!preg_match("/^02/", $_POST['upc'])&&!preg_match("/^04/", $_POST['upc'])&&
 	!preg_match("/^05/", $_POST['upc'])&&!preg_match("/^09/", $_POST['upc'])&&
 	!preg_match("/^(98[1-3])/", $_POST['upc'])&&!preg_match("/^(99[0-9])/", $_POST['upc'])&&
@@ -149,7 +149,7 @@ $upcinfo['validated'] = "no"; } } }
    </table>
    <div><br /></div>
    <?php } if(isset($_POST['upc'])&&preg_match("/^(97[7-9])/", $_POST['upc'])) {
-   $eanhrefs = NULL; $eanhrefe = NULL;
+   $eanhrefs = null; $eanhrefe = null;
    if(validate_isbn13($ean13)===true) {
    $eantype = "ISBN"; $eanprefix = "978";
    $eanprint = print_convert_isbn13_to_isbn10($ean13); 
@@ -181,11 +181,11 @@ $upcinfo['validated'] = "no"; } } }
 	!preg_match("/^(97[7-9])/", $_POST['upc'])&&!preg_match("/^2/", $_POST['upc']))) { ?>
    <h2>Item Record</h2>
    <table>
-   <?php if($upce!==NULL&&validate_upce($upce)===true) { ?>
+   <?php if($upce!==null&&validate_upce($upce)===true) { ?>
    <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
-   <?php } if($upca!==NULL&&validate_upca($upca)===true) { ?>
+   <?php } if($upca!==null&&validate_upca($upca)===true) { ?>
    <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
-   <?php } if($ean13!==NULL&&validate_ean13($ean13)===true) { ?>
+   <?php } if($ean13!==null&&validate_ean13($ean13)===true) { ?>
    <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
    <tr><td>Description</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td></tr>
@@ -219,16 +219,16 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Item Found</h2>
    <div>The UPC you were looking for currently is in the database but has not been validated yet.<br /><br /></div>
    <table>
-   <?php if($upce!==NULL&&validate_upce($upce)===true) { ?>
+   <?php if($upce!==null&&validate_upce($upce)===true) { ?>
    <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
-   <?php } if($upca!==NULL&&validate_upca($upca)===true) { ?>
+   <?php } if($upca!==null&&validate_upca($upca)===true) { ?>
    <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
-   <?php } if($ean13!==NULL&&validate_ean13($ean13)===true) { ?>
+   <?php } if($ean13!==null&&validate_ean13($ean13)===true) { ?>
    <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
    </table>
    <div><br />Please try coming back later.<br /><br /></div>
-   <?php } if(isset($_POST['upc'])&&$numrows===0&&
+   <?php } if(isset($_POST['upc'])&&$numrows==0&&
 	(!preg_match("/^02/", $_POST['upc'])&&!preg_match("/^04/", $_POST['upc'])&&
 	!preg_match("/^05/", $_POST['upc'])&&!preg_match("/^09/", $_POST['upc'])&&
 	!preg_match("/^(98[1-3])/", $_POST['upc'])&&!preg_match("/^(99[0-9])/", $_POST['upc'])&&
@@ -236,11 +236,11 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Item Not Found</h2>
    <div>The UPC you were looking for currently has no record in the database.<br /><br /></div>
    <table>
-   <?php if($upce!==NULL&&validate_upce($upce)===true) { ?>
+   <?php if($upce!==null&&validate_upce($upce)===true) { ?>
    <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
-   <?php } if($upca!==NULL&&validate_upca($upca)===true) { ?>
+   <?php } if($upca!==null&&validate_upca($upca)===true) { ?>
    <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
-   <?php } if($ean13!==NULL&&validate_ean13($ean13)===true) { ?>
+   <?php } if($ean13!==null&&validate_ean13($ean13)===true) { ?>
    <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
    </table>
@@ -292,11 +292,11 @@ $upcinfo['validated'] = "no"; } } }
    $check_upce = convert_upca_to_upce($check_upca); }
    ?>
    <table>
-   <?php if($check_ean13!==NULL&&validate_ean13($check_ean13)===true) { ?>
+   <?php if($check_ean13!==null&&validate_ean13($check_ean13)===true) { ?>
    <tr><td>EAN/UCC-13:</td><td><?php echo $check_ean13; ?></td></tr>
-   <?php } if($check_upca!==NULL&&validate_upca($check_upca)===true) { ?>
+   <?php } if($check_upca!==null&&validate_upca($check_upca)===true) { ?>
    <tr><td>UPC-A:</td><td><?php echo $check_upca; ?></td></tr>
-   <?php } if($check_upce!==NULL&&validate_upce($check_upce)===true) { ?>
+   <?php } if($check_upce!==null&&validate_upce($check_upce)===true) { ?>
    <tr><td>UPC-E:</td><td><?php echo $check_upce; ?></td></tr>
    <?php } ?>
    <tr><td colspan="2"><a href="<?php echo $website_url.$url_file."?act=lookup&amp;upc=".$check_ean13; ?>">Click here</a> to look up this UPC in the database.</td></tr>

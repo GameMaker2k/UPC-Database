@@ -26,13 +26,13 @@ if(!isset($_COOKIE['MemberName'])||!isset($_COOKIE['MemberID'])||!isset($_COOKIE
 if(!isset($_GET['act'])&&isset($_POST['act'])) { $_GET['act'] = $_POST['act']; }
 if(!isset($_GET['act'])) { $_GET['act'] = "view"; }
 if(!isset($_GET['subact'])&&isset($_POST['subact'])) { $_GET['subact'] = $_POST['subact']; }
-if(!isset($_GET['subact'])) { $_GET['subact'] = NULL; }
+if(!isset($_GET['subact'])) { $_GET['subact'] = null; }
 if(!isset($_POST['upc'])&&isset($_GET['upc'])) { $_POST['upc'] = $_GET['upc']; }
 if(!isset($_GET['upc'])&&isset($_POST['upc'])) { $_GET['upc'] = $_POST['upc']; }
-if(!isset($_POST['upc'])) { $_POST['upc'] = NULL; }
+if(!isset($_POST['upc'])) { $_POST['upc'] = null; }
 if(!isset($_POST['id'])&&isset($_GET['id'])) { $_POST['id'] = $_GET['id']; }
 if(!isset($_GET['id'])&&isset($_POST['id'])) { $_GET['id'] = $_POST['id']; }
-if(!isset($_POST['id'])) { $_POST['id'] = NULL; }
+if(!isset($_POST['id'])) { $_POST['id'] = null; }
 if(strlen($_POST['upc'])>0&&(strlen($_POST['upc'])<13||strlen($_POST['upc'])>13)) {
 	$_GET['act'] = "view"; header("Location: ".$website_url.$url_admin_file."?act=view"); exit(); }
 if(strlen($_POST['upc'])>0&&validate_ean13($_POST['upc'])===false) { 
