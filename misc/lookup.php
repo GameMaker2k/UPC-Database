@@ -174,6 +174,9 @@ $upcinfo['validated'] = "no"; } } }
 	!preg_match("/^(98[1-3])/", $_POST['upc'])&&!preg_match("/^(99[0-9])/", $_POST['upc'])&&
 	!preg_match("/^(97[7-9])/", $_POST['upc'])&&!preg_match("/^2/", $_POST['upc']))) { ?>
    <h2>Item Lookup</h2>
+   <h3>Instructions</h3>
+   <div>Enter the all digits printed on the UPC bar code, including any numbers<br />to the right or left of the bar code itself, even if they don't line up<br />with the main row of numbers.  This should be 13 digits for an EAN/UCC-13,<br />12 digits for a Type A UPC code, or 8 digits for a Type-E (zero-supressed)<br />UPC code.  Anything other than 8 or 12 digits is <b>not</b> a UPC code!<br />(And just because it's 8 or 12 digits doesn't mean it <b>is</b> a UPC.)<br /><b>You must enter every digit here.</b><br /></div>
+   <div><br />If you have a barcode scanner that outputs plain numbers, you should be<br />able to use it to enter the UPC number here.<br /><br /></div>
    <?php } if(isset($_POST['upc'])&&$numrows>0&&$upcinfo['validated']=="yes"&&
 	(!preg_match("/^02/", $_POST['upc'])&&!preg_match("/^04/", $_POST['upc'])&&
 	!preg_match("/^05/", $_POST['upc'])&&!preg_match("/^09/", $_POST['upc'])&&
@@ -271,6 +274,8 @@ $upcinfo['validated'] = "no"; } } }
   <center>
    <?php echo $navbar; ?>
    <h2>Check Digit Calculator</h2>
+   <h3>Instructions</h3>
+   <div>Enter a product code WITHOUT ITS CHECK DIGIT!  DO NOT omit leading zeros.<br />This will be 12 digits for an EAN, JAN, or UCC-13, 11 digits for a UPC-A,<br />or 7 digits for a UPC-E.  There is no support here for EAN/UCC-8 yet.<br /><br /></div>
    <form method="post" action="<?php echo $website_url.$url_file."?act=checkdigit"; ?>">
    <b>EAN/UCC</b>: <input type="text" name="checkupc" size="15" maxlength="12" /><div><br /></div>
    <div><input type="submit" value="Calculate Check Digit" /></div>
@@ -302,6 +307,47 @@ $upcinfo['validated'] = "no"; } } }
    <tr><td colspan="2"><a href="<?php echo $website_url.$url_file."?act=lookup&amp;upc=".$check_ean13; ?>">Click here</a> to look up this UPC in the database.</td></tr>
    </table>
    <?php } ?>
+  </center>
+ </body>
+</html>
+<?php } if($_GET['act']=="terms"||$_GET['act']=="termsofuse") { ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+<title> <?php echo $sitename; ?>: Web Site Terms of Use </title>
+<?php echo $metatags; ?>
+ </head>
+ <body>
+  <center>
+   <?php echo $navbar; ?>
+   <h2>Web Site Terms of Use</h2>
+   <?php 
+   if(file_exists("./terms.txt")) {
+   echo file_get_contents("./terms.txt"); 
+   ?>
+   <div>Last updated <?php echo date("j M Y", filemtime("./terms.txt")); ?>.</div>
+   <?php }
+   if(!file_exists("./terms.txt")) {
+   if(file_exists("./terms.html")) {
+   echo file_get_contents("./terms.txt"); 
+   ?>
+   <div>Last updated <?php echo date("j M Y", filemtime("./terms.html")); ?>.</div>
+   <?php }
+   if(!file_exists("./terms.html")) {
+   if(file_exists("./termsofuse.txt")) {
+   echo file_get_contents("./termsofuse.txt"); 
+   ?>
+   <div>Last updated <?php echo date("j M Y", filemtime("./termsofuse.txt")); ?>.</div>
+   <?php }
+   if(!file_exists("./termsofuse.txt")) {
+   if(file_exists("./termsofuse.html")) {
+   echo file_get_contents("./termsofuse.html"); 
+   ?>
+   <div>Last updated <?php echo date("j M Y", filemtime("./termsofuse.html")); ?>.</div>
+   <?php }
+   if(!file_exists("./termsofuse.html")) {
+   /*echo "";*/ } } } }
+   ?>
   </center>
  </body>
 </html>

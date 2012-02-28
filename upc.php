@@ -31,6 +31,12 @@ if(($_GET['act']=="upca"||$_GET['act']=="upce"||$_GET['act']=="ean8"||
 	$_GET['act']=="ean13"||$_GET['act']=="itf14")&&isset($_GET['upc'])) {
 	header("Location: ".$website_url.$barcode_file."?act=".$_GET['act']."&upc=".$_GET['upc']); exit(); }
 if(isset($_POST['upc'])) {
+if(strlen($_POST['upc'])==13&&validate_ean13($_POST['upc'])===false) {
+	$_POST['upc'] = fix_ean13_checksum($_POST['upc']); }
+if(strlen($_POST['upc'])==12&&validate_upca($_POST['upc'])===false) {
+	$_POST['upc'] = fix_upca_checksum($_POST['upc']); }
+if(strlen($_POST['upc'])==8&&validate_upce($_POST['upc'])===false&&validate_ean8($_POST['upc'])===false) { 
+	$_POST['upc'] = fix_upce_checksum($_POST['upc']); }
 if(strlen($_POST['upc'])==13&&validate_ean13($_POST['upc'])===true&&
 	validate_upca(convert_ean13_to_upca($_POST['upc']))===true) {
 	$_POST['upc'] = convert_ean13_to_upca($_POST['upc']); }
@@ -90,11 +96,17 @@ if($_GET['act']=="random"||$_GET['act']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
 $upcinfo = sql_fetch_assoc($findupc);
 $_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=lookup&upc=".$upcinfo['upc']); exit(); }
+if(($_GET['act']=="terms"||$_GET['act']=="termsofuse")&&
+    !file_exists("./terms.txt")&&!file_exists("./terms.html")&&
+    !file_exists("./termsofuse.txt")&&!file_exists("./termsofuse.html")) {
+    $_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
 if($_GET['act']=="login"||$_GET['act']=="signin"||
 	$_GET['act']=="join"||$_GET['act']=="signup"||
 	$_GET['act']=="usr"||$_GET['act']=="user") {
 require("./misc/members.php"); }
-if($_GET['act']=="lookup"||$_GET['act']=="check"||$_GET['act']=="checkdigit") {
+if($_GET['act']=="lookup"||$_GET['act']=="check"||
+	$_GET['act']=="terms"||$_GET['act']=="termsofuse"||
+	$_GET['act']=="checkdigit") {
 require("./misc/lookup.php"); }
 if($_GET['act']=="add") {
 require("./misc/additem.php"); }
