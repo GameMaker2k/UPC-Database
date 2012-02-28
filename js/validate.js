@@ -96,7 +96,7 @@ function fix_ean8_checksum(upc) {
 
 function validate_upce(upc,return_check) {
 	if(upc.length>8||upc.length<7) { return false; }
-	if(upc.length>8) { upc.match(/^(\d{8})/, upc, fix_matches); upc = fix_matches[1]; }
+	if(upc.length>8) { upc.match(/^(\d{8})/); upc = fix_matches[1]; }
 	if(upc.length>8||upc.length<7) { return false; }
 	if(!upc.match(/^0/)) { return false; }
 	CheckDigit = null;
@@ -147,5 +147,5 @@ function validate_upce(upc,return_check) {
 	if(return_check==true) { return CheckSum; } 
 	if(upc.length==7) { return CheckSum; } }
 function fix_upce_checksum(upc) {
-	if(upc.length>7) { upc.match(/^(\d{7})/, upc, fix_matches); upc = fix_matches[1]; }
+	if(upc.length>7) { upc.match(/^(\d{7})/); upc = fix_matches[1]; }
 	return upc+validate_upce(upc,true); }
