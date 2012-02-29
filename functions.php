@@ -12,7 +12,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: functions.php - Last Update: 02/13/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+    $FileInfo: functions.php - Last Update: 02/29/2012 Ver. 1.0.0 RC 1 - Author: cooldude2k $
 */
 $File3Name = basename($_SERVER['SCRIPT_NAME']);
 if ($File3Name=="functions.php"||$File3Name=="/functions.php") {

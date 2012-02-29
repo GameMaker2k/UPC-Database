@@ -51,7 +51,7 @@ function validate_ean13(upc,return_check) {
 	if(return_check==true) { return CheckSum; } 
 	if(upc.length==12) { return CheckSum; } }
 function fix_ean13_checksum(upc) {
-	if(upc.length>13) { fix_matches = upc.match(/^(\d{12})/); upc = fix_matches[1]; }
+	if(upc.length>12) { fix_matches = upc.match(/^(\d{12})/); upc = fix_matches[1]; }
 	return upc+validate_ean13(upc,true); }
 
 function validate_itf14(upc,return_check) {
@@ -71,7 +71,7 @@ function validate_itf14(upc,return_check) {
 	if(return_check==true) { return CheckSum; } 
 	if(upc.length==13) { return CheckSum; } }
 function fix_itf14_checksum(upc) {
-	if(upc.length>14) { fix_matches = upc.match(/^(\d{13})/); upc = fix_matches[1]; }
+	if(upc.length>13) { fix_matches = upc.match(/^(\d{13})/); upc = fix_matches[1]; }
 	return upc+validate_upca(upc,true); }
 
 function validate_ean8(upc,return_check) {
@@ -91,7 +91,7 @@ function validate_ean8(upc,return_check) {
 	if(return_check==true) { return CheckSum; } 
 	if(upc.length==7) { return CheckSum; } }
 function fix_ean8_checksum(upc) {
-	if(upc.length>8) { fix_matches = upc.match(/^(\d{7})/); upc = fix_matches[1]; }
+	if(upc.length>7) { fix_matches = upc.match(/^(\d{7})/); upc = fix_matches[1]; }
 	return upc+validate_ean8(upc,true); }
 
 function validate_upce(upc,return_check) {
@@ -147,7 +147,7 @@ function validate_upce(upc,return_check) {
 	if(return_check==true) { return CheckSum; } 
 	if(upc.length==7) { return CheckSum; } }
 function fix_upce_checksum(upc) {
-	if(upc.length>7) { upc.match(/^(\d{7})/); upc = fix_matches[1]; }
+	if(upc.length>7) { fix_matches = upc.match(/^(\d{7})/); upc = fix_matches[1]; }
 	return upc+validate_upce(upc,true); }
 
 function validate_barcode(upc,return_check) {

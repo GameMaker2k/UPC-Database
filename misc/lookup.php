@@ -12,7 +12,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: lookup.php - Last Update: 02/13/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+    $FileInfo: lookup.php - Last Update: 02/29/2012 Ver. 1.0.0 RC 1 - Author: cooldude2k $
 */
 $File3Name = basename($_SERVER['SCRIPT_NAME']);
 if ($File3Name=="lookup.php"||$File3Name=="/lookup.php") {
@@ -196,13 +196,13 @@ $upcinfo['validated'] = "no"; } } }
    <?php if($add_quantity_row===true) { ?><tr><td>Quantity</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td></tr><?php } ?>
    <tr><td>Issuing Country</td><td width="50"></td><td><?php echo get_gs1_prefix($ean13); ?></td></tr>
    <tr><td>Created</td><td width="50"></td><td><?php echo date("j M Y, g:i A T", $upcinfo['timestamp']); ?></td></tr>
-   <tr><td>Created By</td><td width="50"></td><td><a href="<?php echo $website_url.$url_file."?act=user&id=".$upcinfo['userid']; ?>"><?php echo $upcinfo['username']; ?></a></td></tr>
+   <tr><td>Created By</td><td width="50"></td><td><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['userid']; ?>"><?php echo $upcinfo['username']; ?></a></td></tr>
    <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
 			  ($usersiteinfo['admin']=="yes")) { ?>
    <tr><td>Created By IP</td><td width="50"></td><td><?php echo $upcinfo['ip']; ?></td></tr>
    <?php } if($upcinfo['timestamp']>$upcinfo['lastupdate']) { ?>
    <tr><td>Last Modified</td><td width="50"></td><td><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td></tr>
-   <tr><td>Last Modified By</td><td width="50"></td><td><a href="<?php echo $website_url.$url_file."?act=user&id=".$upcinfo['edituserid']; ?>"><?php echo $upcinfo['editname']; ?></a></td></tr>
+   <tr><td>Last Modified By</td><td width="50"></td><td><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['edituserid']; ?>"><?php echo $upcinfo['editname']; ?></a></td></tr>
    <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
 			  ($usersiteinfo['admin']=="yes")) { ?>
    <tr><td>Last Modified By IP</td><td width="50"></td><td><?php echo $upcinfo['editip']; ?></td></tr>
@@ -210,8 +210,8 @@ $upcinfo['validated'] = "no"; } } }
    </table>
    <div><br /></div>
    <a href="<?php echo $website_url.$url_file; ?>?act=neighbors&amp;upc=<?php echo $ean13; ?>&amp;page=1">List Neighboring Items</a><br />
-   <!--<a href="/editform.asp?upc=0012345000065">Submit Modification Request</a><br />-->
-   <!--<a href="/deleteform.asp?upc=0012345000065">Submit Deletion Request</a><br />-->
+   <!--<a href="/editform.asp?upc=<?php echo $ean13; ?>">Submit Modification Request</a><br />-->
+   <!--<a href="/deleteform.asp?upc=<?php echo $ean13; ?>">Submit Deletion Request</a><br />-->
    <!--<br /><br /></div>-->
    <div><br /></div>
    <?php } if(isset($_POST['upc'])&&$numrows>0&&$upcinfo['validated']=="no"&&
@@ -254,7 +254,7 @@ $upcinfo['validated'] = "no"; } } }
    by providing a description for this item, please
    <a href="<?php echo $website_url.$url_file; ?>?act=add&amp;upc=<?php echo $ean13; ?>">CLICK HERE</a>.<br /><br /></div>
    <?php } ?>
-   <form action="<?php echo $website_url.$url_file; ?>?act=lookup" method="get">
+   <form name="upcform" action="<?php echo $website_url.$url_file; ?>?act=lookup" onsubmit="validate_str_size(document.upcform.upc.value);" method="get">
     <input type="hidden" name="act" value="lookup" />
     <table>
     <tr><td style="text-align: center;"><input type="text" name="upc" size="16" maxlength="13" value="<?php echo $lookupupc; ?>" /> <input type="submit" value="Look Up UPC" /></td></tr>

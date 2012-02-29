@@ -12,7 +12,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: settings.php - Last Update: 02/13/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+    $FileInfo: settings.php - Last Update: 02/29/2012 Ver. 1.0.0 RC 1 - Author: cooldude2k $
 */
 
 $website_url = "http://localhost/upcdatabase/";
@@ -33,7 +33,7 @@ $site_encryption_key = null;
 $sqlite_version = 3;
 $add_quantity_row = false;
 
-$appver = array(2,2,5,"RC 1");
+$appver = array(1,0,0,"RC 1");
 $upcdatabase = "http://www.upcdatabase.com/item/%s";
 $sitename = $appname;
 $siteauthor = $appmaker;
@@ -59,7 +59,7 @@ if($sqlite_version==3&&!extension_loaded("sqlite3")) { $sqlite_version = 2; }
 if($sqlite_version==2&&!extension_loaded("sqlite")) { $sqlite_version = 3; }
 if(!is_bool($add_quantity_row)) { $add_quantity_row = false; }
 
-$metatags = "<meta http-equiv=\"Content-Language\" content=\"en\" />\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n  <meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n  <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n  <meta name=\"generator\" content=\"".$sitename."\" />\n  <meta name=\"author\" content=\"".$siteauthor."\" />\n  <meta name=\"keywords\" content=\"".$sitekeywords."\" />\n  <meta name=\"description\" content=\"".$sitedescription."\" />\n  <link rel=\"icon\" href=\"".$website_url."favicon.ico\" />\n  <link rel=\"shortcut icon\" href=\"".$website_url."favicon.ico\" />\n";
+$metatags = "<meta http-equiv=\"Content-Language\" content=\"en\" />\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n  <meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n  <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n  <meta name=\"generator\" content=\"".$sitename."\" />\n  <meta name=\"author\" content=\"".$siteauthor."\" />\n  <meta name=\"keywords\" content=\"".$sitekeywords."\" />\n  <meta name=\"description\" content=\"".$sitedescription."\" />\n  <link rel=\"icon\" href=\"".$website_url."favicon.ico\" />\n  <link rel=\"shortcut icon\" href=\"".$website_url."favicon.ico\" />\n  <script type=\"text/javascript\" src=\"".$website_url."js/validate.js\"></script>\n  <script type=\"text/javascript\" src=\"".$website_url."js/convert.js\"></script>\n  <script type=\"text/javascript\" src=\"".$website_url."js/kittycode.js\"></script>\n  <script type=\"text/javascript\" src=\"".$website_url."js/misc.js\"></script>\n";
 
 $disfunc = @ini_get("disable_functions");
 $disfunc = @trim($disfunc);

@@ -12,7 +12,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: barcode.php - Last Update: 02/13/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+    $FileInfo: barcode.php - Last Update: 02/29/2012 Ver. 1.0.0 RC 1 - Author: cooldude2k $
 */
 
 require("./settings.php");
@@ -65,7 +65,7 @@ if($_GET['act']=="view") { ?>
   <center>
    <?php echo $navbar; ?>
    <h2>AdminCP</h2>
-   <form action="<?php echo $website_url.$url_file; ?>?act=lookup" method="get">
+   <form name="upcform" action="<?php echo $website_url.$url_file; ?>?act=lookup" onsubmit="validate_str_size(document.upcform.upc.value);" method="get">
     <input type="hidden" name="act" value="lookup" />
     <table>
      <tr><td style="text-align: center;"><input type="text" name="upc" size="16" maxlength="13" value="<?php echo $lookupupc; ?>" /> <input type="submit" value="Look Up UPC" /></td></tr>

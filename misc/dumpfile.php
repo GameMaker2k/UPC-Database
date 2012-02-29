@@ -12,7 +12,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: dumpfile.php - Last Update: 02/13/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+    $FileInfo: dumpfile.php - Last Update: 02/29/2012 Ver. 1.0.0 RC 1 - Author: cooldude2k $
 */
 $File3Name = basename($_SERVER['SCRIPT_NAME']);
 if ($File3Name=="dumpfile.php"||$File3Name=="/dumpfile.php") {
@@ -31,7 +31,7 @@ if($_GET['subact']=="random"||$_GET['subact']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
 $upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
 ?>
-"upc", "description", "sizeweight"<?php if($add_quantity_row===true) { ?>, "quantity"<?php } ?>
+"upc", "description", "sizeweight"<?php if($add_quantity_row===true) { ?>, "quantity"<?php } echo "\n"; ?>
 <?php
 if($_GET['subact']=="neighbor"||$_GET['subact']=="neighbors") {
 if(!isset($_GET['upc'])||!is_numeric($_GET['upc'])) { 
@@ -107,7 +107,7 @@ $upcinfo['sizeweight'] = str_replace("\"", "\"\"", $upcinfo['sizeweight']);
 if($add_quantity_row===true) {
 $upcinfo['quantity'] = str_replace("\"", "\"\"", $upcinfo['quantity']); }
 ?>
-"<?php echo $upcinfo['upc']; ?>", "<?php echo $upcinfo['description']; ?>", "<?php echo $upcinfo['sizeweight']; ?>"<?php if($add_quantity_row===true) { ?>, "<?php echo $upcinfo['quantity']; ?>"<?php } ?>
+"<?php echo $upcinfo['upc']; ?>", "<?php echo $upcinfo['description']; ?>", "<?php echo $upcinfo['sizeweight']; ?>"<?php if($add_quantity_row===true) { ?>, "<?php echo $upcinfo['quantity']; ?>"<?php } echo "\n"; ?>
 <?php } } } if($_GET['act']=="xml"||$_GET['act']=="dumpxml") { 
 $deep_sub_act = null;
 if(isset($_GET['deepsubact'])) { $deep_sub_act = $_GET['deepsubact']; }
@@ -317,7 +317,7 @@ if(isset($_GET['subact'])&&preg_match("/([a-z]+),([a-z]+)/", $_GET['subact'], $s
 if($_GET['subact']=="random"||$_GET['subact']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
 $upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
-@header("Content-Type: application/json; charset=UTF-8"); 
+@header("Content-Type: application/json; charset=UTF-8");
 ?>
 {
   "item": [
