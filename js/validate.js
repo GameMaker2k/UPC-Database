@@ -149,3 +149,16 @@ function validate_upce(upc,return_check) {
 function fix_upce_checksum(upc) {
 	if(upc.length>7) { upc.match(/^(\d{7})/); upc = fix_matches[1]; }
 	return upc+validate_upce(upc,true); }
+
+function validate_barcode(upc,return_check) {
+	if(upc.length==8) { return validate_upce(upc,return_check); }
+	if(upc.length==12) { return validate_upca(upc,return_check); }
+	if(upc.length==13) { return validate_ean13(upc,return_check); } 
+	if(upc.length==14) { return validate_itf14(upc,return_check); } 
+	return false; }
+function fix_barcode_checksum(upc) {
+	if(upc.length==7) { return upc+validate_upce(upc,true); }
+	if(upc.length==11) { return upc+validate_upca(upc,true); }
+	if(upc.length==12) { return upc+validate_ean13(upc,true); } 
+	if(upc.length==13) { return upc+validate_itf14(upc,true); } 
+	return false; }
