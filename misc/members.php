@@ -285,8 +285,8 @@ $nummymods = $nummems['COUNT'];
 			  ($usersiteinfo['admin']=="yes")) { ?>
      <tr><td>Email:</td><td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td></tr>
 	 <?php } ?>
-     <tr><td>Items Entered:</td><td><?php echo $nummyitems; ?></td></tr>
-     <tr><td>Items Entered:</td><td><?php echo $nummypendings; ?></td></tr>
+     <tr><td>Items Entered:</td><td><a href="<?php echo $website_url.$url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php echo $nummyitems; ?></a></td></tr>
+     <tr><td>Pending Items:</td><td><?php echo $nummypendings; ?></td></tr>
      <tr><td>Item Edit Requests:</td><td><?php echo $nummymods; ?></td></tr>
      <tr><td>Last Active:</td><td><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td></tr>
 	 <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
