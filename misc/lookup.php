@@ -196,13 +196,13 @@ $upcinfo['validated'] = "no"; } } }
    <?php if($add_quantity_row===true) { ?><tr><td>Quantity</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td></tr><?php } ?>
    <tr><td>Issuing Country</td><td width="50"></td><td><?php echo get_gs1_prefix($ean13); ?></td></tr>
    <tr><td>Created</td><td width="50"></td><td><?php echo date("j M Y, g:i A T", $upcinfo['timestamp']); ?></td></tr>
-   <tr><td>Created By</td><td width="50"></td><td><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['userid']; ?>"><?php echo $upcinfo['username']; ?></a></td></tr>
+   <tr><td>Created By</td><td width="50"></td><td><?php if($upcinfo['userid']>0) { ?><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['userid']; ?>"><?php } echo $upcinfo['username']; ?><?php if($upcinfo['userid']>0) { ?></a><?php } ?></td></tr>
    <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
 			  ($usersiteinfo['admin']=="yes")) { ?>
    <tr><td>Created By IP</td><td width="50"></td><td><?php echo $upcinfo['ip']; ?></td></tr>
    <?php } if($upcinfo['timestamp']>$upcinfo['lastupdate']) { ?>
    <tr><td>Last Modified</td><td width="50"></td><td><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td></tr>
-   <tr><td>Last Modified By</td><td width="50"></td><td><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['edituserid']; ?>"><?php echo $upcinfo['editname']; ?></a></td></tr>
+   <tr><td>Last Modified By</td><td width="50"></td><td><?php if($upcinfo['edituserid']>0) { ?><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['edituserid']; ?>"><?php } echo $upcinfo['editname']; ?><?php if($upcinfo['edituserid']>0) { ?></a><?php } ?></td></tr>
    <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
 			  ($usersiteinfo['admin']=="yes")) { ?>
    <tr><td>Last Modified By IP</td><td width="50"></td><td><?php echo $upcinfo['editip']; ?></td></tr>
