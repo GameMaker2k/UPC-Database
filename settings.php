@@ -31,6 +31,7 @@ $sitekeywords = null;
 $sitedescription = null;
 $site_encryption_key = null;
 $sqlite_version = 3;
+$display_per_page = 25;
 $add_quantity_row = false;
 
 $appver = array(1,0,0,"RC 1");

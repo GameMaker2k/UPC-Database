@@ -42,21 +42,23 @@ if($_GET['act']=="deletemember") { ?>
    <?php echo $navbar; ?>
    <h2>Delete Member</h2>
    <?php
-   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" DESC;"); 
+   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" ASC;"); 
    $nummems = sql_fetch_assoc($findmem);
    $numrows = $nummems['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
-   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" ASC LIMIT ".$pagestart.", ".$maxpage.";"); 
-   if($maxpage>20&&$_GET['page']>1) {
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 1; }
+   if($startoffset<0) { $startoffset = 0; }
+   if($numrows<$display_per_page) { $maxpage = $numrows; }
+   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=deletemember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=deletemember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -66,18 +68,18 @@ if($_GET['act']=="deletemember") { ?>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?>?')) { return false; }"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?>?')) { return false; }"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
    <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=deletemember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=deletemember&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
@@ -102,21 +104,23 @@ if($_GET['act']=="validatemember") { ?>
    <?php echo $navbar; ?>
    <h2>Validate Member</h2>
    <?php
-   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"validated\"='no' AND \"id\"<>1 ORDER BY \"id\" DESC;"); 
+   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"validated\"='no' AND \"id\"<>1 ORDER BY \"id\" ASC;"); 
    $nummems = sql_fetch_assoc($findmem);
    $numrows = $nummems['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
-   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"validated\"='no' AND \"id\"<>1 ORDER BY \"id\" ASC LIMIT ".$pagestart.", ".$maxpage.";"); 
-   if($maxpage>20&&$_GET['page']>1) {
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 1; }
+   if($startoffset<0) { $startoffset = 0; }
+   if($numrows<$display_per_page) { $maxpage = $numrows; }
+   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"validated\"='no' AND \"id\"<>1 ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=validatemember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=validatemember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -126,18 +130,18 @@ if($_GET['act']=="validatemember") { ?>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=validatemember&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=validatemember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
    <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=validatemember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=validatemember&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
@@ -242,21 +246,23 @@ $nummymods = $nummems['COUNT'];
    <?php echo $navbar; ?>
    <h2>Edit Member</h2>
    <?php
-   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" DESC;"); 
+   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" ASC;"); 
    $nummems = sql_fetch_assoc($findmem);
    $numrows = $nummems['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
-   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" DESC LIMIT ".$pagestart.", ".$maxpage.";"); 
-   if($maxpage>20&&$_GET['page']>1) {
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 1; }
+   if($startoffset<0) { $startoffset = 0; }
+   if($numrows<$display_per_page) { $maxpage = $numrows; }
+   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=editmember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=editmember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -266,18 +272,18 @@ $nummymods = $nummems['COUNT'];
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
    <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=editmember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=editmember&amp;page=".$nextpage."\">Next</a>"; } }
    ?>

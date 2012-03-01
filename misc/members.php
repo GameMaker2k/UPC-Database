@@ -304,4 +304,62 @@ $nummymods = $nummems['COUNT'];
   </center>
  </body>
 </html>
-<?php } } ?>
+<?php } } if($_GET['act']=="usrs"||$_GET['act']=="users") { ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+<title> <?php echo $sitename; ?>: UPC Database User Info </title>
+<?php echo $metatags; ?>
+ </head>
+
+ <body>
+  <center>
+   <?php echo $navbar; ?>
+   <h2>UPC Database User Info</h2>
+   <?php
+   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" ORDER BY \"id\" ASC;"); 
+   $nummems = sql_fetch_assoc($findmem);
+   $numrows = $nummems['COUNT'];
+   if($numrows>0) {
+   $maxpage = $_GET['page'] * $display_per_page;
+   if($maxpage>$numrows) { $maxpage = $numrows; }
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 1; }
+   if($startoffset<0) { $startoffset = 0; }
+   if($numrows<$display_per_page) { $maxpage = $numrows; }
+   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
+   $backpage = $_GET['page'] - 1;
+   echo "<a href=\"".$website_url.$url_file."?act=users&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
+   if($maxpage<$numrows) {
+   $nextpage = $_GET['page'] + 1;
+   echo "\n-- <a href=\"".$website_url.$url_file."?act=users&amp;page=".$nextpage."\">Next</a>"; }
+   ?>
+   <div><br /></div>
+   <table class="list">
+   <tr><th>Member Name</th><th>Email</th><th>Entered</th><th>Pending</th><th>Last Active</th></tr>
+   <?php
+   while ($meminfo = sql_fetch_assoc($findmem)) { ?>
+   <tr valign="top">
+   <td><a href="<?php echo $website_url.$url_file; ?>?act=user&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
+   <td nowrap="nowrap"><?php echo $meminfo['numitems']; ?></td>
+   <td nowrap="nowrap"><?php echo $meminfo['numpending']; ?></td>
+   <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
+   </tr>
+   <?php } echo "   </table>   <div><br /></div>"; }
+   if($numrows>0) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
+   $backpage = $_GET['page'] - 1;
+   echo "<a href=\"".$website_url.$url_file."?act=users&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
+   if($maxpage<$numrows) {
+   $nextpage = $_GET['page'] + 1;
+   echo "\n-- <a href=\"".$website_url.$url_file."?act=users&amp;page=".$nextpage."\">Next</a>"; } }
+   ?>
+  </center>
+ </body>
+</html>
+<?php } ?>

@@ -53,17 +53,19 @@ if($_GET['act']=="deleteupc") { ?>
    $numupc = sql_fetch_assoc($findupc);
    $numrows = $numupc['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" ASC LIMIT ".$pagestart.", ".$maxpage.";"); 
-   if($maxpage>20&&$_GET['page']>1) {
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 1; }
+   if($startoffset<0) { $startoffset = 0; }
+   if($numrows<$display_per_page) { $maxpage = $numrows; }
+   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=deleteupc&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=deleteupc&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -73,7 +75,7 @@ if($_GET['act']=="deleteupc") { ?>
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=deleteupc&amp;upc=<?php echo $upcinfo['upc']; ?>&amp;page=1" onclick="if(!confirm('Are you sure you want to delete UPC <?php echo $upcinfo['upc']; ?>?')) { return false; }"><?php echo $upcinfo['upc']; ?></a></td>
+   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=deleteupc&amp;upc=<?php echo $upcinfo['upc']; ?>" onclick="if(!confirm('Are you sure you want to delete UPC <?php echo $upcinfo['upc']; ?>?')) { return false; }"><?php echo $upcinfo['upc']; ?></a></td>
    <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
    <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
@@ -81,11 +83,11 @@ if($_GET['act']=="deleteupc") { ?>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=deleteupc&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=deleteupc&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
@@ -124,17 +126,19 @@ if($_GET['act']=="validateupc") { ?>
    $numupc = sql_fetch_assoc($findupc);
    $numrows = $numupc['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."pending\" ORDER BY \"lastupdate\" ASC LIMIT ".$pagestart.", ".$maxpage.";"); 
-   if($maxpage>20&&$_GET['page']>1) {
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 1; }
+   if($startoffset<0) { $startoffset = 0; }
+   if($numrows<$display_per_page) { $maxpage = $numrows; }
+   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."pending\" ORDER BY \"lastupdate\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=deleteupc&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=deleteupc&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -144,7 +148,7 @@ if($_GET['act']=="validateupc") { ?>
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=validateupc&amp;upc=<?php echo $upcinfo['upc']; ?>&amp;page=1"><?php echo $upcinfo['upc']; ?></a></td>
+   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=validateupc&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
    <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
    <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
@@ -152,11 +156,11 @@ if($_GET['act']=="validateupc") { ?>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=validateupc&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=validateupc&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
@@ -256,17 +260,19 @@ $upcinfo = sql_fetch_assoc($findupc);
    $numupc = sql_fetch_assoc($findupc);
    $numrows = $numupc['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" ASC LIMIT ".$pagestart.", ".$maxpage.";"); 
-   if($maxpage>20&&$_GET['page']>1) {
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 1; }
+   if($startoffset<0) { $startoffset = 0; }
+   if($numrows<$display_per_page) { $maxpage = $numrows; }
+   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=editupc&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=editupc&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -276,7 +282,7 @@ $upcinfo = sql_fetch_assoc($findupc);
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=editupc&amp;upc=<?php echo $upcinfo['upc']; ?>&amp;page=1"><?php echo $upcinfo['upc']; ?></a></td>
+   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=editupc&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
    <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
    <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
@@ -284,11 +290,11 @@ $upcinfo = sql_fetch_assoc($findupc);
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_admin_file."?act=editupc&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=editupc&amp;page=".$nextpage."\">Next</a>"; } }
    ?>

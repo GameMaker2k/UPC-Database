@@ -106,7 +106,8 @@ if(($_GET['act']=="terms"||$_GET['act']=="termsofuse")&&
     $_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
 if($_GET['act']=="login"||$_GET['act']=="signin"||
 	$_GET['act']=="join"||$_GET['act']=="signup"||
-	$_GET['act']=="usr"||$_GET['act']=="user") {
+	$_GET['act']=="usr"||$_GET['act']=="user"||
+	$_GET['act']=="usrs"||$_GET['act']=="users") {
 require("./misc/members.php"); }
 if($_GET['act']=="lookup"||$_GET['act']=="check"||
 	$_GET['act']=="terms"||$_GET['act']=="termsofuse"||

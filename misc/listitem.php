@@ -57,20 +57,22 @@ if($_GET['act']=="latest") { ?>
    $numupc = sql_fetch_assoc($findupc);
    $numrows = $numupc['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 1; }
+   if($startoffset<0) { $startoffset = 0; }
+   if($numrows<$display_per_page) { $maxpage = $numrows; }
    if($meminfo===null) {
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC LIMIT ".$pagestart.", ".$maxpage.";"); }
+   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC LIMIT ".$startoffset.", ".$display_per_page.";"); }
    if($meminfo!==null) {
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"userid\"='".$_GET['id']."' ORDER BY \"lastupdate\" DESC LIMIT ".$pagestart.", ".$maxpage.";"); }
-   if($maxpage>20&&$_GET['page']>1) {
+   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"userid\"='".$_GET['id']."' ORDER BY \"lastupdate\" DESC LIMIT ".$startoffset.", ".$display_per_page.";"); }
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_file."?act=latest".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_file."?act=latest".$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -89,11 +91,11 @@ if($_GET['act']=="latest") { ?>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_file."?act=latest".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_file."?act=latest".$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
@@ -142,20 +144,21 @@ if($_GET['act']=="latest") { ?>
    $numupc = sql_fetch_assoc($findupc);
    $numrows = $numupc['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 0; }
+   if($startoffset<0) { $startoffset = 0; }
    if($meminfo===null) {
    $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
    if($meminfo!==null) {
    $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' AND \"userid\"='".$_GET['id']."' ORDER BY \"upc\" ASC;"); }
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_file."?act=neighbor".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_file."?act=neighbor".$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -174,11 +177,11 @@ if($_GET['act']=="latest") { ?>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_file."?act=neighbor".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_file."?act=neighbor".$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
@@ -221,17 +224,18 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    $numupc = sql_fetch_assoc($findupc);
    $numrows = $numupc['COUNT'];
    if($numrows>0) {
-   $maxpage = $_GET['page'] * 20;
+   $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestart = $maxpage - 20;
-   if($pagestart<0) { $pagestart = 0; }
-   $pagestartshow = $pagestart + 1;
+   $pagestartshow = ($maxpage - $display_per_page) + 1;
+   $startoffset = $maxpage - $display_per_page;
+   if($pagestartshow<0) { $pagestartshow = 0; }
+   if($startoffset<0) { $startoffset = 0; }
    $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_POST['searchterms'])."%';"); 
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
    ?>
@@ -250,11 +254,11 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
-   if($maxpage>20&&$_GET['page']>1) {
+   if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
    echo "<a href=\"".$website_url.$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($pagestart<($numrows - 20)) {
+   if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
    echo "\n-- <a href=\"".$website_url.$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
