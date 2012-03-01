@@ -175,7 +175,7 @@ $upcinfo['validated'] = "no"; } } }
 	!preg_match("/^(97[7-9])/", $_POST['upc'])&&!preg_match("/^2/", $_POST['upc']))) { ?>
    <h2>Item Lookup</h2>
    <h3>Instructions</h3>
-   <div>Enter the all digits printed on the UPC bar code, including any numbers<br />to the right or left of the bar code itself, even if they don't line up<br />with the main row of numbers.  This should be 13 digits for an EAN/UCC-13,<br />12 digits for a Type A UPC code, or 8 digits for a Type-E (zero-supressed)<br />UPC code.  Anything other than 8 or 12 digits is <b>not</b> a UPC code!<br />(And just because it's 8 or 12 digits doesn't mean it <b>is</b> a UPC.)<br /><b>You must enter every digit here.</b><br /></div>
+   <div>Enter the all digits printed on the UPC bar code, including any numbers<br />to the right or left of the bar code itself, even if they don't line up<br />with the main row of numbers.  This should be 13 digits for an EAN/UCC-13,<br />12 digits for a Type A UPC code, or 8 digits for a Type-E (zero-suppressed)<br />UPC code.  Anything other than 8 or 12 digits is <b>not</b> a UPC code!<br />(And just because it's 8 or 12 digits doesn't mean it <b>is</b> a UPC.)<br /><b>You must enter every digit here.</b><br /></div>
    <div><br />If you have a barcode scanner that outputs plain numbers, you should be<br />able to use it to enter the UPC number here.<br /><br /></div>
    <?php } if(isset($_POST['upc'])&&$numrows>0&&$upcinfo['validated']=="yes"&&
 	(!preg_match("/^02/", $_POST['upc'])&&!preg_match("/^04/", $_POST['upc'])&&
