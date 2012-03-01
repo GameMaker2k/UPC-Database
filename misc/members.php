@@ -258,12 +258,16 @@ $numrows = $nummems['COUNT']; }
 if($numrows>0) { 
 $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";"); 
 $meminfo = sql_fetch_assoc($findmem);
+/*
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"userid\"='".$meminfo['id']."';");
 $nummems = sql_fetch_assoc($findupc);
 $nummyitems = $nummems['COUNT'];
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$meminfo['id']."';");
 $nummems = sql_fetch_assoc($findupc);
 $nummypendings = $nummems['COUNT'];
+*/
+$nummyitems = $meminfo['numitems'];
+$nummypendings = $meminfo['numpending'];
 $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."modupc\" WHERE \"userid\"='".$meminfo['id']."';");
 $nummems = sql_fetch_assoc($findupc);
 $nummymods = $nummems['COUNT'];
@@ -285,7 +289,7 @@ $nummymods = $nummems['COUNT'];
 			  ($usersiteinfo['admin']=="yes")) { ?>
      <tr><td>Email:</td><td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td></tr>
 	 <?php } ?>
-     <tr><td>Items Entered:</td><td><a href="<?php echo $website_url.$url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php echo $nummyitems; ?></a></td></tr>
+     <tr><td>Items Entered:</td><td><?php if($nummyitems>0) { ?><a href="<?php echo $website_url.$url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $nummyitems; if($nummyitems>0) { ?></a><?php } ?></td></tr>
      <tr><td>Pending Items:</td><td><?php echo $nummypendings; ?></td></tr>
      <tr><td>Item Edit Requests:</td><td><?php echo $nummymods; ?></td></tr>
      <tr><td>Last Active:</td><td><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td></tr>

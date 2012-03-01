@@ -202,7 +202,7 @@ $upcinfo['validated'] = "no"; } } }
    <tr><td>Created By IP</td><td width="50"></td><td><?php echo $upcinfo['ip']; ?></td></tr>
    <?php } if($upcinfo['timestamp']>$upcinfo['lastupdate']) { ?>
    <tr><td>Last Modified</td><td width="50"></td><td><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td></tr>
-   <tr><td>Last Modified By</td><td width="50"></td><td><?php if($upcinfo['edituserid']>0) { ?><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['edituserid']; ?>"><?php } echo $upcinfo['editname']; ?><?php if($upcinfo['edituserid']>0) { ?></a><?php } ?></td></tr>
+   <tr><td>Last Modified By</td><td width="50"></td><td><?php if($upcinfo['edituserid']>0) { ?><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['edituserid']; ?>"><?php } echo $upcinfo['editname']; if($upcinfo['edituserid']>0) { ?></a><?php } ?></td></tr>
    <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
 			  ($usersiteinfo['admin']=="yes")) { ?>
    <tr><td>Last Modified By IP</td><td width="50"></td><td><?php echo $upcinfo['editip']; ?></td></tr>
