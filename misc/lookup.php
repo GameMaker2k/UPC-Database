@@ -254,7 +254,7 @@ $upcinfo['validated'] = "no"; } } }
    by providing a description for this item, please
    <a href="<?php echo $website_url.$url_file; ?>?act=add&amp;upc=<?php echo $ean13; ?>">CLICK HERE</a>.<br /><br /></div>
    <?php } ?>
-   <form name="upcform" action="<?php echo $website_url.$url_file; ?>?act=lookup" onsubmit="validate_str_size(document.upcform.upc.value);" method="get">
+   <form name="upcform" action="<?php echo $website_url.$url_file; ?>?act=lookup" onsubmit="if(validate_str_size(document.upcform.upc.value)==false) { return false; }" method="get">
     <input type="hidden" name="act" value="lookup" />
     <table>
     <tr><td style="text-align: center;"><input type="text" name="upc" size="16" maxlength="13" value="<?php echo $lookupupc; ?>" /> <input type="submit" value="Look Up UPC" /></td></tr>

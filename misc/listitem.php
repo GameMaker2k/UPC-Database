@@ -100,7 +100,7 @@ if($_GET['act']=="latest") { ?>
    echo "\n-- <a href=\"".$website_url.$url_file."?act=latest".$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
    <div><br /></div>
-   <form name="upcform" action="<?php echo $website_url.$url_file; ?>?act=lookup" onsubmit="validate_str_size(document.upcform.upc.value);" method="get">
+   <form name="upcform" action="<?php echo $website_url.$url_file; ?>?act=lookup" onsubmit="if(validate_str_size(document.upcform.upc.value)==false) { return false; }" method="get">
     <input type="hidden" name="act" value="lookup" />
     <table>
     <tr><td style="text-align: center;"><input type="text" name="upc" size="16" maxlength="13" value="<?php echo $lookupupc; ?>" /> <input type="submit" value="Look Up UPC" /></td></tr>
