@@ -147,6 +147,40 @@ function convert_itf14_to_upca(upc) {
 function convert_itf14_to_upce(upc) {
 	return convert_upca_to_upce(convert_itf14_to_upca(upc)); }
 
+/*
+Changing a EAN-8 code to UPC-A and EAN-13 based on whats used at: 
+http://www.upcdatabase.com/
+*/
+
+function convert_ean8_to_upca(upc) {
+	if(upc.length==7) { upc = upc+validate_ean8(upc,true); }
+	if(upc.length>8||upc.length<8) { return false; }
+	if(validate_ean8(upc)===false) { return false; }
+	upca = "0000"+upc; 
+	return upca; }
+
+function convert_ean8_to_ean13(upc) {
+	return convert_upca_to_ean13(convert_ean8_to_upca(upc)); }
+
+function convert_ean8_to_itf14(upc) {
+	return convert_ean13_to_itf14(convert_ean8_to_ean13(upc)); }
+
+function convert_upca_to_ean8(upc) {
+	if(upc.length==11) { upc = upc+validate_upca(upc,true); }
+	if(upc.length>12||upc.length<12) { return false; }
+	if(validate_upca(upc)===false) { return false; }
+	if(!preg_match(/^0000(\d{8})/, upc, upc_matches)) {
+	return false; }
+	if(preg_match(/^0000(\d{8})/, upc, upc_matches)) {
+	ean8 = upc_matches[1]; }
+	return ean8; }
+
+function convert_ean13_to_ean8(upc) {
+	return convert_upca_to_ean8(convert_ean13_to_upca(upc)); }
+
+function convert_itf14_to_ean8(upc) {
+	return convert_ean13_to_ean8(convert_itf14_to_ean13(upc)); }
+
 function convert_any_to_upca(upc) {
 	if(upc.length==8) { 
 	return convert_upce_to_upca(upc); }
