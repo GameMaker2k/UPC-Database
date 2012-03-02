@@ -349,7 +349,7 @@ $nummymods = $nummems['COUNT'];
    <tr valign="top">
    <td><a href="<?php echo $website_url.$url_file; ?>?act=user&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
    <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
-   <td nowrap="nowrap"><?php echo $meminfo['numitems']; ?></td>
+   <td nowrap="nowrap"><?php if($meminfo['numitems']>0) { ?><a href="<?php echo $website_url.$url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $meminfo['numitems']; if($meminfo['numitems']>0) { ?></a><?php } ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['numpending']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
    </tr>
