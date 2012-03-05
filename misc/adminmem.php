@@ -56,11 +56,11 @@ if($_GET['act']=="deletemember") { ?>
    $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$website_url.$url_admin_file."?act=deletemember&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_admin_file."?act=deletemember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=deletemember&amp;page=".$nextpage."\">Next</a>"; }
+   echo "\n-- <a href=\"".$url_admin_file."?act=deletemember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
    <table class="list">
@@ -68,7 +68,7 @@ if($_GET['act']=="deletemember") { ?>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?>?')) { return false; }"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><a href="<?php echo $url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?>?')) { return false; }"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
    <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
@@ -77,15 +77,14 @@ if($_GET['act']=="deletemember") { ?>
    if($numrows>0) {
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$website_url.$url_admin_file."?act=deletemember&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_admin_file."?act=deletemember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=deletemember&amp;page=".$nextpage."\">Next</a>"; } }
+   echo "\n-- <a href=\"".$url_admin_file."?act=deletemember&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } if($_GET['act']=="validatemember"&&isset($_GET['id'])&&$_GET['id']>1) {
 $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id']." AND \"id\"<>1 AND \"validated\"='no';");
 $nummems = sql_fetch_assoc($findmem);
@@ -118,11 +117,11 @@ if($_GET['act']=="validatemember") { ?>
    $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"validated\"='no' AND \"id\"<>1 ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$website_url.$url_admin_file."?act=validatemember&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_admin_file."?act=validatemember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=validatemember&amp;page=".$nextpage."\">Next</a>"; }
+   echo "\n-- <a href=\"".$url_admin_file."?act=validatemember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
    <table class="list">
@@ -130,7 +129,7 @@ if($_GET['act']=="validatemember") { ?>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=validatemember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><a href="<?php echo $url_admin_file; ?>?act=validatemember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
    <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
@@ -139,15 +138,14 @@ if($_GET['act']=="validatemember") { ?>
    if($numrows>0) {
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$website_url.$url_admin_file."?act=validatemember&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_admin_file."?act=validatemember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=validatemember&amp;page=".$nextpage."\">Next</a>"; } }
+   echo "\n-- <a href=\"".$url_admin_file."?act=validatemember&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } if($_GET['act']=="editmember"&&isset($_GET['id'])&&$_GET['id']>1&&$_GET['subact']=="editmember") { 
 if(!isset($_POST['username'])) { $_POST['username'] = null; }
 if(!isset($_POST['validateitems'])) { $_POST['validateitems'] = "yes"; }
@@ -218,7 +216,7 @@ $nummymods = $nummems['COUNT'];
   <center>
    <?php echo $navbar; ?>
    <h2>Edit Member</h2>
-   <form action="<?php echo $website_url.$url_admin_file; ?>?act=editmember" method="post">
+   <form action="<?php echo $url_admin_file; ?>?act=editmember" method="post">
     <table>
     <tr><td style="text-align: center;">Username:</td><td><input type="text" name="username" value="<?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?>" /></td></tr>
     <tr><td style="text-align: center;">New Items Unvalidated:</td><td><select name="validateitems"><option value="yes"<?php if($meminfo['validateitems']=="yes") { ?> selected="selected"<?php } ?>>Yes</option><option value="no"<?php if($meminfo['validateitems']=="no") { ?> selected="selected"<?php } ?>>No</option></select></td></tr>
@@ -232,8 +230,7 @@ $nummymods = $nummems['COUNT'];
    <div><br /><input type="submit" value="Edit Member" /></div>
    </form>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } } if($_GET['act']=="editmember"&&!isset($_GET['id'])&&$_GET['subact']===null) { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -260,11 +257,11 @@ $nummymods = $nummems['COUNT'];
    $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"<>1 ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$website_url.$url_admin_file."?act=editmember&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_admin_file."?act=editmember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=editmember&amp;page=".$nextpage."\">Next</a>"; }
+   echo "\n-- <a href=\"".$url_admin_file."?act=editmember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
    <table class="list">
@@ -272,7 +269,7 @@ $nummymods = $nummems['COUNT'];
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><a href="<?php echo $url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
    <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
@@ -281,13 +278,11 @@ $nummymods = $nummems['COUNT'];
    if($numrows>0) {
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$website_url.$url_admin_file."?act=editmember&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_admin_file."?act=editmember&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$website_url.$url_admin_file."?act=editmember&amp;page=".$nextpage."\">Next</a>"; } }
+   echo "\n-- <a href=\"".$url_admin_file."?act=editmember&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
   </center>
- </body>
-</html>
-<?php } ?>
+  <?php echo $endhtmltag; } ?>

@@ -125,15 +125,15 @@ if($_GET['act']=="add"&&isset($_POST['upc'])) { ?>
    <h2>Add New Entry</h2>
    <table>
    <?php if($upce!==null&&validate_upce($upce)===true) { ?>
-   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
+   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
    <?php } if($upca!==null&&validate_upca($upca)===true) { ?>
-   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
+   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
    <?php } if($ean13!==null&&validate_ean13($ean13)===true) { ?>
-   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
+   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
    </table>
    <div><br /></div>
-   <form action="<?php echo $website_url.$url_file; ?>?act=add" method="post">
+   <form action="<?php echo $url_file; ?>?act=add" method="post">
     <table>
     <tr><td style="text-align: center;">Description: <input type="text" name="description" size="50" maxlength="150" /></td></tr>
     <tr><td style="text-align: center;">Size/Weight: <input type="text" name="sizeweight" size="30" maxlength="30" /></td></tr>
@@ -143,6 +143,4 @@ if($_GET['act']=="add"&&isset($_POST['upc'])) { ?>
    <div><br /><input type="submit" value="Save New Entry" /> <input type="reset" value="Clear" /></div>
    </form>
   </center>
- </body>
-</html>
-<?php } ?>
+  <?php echo $endhtmltag; } ?>

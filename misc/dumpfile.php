@@ -118,7 +118,7 @@ $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDE
 $upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
 @header("Content-Type: text/xml; charset=UTF-8"); 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-echo "<?xml-stylesheet type=\"text/xsl\" href=\"".$website_url.$url_file."?act=xslt\"?>\n";
+echo "<?xml-stylesheet type=\"text/xsl\" href=\"".$url_file."?act=xslt\"?>\n";
 ?>
 <!DOCTYPE <?php echo $sqlitedatabase; ?> [
 <!ELEMENT <?php echo $sqlitedatabase; ?> (item*)>

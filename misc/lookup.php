@@ -105,7 +105,7 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Random Weight UPC</h2>
    <div>Random weight (number system 2) UPCs are a way of price-marking an item. The first (number system) digit is always 2.<br />  The next 5 (6?) digits are locally assigned (meaning anybody can use them for whatever they want).<br /> The next 5 (4?) are the price (2 decimal places), and the last digit is the check digit, calculated normally.</div>
    <table>
-   <tr><td width="125">UPC-A</td><td width="50"><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
+   <tr><td width="125">UPC-A</td><td width="50"><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
    <tr><td width="125">Product Code</td><td width="50"><?php echo $RandWeight['code']; ?></td></tr>
    <tr><td width="125">Price</td><td width="50"><?php echo $RandWeight['price']; ?></td></tr>
    </table>
@@ -120,7 +120,7 @@ $upcinfo['validated'] = "no"; } } }
    <div>Coupon Value: <?php echo $CouponInfo['value']; ?><br /><br /></div>
    <div>Coupon UPCs are not unique to coupons as other UPCs are to items.<br />  The coupon UPC has its meaning embedded in it.<br />  Therefore, there's no need to store coupon UPCs in the database.</div>
    <table>
-   <tr><td width="125">UPC-A</td><td width="50"><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
+   <tr><td width="125">UPC-A</td><td width="50"><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
    </table>
    <div><br /></div>
    <?php } if(isset($_POST['upc'])&&
@@ -129,7 +129,7 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Coupon Decode</h2>
    <div>Coupon UPCs are not unique to coupons as other UPCs are to items.<br />  The coupon UPC has its meaning embedded in it.<br />  Therefore, there's no need to store coupon UPCs in the database.</div>
    <table>
-   <tr><td width="125">EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
+   <tr><td width="125">EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    </table>
    <div><br /></div>
    <?php } if(isset($_POST['upc'])&&preg_match("/^04/", $_POST['upc'])) { 
@@ -137,7 +137,7 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Dummy UPC</h2>
    <div>Dummy (number system 4) UPCs are for private use.<br />  This means anybody (typically a retailer) that needs to assign a UPC to an item that doesn't already have one, can use any number system 4 UPC it chooses.<br />  Most importantly, they can know that by doing so, they won't pick one that may already be used.<br />  So, such a UPC can and does mean something different depending on who you ask, and there's no reason to try to keep track of what products these correspond to.</div>
    <table>
-   <tr><td width="125">UPC-A</td><td width="50"><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
+   <tr><td width="125">UPC-A</td><td width="50"><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
    </table>
    <div><br /></div>
    <?php } if(isset($_POST['upc'])&&preg_match("/^2/", $_POST['upc'])) { 
@@ -145,7 +145,7 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Dummy UPC</h2>
    <div>Dummy (number system 2) UPCs are for private use.<br />  This means anybody (typically a retailer) that needs to assign a UPC to an item that doesn't already have one, can use any number system 2 UPC it chooses.<br />  Most importantly, they can know that by doing so, they won't pick one that may already be used.<br />  So, such a UPC can and does mean something different depending on who you ask, and there's no reason to try to keep track of what products these correspond to.</div>
    <table>
-   <tr><td width="125">EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
+   <tr><td width="125">EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    </table>
    <div><br /></div>
    <?php } if(isset($_POST['upc'])&&preg_match("/^(97[7-9])/", $_POST['upc'])) {
@@ -164,7 +164,7 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Bookland ISBN/ISMN/ISSN</h2>
    <div>This is a Bookland <?php echo $eantype; ?> code, which means it's an <?php echo $eantype; ?> number encoded as an EAN/UCC-13.<br /> You can tell this by the first three digits of the EAN/UCC-13 (<?php echo $eanprefix; ?>). The numbers after that are the <?php echo $eantype; ?>.<br /> You'll notice the last digits differ, though -- EAN/UCC-13 and <?php echo $eantype; ?> calculate their check digits differently<br /> (in fact, the check 'digit' on an <?php echo $eantype; ?> can be a digit or the letter X).</div>
    <table>
-   <tr><td width="125">EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
+   <tr><td width="125">EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <tr><td width="125"><?php echo $eantype; ?></td><td width="50"></td><td><center><?php echo $eanprint; ?></center></td></tr>
    </table>
    <div><br /></div>
@@ -185,31 +185,31 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Item Record</h2>
    <table>
    <?php if($upce!==null&&validate_upce($upce)===true) { ?>
-   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
+   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
    <?php } if($upca!==null&&validate_upca($upca)===true) { ?>
-   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
+   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
    <?php } if($ean13!==null&&validate_ean13($ean13)===true) { ?>
-   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
+   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
    <tr><td>Description</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td></tr>
    <tr><td>Size/Weight</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td></tr>
    <?php if($add_quantity_row===true) { ?><tr><td>Quantity</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td></tr><?php } ?>
    <tr><td>Issuing Country</td><td width="50"></td><td><?php echo get_gs1_prefix($ean13); ?></td></tr>
    <tr><td>Created</td><td width="50"></td><td><?php echo date("j M Y, g:i A T", $upcinfo['timestamp']); ?></td></tr>
-   <tr><td>Created By</td><td width="50"></td><td><?php if($upcinfo['userid']>0) { ?><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['userid']; ?>"><?php } echo $upcinfo['username']; ?><?php if($upcinfo['userid']>0) { ?></a><?php } ?></td></tr>
+   <tr><td>Created By</td><td width="50"></td><td><?php if($upcinfo['userid']>0) { ?><a href="<?php echo $url_file."?act=user&amp;id=".$upcinfo['userid']; ?>"><?php } echo $upcinfo['username']; ?><?php if($upcinfo['userid']>0) { ?></a><?php } ?></td></tr>
    <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
 			  ($usersiteinfo['admin']=="yes")) { ?>
    <tr><td>Created By IP</td><td width="50"></td><td><?php echo $upcinfo['ip']; ?></td></tr>
    <?php } if($upcinfo['timestamp']>$upcinfo['lastupdate']) { ?>
    <tr><td>Last Modified</td><td width="50"></td><td><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td></tr>
-   <tr><td>Last Modified By</td><td width="50"></td><td><?php if($upcinfo['edituserid']>0) { ?><a href="<?php echo $website_url.$url_file."?act=user&amp;id=".$upcinfo['edituserid']; ?>"><?php } echo $upcinfo['editname']; if($upcinfo['edituserid']>0) { ?></a><?php } ?></td></tr>
+   <tr><td>Last Modified By</td><td width="50"></td><td><?php if($upcinfo['edituserid']>0) { ?><a href="<?php echo $url_file."?act=user&amp;id=".$upcinfo['edituserid']; ?>"><?php } echo $upcinfo['editname']; if($upcinfo['edituserid']>0) { ?></a><?php } ?></td></tr>
    <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
 			  ($usersiteinfo['admin']=="yes")) { ?>
    <tr><td>Last Modified By IP</td><td width="50"></td><td><?php echo $upcinfo['editip']; ?></td></tr>
    <?php } } ?>
    </table>
    <div><br /></div>
-   <a href="<?php echo $website_url.$url_file; ?>?act=neighbors&amp;upc=<?php echo $ean13; ?>&amp;page=1">List Neighboring Items</a><br />
+   <a href="<?php echo $url_file; ?>?act=neighbors&amp;upc=<?php echo $ean13; ?>&amp;page=1">List Neighboring Items</a><br />
    <!--<a href="/editform.asp?upc=<?php echo $ean13; ?>">Submit Modification Request</a><br />-->
    <!--<a href="/deleteform.asp?upc=<?php echo $ean13; ?>">Submit Deletion Request</a><br />-->
    <!--<br /><br /></div>-->
@@ -223,11 +223,11 @@ $upcinfo['validated'] = "no"; } } }
    <div>The UPC you were looking for currently is in the database but has not been validated yet.<br /><br /></div>
    <table>
    <?php if($upce!==null&&validate_upce($upce)===true) { ?>
-   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
+   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
    <?php } if($upca!==null&&validate_upca($upca)===true) { ?>
-   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
+   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
    <?php } if($ean13!==null&&validate_ean13($ean13)===true) { ?>
-   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
+   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
    </table>
    <div><br />Please try coming back later.<br /><br /></div>
@@ -240,29 +240,28 @@ $upcinfo['validated'] = "no"; } } }
    <div>The UPC you were looking for currently has no record in the database.<br /><br /></div>
    <table>
    <?php if($upce!==null&&validate_upce($upce)===true) { ?>
-   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
+   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
    <?php } if($upca!==null&&validate_upca($upca)===true) { ?>
-   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
+   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
    <?php } if($ean13!==null&&validate_ean13($ean13)===true) { ?>
-   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $website_url.$barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
+   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
    </table>
    <div><br />Even though this item is not on file here, looking at some of its
-   <a href="<?php echo $website_url.$url_file; ?>?act=neighbors&amp;upc=<?php echo $ean13; ?>&amp;page=1">close neighbors</a>
+   <a href="<?php echo $url_file; ?>?act=neighbors&amp;upc=<?php echo $ean13; ?>&amp;page=1">close neighbors</a>
    may give you an idea what this item might be, or who manufactures it.<br /></div>
    <div><br />If you know what this item is, and would like to contribute to the database
    by providing a description for this item, please
-   <a href="<?php echo $website_url.$url_file; ?>?act=add&amp;upc=<?php echo $ean13; ?>">CLICK HERE</a>.<br /><br /></div>
+   <a href="<?php echo $url_file; ?>?act=add&amp;upc=<?php echo $ean13; ?>">CLICK HERE</a>.<br /><br /></div>
    <?php } ?>
-   <form name="upcform" action="<?php echo $website_url.$url_file; ?>?act=lookup" onsubmit="if(validate_str_size(document.upcform.upc.value)==false) { return false; }" method="get">
+   <form name="upcform" action="<?php echo $url_file; ?>?act=lookup" onsubmit="if(validate_str_size(document.upcform.upc.value)==false) { return false; }" method="get">
     <input type="hidden" name="act" value="lookup" />
     <table>
     <tr><td style="text-align: center;"><input type="text" name="upc" size="16" maxlength="13" value="<?php echo $lookupupc; ?>" /> <input type="submit" value="Look Up UPC" /></td></tr>
    </table>
    </form>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } if($_GET['act']=="check"||$_GET['act']=="checkdigit") { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -276,7 +275,7 @@ $upcinfo['validated'] = "no"; } } }
    <h2>Check Digit Calculator</h2>
    <h3>Instructions</h3>
    <div>Enter a product code WITHOUT ITS CHECK DIGIT!  DO NOT omit leading zeros.<br />This will be 12 digits for an EAN, JAN, or UCC-13, 11 digits for a UPC-A,<br />or 7 digits for a UPC-E.  There is no support here for EAN/UCC-8 yet.<br /><br /></div>
-   <form method="post" action="<?php echo $website_url.$url_file."?act=checkdigit"; ?>">
+   <form method="post" action="<?php echo $url_file."?act=checkdigit"; ?>">
    <b>EAN/UCC</b>: <input type="text" name="checkupc" size="15" maxlength="12" /><div><br /></div>
    <div><input type="submit" value="Calculate Check Digit" /></div>
    </form>
@@ -304,12 +303,11 @@ $upcinfo['validated'] = "no"; } } }
    <?php } if($check_upce!==null&&validate_upce($check_upce)===true) { ?>
    <tr><td>UPC-E:</td><td><?php echo $check_upce; ?></td></tr>
    <?php } ?>
-   <tr><td colspan="2"><a href="<?php echo $website_url.$url_file."?act=lookup&amp;upc=".$check_ean13; ?>">Click here</a> to look up this UPC in the database.</td></tr>
+   <tr><td colspan="2"><a href="<?php echo $url_file."?act=lookup&amp;upc=".$check_ean13; ?>">Click here</a> to look up this UPC in the database.</td></tr>
    </table>
    <?php } ?>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } if($_GET['act']=="terms"||$_GET['act']=="termsofuse") { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -349,6 +347,5 @@ $upcinfo['validated'] = "no"; } } }
    /*echo "";*/ } } } }
    ?>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } ?>

@@ -206,7 +206,7 @@ if($_GET['act']=="join"||$_GET['act']=="signup") { ?>
   <center>
    <?php echo $navbar; ?>
    <h2>Create an Account</h2>
-   <form action="<?php echo $website_url.$url_file; ?>?act=join" method="post">
+   <form action="<?php echo $url_file; ?>?act=join" method="post">
     <table>
     <tr><td style="text-align: center;">Username:</td><td><input type="text" name="username" /></td></tr>
     <tr><td style="text-align: center;">Password:</td><td><input type="password" name="password" /></td></tr>
@@ -216,8 +216,7 @@ if($_GET['act']=="join"||$_GET['act']=="signup") { ?>
    <div><br /><input type="submit" value="Sign Up!" /></div>
    </form>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } if($_GET['act']=="login"||$_GET['act']=="signin") { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -230,7 +229,7 @@ if($_GET['act']=="join"||$_GET['act']=="signup") { ?>
   <center>
    <?php echo $navbar; ?>
    <h2>Log In</h2>
-   <form action="<?php echo $website_url.$url_file; ?>?act=login" method="post">
+   <form action="<?php echo $url_file; ?>?act=login" method="post">
     <table>
     <tr><td style="text-align: center;">Username:</td><td><input type="text" name="username" /></td></tr>
     <tr><td style="text-align: center;">Password:</td><td><input type="password" name="password" /></td></tr>
@@ -238,8 +237,7 @@ if($_GET['act']=="join"||$_GET['act']=="signup") { ?>
    <div><br /><input type="submit" value="Log In!" /></div>
    </form>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } if($_GET['act']=="usr"||$_GET['act']=="user") { 
 if($_GET['id']<=0) { $_GET['id'] = null; }
 if(!is_numeric($_GET['id'])&&!isset($_COOKIE['MemberID'])) {
@@ -289,7 +287,7 @@ $nummymods = $nummems['COUNT'];
 			  ($usersiteinfo['admin']=="yes")) { ?>
      <tr><td>Email:</td><td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td></tr>
 	 <?php } ?>
-     <tr><td>Items Entered:</td><td><?php if($nummyitems>0) { ?><a href="<?php echo $website_url.$url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $nummyitems; if($nummyitems>0) { ?></a><?php } ?></td></tr>
+     <tr><td>Items Entered:</td><td><?php if($nummyitems>0) { ?><a href="<?php echo $url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $nummyitems; if($nummyitems>0) { ?></a><?php } ?></td></tr>
      <tr><td>Pending Items:</td><td><?php echo $nummypendings; ?></td></tr>
      <tr><td>Item Edit Requests:</td><td><?php echo $nummymods; ?></td></tr>
      <tr><td>Last Active:</td><td><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td></tr>
@@ -298,7 +296,7 @@ $nummymods = $nummems['COUNT'];
      <tr><td>IP Address:</td><td><?php echo $meminfo['ip']; ?></td></tr>
 	 <?php } ?>
     </table>
-    <form action="<?php echo $website_url.$url_file; ?>?act=lookup" method="get">
+    <form action="<?php echo $url_file; ?>?act=lookup" method="get">
     <input type="hidden" name="act" value="lookup" />
     <div><br /></div>
     <table>
@@ -306,8 +304,7 @@ $nummymods = $nummems['COUNT'];
     </table>
    </form>
   </center>
- </body>
-</html>
+  <?php echo $endhtmltag; ?>
 <?php } } if($_GET['act']=="usrs"||$_GET['act']=="users") { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -335,11 +332,11 @@ $nummymods = $nummems['COUNT'];
    $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";"); 
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$website_url.$url_file."?act=users&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_file."?act=users&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$website_url.$url_file."?act=users&amp;page=".$nextpage."\">Next</a>"; }
+   echo "\n-- <a href=\"".$url_file."?act=users&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
    <table class="list">
@@ -347,9 +344,9 @@ $nummymods = $nummems['COUNT'];
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $website_url.$url_file; ?>?act=user&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><a href="<?php echo $url_file; ?>?act=user&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
    <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
-   <td nowrap="nowrap"><?php if($meminfo['numitems']>0) { ?><a href="<?php echo $website_url.$url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $meminfo['numitems']; if($meminfo['numitems']>0) { ?></a><?php } ?></td>
+   <td nowrap="nowrap"><?php if($meminfo['numitems']>0) { ?><a href="<?php echo $url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $meminfo['numitems']; if($meminfo['numitems']>0) { ?></a><?php } ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['numpending']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
    </tr>
@@ -357,13 +354,11 @@ $nummymods = $nummems['COUNT'];
    if($numrows>0) {
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$website_url.$url_file."?act=users&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_file."?act=users&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." members, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$website_url.$url_file."?act=users&amp;page=".$nextpage."\">Next</a>"; } }
+   echo "\n-- <a href=\"".$url_file."?act=users&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
   </center>
- </body>
-</html>
-<?php } ?>
+  <?php echo $endhtmltag; } ?>
