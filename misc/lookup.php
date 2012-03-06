@@ -348,4 +348,41 @@ $upcinfo['validated'] = "no"; } } }
    ?>
   </center>
   <?php echo $endhtmltag; ?>
-<?php } ?>
+<?php } if($_GET['act']=="stats"||$_GET['act']=="statistics") { 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\";");
+$countemp = sql_fetch_assoc($findupc);
+$numitems = number_format($countemp['COUNT']);
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" NOT LIKE '0%';");
+$countemp = sql_fetch_assoc($findupc);
+$numean13 = number_format($countemp['COUNT']);
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '0%';");
+$countemp = sql_fetch_assoc($findupc);
+$numupca = number_format($countemp['COUNT']);
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\";");
+$countemp = sql_fetch_assoc($findupc);
+$numpendings = number_format($countemp['COUNT']);
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"validated\"='yes';");
+$countemp = sql_fetch_assoc($findupc);
+$nummembers = number_format($countemp['COUNT']);
+$dbsize = _format_bytes(filesize($sdb_file));
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+<title> <?php echo $sitename; ?>: Database Statistics </title>
+<?php echo $metatags; ?>
+ </head>
+ <body>
+  <center>
+   <?php echo $navbar; ?>
+   <h2>Database Statistics</h2>
+   <table class="data">
+   <tr><td>Total Item Entries:</td><td align="right"><?php echo $numitems; ?></td></tr>
+   <tr><td>UPC (non-EAN13) Entries:</td><td align="right"><?php echo $numupca; ?></td></tr>
+   <tr><td>EAN13 (non-UPC) Entries:</td><td align="right"><?php echo $numean13; ?></td></tr>
+   <tr><td>Total size of database:</td><td align="right"><?php echo $dbsize; ?></td></tr>
+   <tr><td>Total Updates Pending:</td><td align="right"><?php echo $numpendings; ?></td></tr>
+   <tr><td>Active User Accounts:</td><td align="right"><?php echo $nummembers; ?></td></tr>
+  </table>
+ </center>
+  <?php echo $endhtmltag; } ?>

@@ -119,6 +119,7 @@ if($_GET['act']=="login"||$_GET['act']=="signin"||
 require("./misc/members.php"); }
 if($_GET['act']=="lookup"||$_GET['act']=="check"||
 	$_GET['act']=="terms"||$_GET['act']=="termsofuse"||
+	$_GET['act']=="stats"||$_GET['act']=="statistics"||
 	$_GET['act']=="checkdigit") {
 require("./misc/lookup.php"); }
 if($_GET['act']=="add") {

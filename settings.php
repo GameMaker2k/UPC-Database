@@ -175,6 +175,31 @@ function version_info($proname,$subver,$ver,$supver,$reltype,$svnver,$showsvn) {
 $appversion = version_info($appname,$appver[0],$appver[1],$appver[2],$appver[3]." Ver.",null,false);
 require("./functions.php");
 
+// _format_bytes by yatsynych at gmail dot com
+// URL: yatsynych at gmail dot com
+function _format_bytes($a_bytes)
+{
+    if ($a_bytes < 1024) {
+        return $a_bytes .' B';
+    } elseif ($a_bytes < 1048576) {
+        return round($a_bytes / 1024, 2) .' KiB';
+    } elseif ($a_bytes < 1073741824) {
+        return round($a_bytes / 1048576, 2) . ' MiB';
+    } elseif ($a_bytes < 1099511627776) {
+        return round($a_bytes / 1073741824, 2) . ' GiB';
+    } elseif ($a_bytes < 1125899906842624) {
+        return round($a_bytes / 1099511627776, 2) .' TiB';
+    } elseif ($a_bytes < 1152921504606846976) {
+        return round($a_bytes / 1125899906842624, 2) .' PiB';
+    } elseif ($a_bytes < 1180591620717411303424) {
+        return round($a_bytes / 1152921504606846976, 2) .' EiB';
+    } elseif ($a_bytes < 1208925819614629174706176) {
+        return round($a_bytes / 1180591620717411303424, 2) .' ZiB';
+    } else {
+        return round($a_bytes / 1208925819614629174706176, 2) .' YiB';
+    }
+}
+
 $slite3 = sqlite3_open($sdb_file);
 $tablecheck1 = @sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\""); 
 if($tablecheck1===false) {
