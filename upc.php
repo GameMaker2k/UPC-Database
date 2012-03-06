@@ -27,10 +27,18 @@ if(!isset($_POST['subact'])&&isset($_GET['subact'])) { $_POST['subact'] = $_GET[
 if(!isset($_GET['subact'])) { $_GET['subact'] = null; }
 if(!isset($_POST['upc'])&&isset($_GET['upc'])) { $_POST['upc'] = $_GET['upc']; }
 if(!isset($_GET['upc'])&&isset($_POST['upc'])) { $_GET['upc'] = $_POST['upc']; }
+if(isset($_GET['upc'])) {
+    $_GET['upc'] = trim($_GET['upc']);
+    $_GET['upc'] = remove_spaces($_GET['upc']); }
+if(isset($_POST['upc'])) {
+    $_POST['upc'] = trim($_POST['upc']);
+    $_POST['upc'] = remove_spaces($_POST['upc']); }
 if(($_GET['act']=="upca"||$_GET['act']=="upce"||$_GET['act']=="ean8"||
 	$_GET['act']=="ean13"||$_GET['act']=="itf14")&&isset($_GET['upc'])) {
 	header("Location: ".$website_url.$barcode_file."?act=".$_GET['act']."&upc=".$_GET['upc']); exit(); }
 if(isset($_GET['upc'])&&!is_numeric($_GET['upc'])) {
+    $_GET['upc'] = trim($_GET['upc']);
+    $_GET['upc'] = remove_spaces($_GET['upc']);
 	$_GET['upc'] = cuecat_decode($_GET['upc']); }
 if(isset($_POST['upc'])&&!is_numeric($_POST['upc'])) {
 	$_POST['upc'] = cuecat_decode($_POST['upc']); }
