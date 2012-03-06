@@ -63,7 +63,7 @@ if($_GET['act']=="deletemember") { ?>
    echo "\n-- <a href=\"".$url_admin_file."?act=deletemember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>Delete Member</th><th>Email</th><th>IP Address</th><th>Last Active</th></tr>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
@@ -124,7 +124,7 @@ if($_GET['act']=="validatemember") { ?>
    echo "\n-- <a href=\"".$url_admin_file."?act=validatemember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>Validate Member</th><th>Email</th><th>IP Address</th><th>Last Active</th></tr>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
@@ -264,7 +264,7 @@ $nummymods = $nummems['COUNT'];
    echo "\n-- <a href=\"".$url_admin_file."?act=editmember&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>Edit Member</th><th>Email</th><th>IP Address</th><th>Last Active</th></tr>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>

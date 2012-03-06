@@ -70,7 +70,7 @@ if($_GET['act']=="deleteupc") { ?>
    echo "\n-- <a href=\"".$url_admin_file."?act=deleteupc&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>Delete EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>
@@ -142,7 +142,7 @@ if($_GET['act']=="validateupc") { ?>
    echo "\n-- <a href=\"".$url_admin_file."?act=deleteupc&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>Validate EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>
@@ -274,7 +274,7 @@ $upcinfo = sql_fetch_assoc($findupc);
    echo "\n-- <a href=\"".$url_admin_file."?act=editupc&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>Edit EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>

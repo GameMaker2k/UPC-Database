@@ -20,7 +20,7 @@ require("./settings.php");
 $upce = null; $upca = null; $ean13 = null;
 if(!isset($_GET['act'])&&isset($_POST['act'])) { $_GET['act'] = $_POST['act']; }
 if(!isset($_GET['act'])) { $_GET['act'] = "lookup"; 
-	header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
+	/*header("Location: ".$website_url.$url_file."?act=lookup"); exit();*/ }
 if(isset($_GET['act'])&&$_GET['act']=="view") { $_GET['act'] = "lookup"; }
 if(!isset($_GET['subact'])&&isset($_POST['subact'])) { $_GET['subact'] = $_POST['subact']; }
 if(!isset($_POST['subact'])&&isset($_GET['subact'])) { $_POST['subact'] = $_GET['subact']; }

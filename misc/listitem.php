@@ -77,7 +77,7 @@ if($_GET['act']=="latest") { ?>
    echo "\n-- <a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) {
@@ -162,7 +162,7 @@ if($_GET['act']=="latest") { ?>
    echo "\n-- <a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) {
@@ -238,7 +238,7 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
    while ($upcinfo = sql_fetch_assoc($findupc)) {

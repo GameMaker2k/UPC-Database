@@ -339,7 +339,7 @@ $nummymods = $nummems['COUNT'];
    echo "\n-- <a href=\"".$url_file."?act=users&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
-   <table class="list">
+   <table>
    <tr><th>Member Name</th><th>Email</th><th>Entered</th><th>Pending</th><th>Last Active</th></tr>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>

@@ -376,7 +376,7 @@ $dbsize = _format_bytes(filesize($sdb_file));
   <center>
    <?php echo $navbar; ?>
    <h2>Database Statistics</h2>
-   <table class="data">
+   <table>
    <tr><td>Total Item Entries:</td><td align="right"><?php echo $numitems; ?></td></tr>
    <tr><td>UPC (non-EAN13) Entries:</td><td align="right"><?php echo $numupca; ?></td></tr>
    <tr><td>EAN13 (non-UPC) Entries:</td><td align="right"><?php echo $numean13; ?></td></tr>
