@@ -504,8 +504,12 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
  <html xsl:version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">
+  <xsl:element name="title"> <?php echo $sitename; ?>: XML Database Dump </xsl:element>
   <body style="background-color:#FFFFFF;">
    <xsl:element name="center">
+	<xsl:element name="h2">
+	XML Database Dump
+	</xsl:element>
     <xsl:element name="table">
      <xsl:element name="tr">
       <xsl:element name="td">EAN/UCC</xsl:element>
