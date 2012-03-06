@@ -505,21 +505,23 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 <xsl:template match="/">
  <html xsl:version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">
   <body style="background-color:#FFFFFF;">
-   <xsl:element name="table">
-    <xsl:element name="tr">
-     <xsl:element name="td">EAN/UCC</xsl:element>
-     <xsl:element name="td">Description</xsl:element>
-     <xsl:element name="td">Size/Weight</xsl:element>
-     <?php if($add_quantity_row===true) { ?><xsl:element name="td">Quantity</xsl:element><?php } ?>
-    </xsl:element>
-    <xsl:for-each select="<?php echo $sqlitedatabase; ?>/item">
-     <xsl:element name="tr"><xsl:attribute name="valign">top</xsl:attribute>
-      <xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:element name="a"><xsl:attribute name="href"><?php echo $website_url.$url_file; ?>?act=lookup&amp;upc=<xsl:value-of select="upc"/></xsl:attribute><xsl:value-of select="upc"/></xsl:element></xsl:element>
-      <xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:value-of select="description"/></xsl:element>
-      <xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:value-of select="sizeweight"/></xsl:element>
-      <?php if($add_quantity_row===true) { ?><xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:value-of select="quantity"/></xsl:element><?php } ?>
+   <xsl:element name="center">
+    <xsl:element name="table">
+     <xsl:element name="tr">
+      <xsl:element name="td">EAN/UCC</xsl:element>
+      <xsl:element name="td">Description</xsl:element>
+      <xsl:element name="td">Size/Weight</xsl:element>
+      <?php if($add_quantity_row===true) { ?><xsl:element name="td">Quantity</xsl:element><?php } ?>
      </xsl:element>
-    </xsl:for-each>
+     <xsl:for-each select="<?php echo $sqlitedatabase; ?>/item">
+      <xsl:element name="tr"><xsl:attribute name="valign">top</xsl:attribute>
+       <xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:element name="a"><xsl:attribute name="href"><?php echo $website_url.$url_file; ?>?act=lookup&amp;upc=<xsl:value-of select="upc"/></xsl:attribute><xsl:value-of select="upc"/></xsl:element></xsl:element>
+       <xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:value-of select="description"/></xsl:element>
+       <xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:value-of select="sizeweight"/></xsl:element>
+       <?php if($add_quantity_row===true) { ?><xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:value-of select="quantity"/></xsl:element><?php } ?>
+      </xsl:element>
+     </xsl:for-each>
+    </xsl:element>
    </xsl:element>
   </body>
  </html>
