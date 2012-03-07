@@ -116,7 +116,7 @@ if(isset($_GET['subact'])&&preg_match("/([a-z]+),([a-z]+)/", $_GET['subact'], $s
 if($_GET['subact']=="random"||$_GET['subact']=="rand") {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY RANDOM() LIMIT 1;"); 
 $upcinfo = sql_fetch_assoc($findupc); $_GET['upc'] = $upcinfo['upc']; $_GET['subact'] = "lookup"; }
-@header("Content-Type: text/xml; charset=UTF-8"); 
+@header("Content-Type: application/xml; charset=UTF-8"); 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 echo "<?xml-stylesheet type=\"text/xsl\" href=\"".$url_file."?act=xslt\"?>\n";
 ?>
@@ -498,13 +498,15 @@ $arvalues[$ari] = array("upc" => $upcinfo['upc'], "description" => $upcinfo['des
 $items = array_combine($arkeys, $arvalues);
 $items = array_merge($items, $arvalues);
 echo serialize($items); } } if($_GET['act']=="xslt") { 
-@header("Content-Type: text/xml; charset=UTF-8"); 
+@header("Content-Type: application/xml; charset=UTF-8"); 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 ?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
  <html xsl:version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">
   <xsl:element name="title"> <?php echo $sitename; ?>: XML Database Dump </xsl:element>
+  <xsl:element name="link"><xsl:attribute name="rel">icon</xsl:attribute><xsl:attribute name="href">favicon.ico</xsl:attribute></xsl:element>
+  <xsl:element name="link"><xsl:attribute name="rel">shortcut icon</xsl:attribute><xsl:attribute name="href">favicon.ico</xsl:attribute></xsl:element>
   <body style="background-color:#FFFFFF;">
    <xsl:element name="center">
 	<xsl:element name="h2">
@@ -525,6 +527,36 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
        <?php if($add_quantity_row===true) { ?><xsl:element name="td"><xsl:attribute name="nowrap">nowrap</xsl:attribute><xsl:value-of select="quantity"/></xsl:element><?php } ?>
       </xsl:element>
      </xsl:for-each>
+    </xsl:element>
+	<xsl:element name="div">
+	<xsl:element name="br"></xsl:element>
+	</xsl:element>
+    <xsl:element name="form">
+     <xsl:attribute name="name">upcform</xsl:attribute>
+     <xsl:attribute name="action"><?php echo $url_file; ?>?act=lookup</xsl:attribute>
+     <xsl:attribute name="method">get</xsl:attribute>
+     <xsl:element name="input">
+      <xsl:attribute name="type">hidden</xsl:attribute>
+      <xsl:attribute name="name">act</xsl:attribute>
+      <xsl:attribute name="value">lookup</xsl:attribute>
+     </xsl:element>
+     <xsl:element name="table">
+      <xsl:element name="tr">
+       <xsl:element name="td">
+        <xsl:attribute name="style">text-align: center;</xsl:attribute>
+        <xsl:element name="input">
+         <xsl:attribute name="type">text</xsl:attribute>
+         <xsl:attribute name="name">upc</xsl:attribute>
+         <xsl:attribute name="size">16</xsl:attribute>
+         <xsl:attribute name="maxlength">13</xsl:attribute>
+        </xsl:element>
+        <xsl:element name="input">
+         <xsl:attribute name="type">submit</xsl:attribute>
+         <xsl:attribute name="value">Look Up UPC</xsl:attribute>
+        </xsl:element>
+       </xsl:element>
+      </xsl:element>
+     </xsl:element>
     </xsl:element>
    </xsl:element>
   </body>
