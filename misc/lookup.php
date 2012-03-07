@@ -36,17 +36,17 @@ if(isset($_POST['upc'])&&!is_numeric($_POST['upc'])) { $lookupupc = null; }
 if(!isset($_POST['upc'])) { $lookupupc = null; } }
 if($_GET['act']=="lookup") { 
 if(isset($_POST['upc'])) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
 $numupc = sql_fetch_assoc($findupc);
-$numrows = $numupc['COUNT'];
+$numrows = $numupc['count'];
 if($numrows>0) {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
 $upcinfo = sql_fetch_assoc($findupc); }
 $oldnumrows = $numrows;
 if($oldnumrows<1) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
 $numupc = sql_fetch_assoc($findupc);
-$numrows = $numupc['COUNT']; 
+$numrows = $numupc['count']; 
 if($numrows>0) {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."pending\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
 $upcinfo = sql_fetch_assoc($findupc); 
@@ -349,21 +349,21 @@ $upcinfo['validated'] = "no"; } } }
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if($_GET['act']=="stats"||$_GET['act']=="statistics") { 
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\";");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\";");
 $countemp = sql_fetch_assoc($findupc);
-$numitems = number_format($countemp['COUNT']);
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" NOT LIKE '0%';");
+$numitems = number_format($countemp['count']);
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" NOT LIKE '0%';");
 $countemp = sql_fetch_assoc($findupc);
-$numean13 = number_format($countemp['COUNT']);
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '0%';");
+$numean13 = number_format($countemp['count']);
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '0%';");
 $countemp = sql_fetch_assoc($findupc);
-$numupca = number_format($countemp['COUNT']);
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\";");
+$numupca = number_format($countemp['count']);
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\";");
 $countemp = sql_fetch_assoc($findupc);
-$numpendings = number_format($countemp['COUNT']);
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"validated\"='yes';");
+$numpendings = number_format($countemp['count']);
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"validated\"='yes';");
 $countemp = sql_fetch_assoc($findupc);
-$nummembers = number_format($countemp['COUNT']);
+$nummembers = number_format($countemp['count']);
 $dbsize = _format_bytes(filesize($sdb_file));
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -21,20 +21,20 @@ if ($File3Name=="adminupc.php"||$File3Name=="/adminupc.php") {
 	exit(); }
 
 if($_GET['act']=="deleteupc"&&isset($_GET['upc'])&&validate_ean13($_GET['upc'])===true) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_POST['upc']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_POST['upc']."';");
 $numupc = sql_fetch_assoc($findupc);
-$numrows = $numupc['COUNT'];
+$numrows = $numupc['count'];
 if($numrows>0) {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $_POST['upc'])."';"); 
 $upcinfo = sql_fetch_assoc($findupc);
 $delupc = sqlite3_query($slite3, "DELETE FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_POST['upc']."';"); 
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"userid\"='".$upcinfo['userid']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$upcinfo['userid']."';");
 $numupc = sql_fetch_assoc($findupc);
-$nummyitems = $numupc['COUNT'];
+$nummyitems = $numupc['count'];
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numitems\"=".$nummyitems." WHERE \"id\"=".$upcinfo['userid'].";"); } 
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."modupc\" WHERE \"upc\"='".$_POST['upc']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."modupc\" WHERE \"upc\"='".$_POST['upc']."';");
 $numupc = sql_fetch_assoc($findupc);
-$numrows = $numupc['COUNT'];
+$numrows = $numupc['count'];
 if($numrows>0) {
 $delupc = sqlite3_query($slite3, "DELETE FROM \"".$table_prefix."modupc\" WHERE \"upc\"='".$_POST['upc']."';"); } }
 if($_GET['act']=="deleteupc") { ?>
@@ -49,9 +49,9 @@ if($_GET['act']=="deleteupc") { ?>
    <?php echo $navbar; ?>
    <h2>Delete UPC</h2>
    <?php
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
    $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['COUNT'];
+   $numrows = $numupc['count'];
    if($numrows>0) {
    $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
@@ -94,20 +94,20 @@ if($_GET['act']=="deleteupc") { ?>
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if($_GET['act']=="validateupc"&&isset($_GET['upc'])&&validate_ean13($_GET['upc'])===true) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\" WHERE \"upc\"='".$_POST['upc']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"upc\"='".$_POST['upc']."';");
 $numupc = sql_fetch_assoc($findupc);
-$numrows = $numupc['COUNT'];
+$numrows = $numupc['count'];
 if($numrows>0) {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."pending\" WHERE upc='".sqlite3_escape_string($slite3, $_POST['upc'])."';"); 
 $upcinfo = sql_fetch_assoc($findupc);  
 sqlite3_query($slite3, "INSERT INTO \"".$table_prefix."items\" (\"upc\", \"description\", \"sizeweight\", \"quantity\", \"validated\", \"delrequest\", \"userid\", \"username\", \"timestamp\", \"lastupdate\", \"edituserid\", \"editname\", \"ip\", \"editip\") VALUES ('".sqlite3_escape_string($slite3, $upcinfo['upc'])."', '".sqlite3_escape_string($slite3, $upcinfo['description'])."', '".sqlite3_escape_string($slite3, $upcinfo['sizeweight'])."', '".sqlite3_escape_string($slite3, $upcinfo['quantity'])."', 'yes', 'no', ".sqlite3_escape_string($slite3, $upcinfo['userid']).", '".sqlite3_escape_string($slite3, $upcinfo['username'])."', ".$upcinfo['timestamp'].", ".$upcinfo['lastupdate'].", ".sqlite3_escape_string($slite3, $upcinfo['userid']).", '".sqlite3_escape_string($slite3, $upcinfo['username'])."', '".sqlite3_escape_string($slite3, $upcinfo['ip'])."', '".sqlite3_escape_string($slite3, $upcinfo['ip'])."');");
 $delupc = sqlite3_query($slite3, "DELETE FROM \"".$table_prefix."pending\" WHERE \"upc\"='".$_POST['upc']."';"); 
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$upcinfo['userid']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$upcinfo['userid']."';");
 $numupc = sql_fetch_assoc($findupc);
-$nummypendings = $numupc['COUNT'];
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"userid\"='".$upcinfo['userid']."';");
+$nummypendings = $numupc['count'];
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$upcinfo['userid']."';");
 $numupc = sql_fetch_assoc($findupc);
-$nummyitems = $numupc['COUNT'];
+$nummyitems = $numupc['count'];
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numitems\"=".$nummyitems.",\"numpending\"=".$nummypendings." WHERE \"id\"=".$upcinfo['userid'].";"); } }
 if($_GET['act']=="validateupc") { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -121,9 +121,9 @@ if($_GET['act']=="validateupc") { ?>
    <?php echo $navbar; ?>
    <h2>Validate UPC</h2>
    <?php
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\" ORDER BY \"lastupdate\" DESC;"); 
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" ORDER BY \"lastupdate\" DESC;"); 
    $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['COUNT'];
+   $numrows = $numupc['count'];
    if($numrows>0) {
    $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
@@ -190,9 +190,9 @@ if($_POST['sizeweight']==""||$_POST['sizeweight']==null) {
 	$_GET['upc'] = null; $_GET['subact'] = null; }
 if(($_POST['quantity']==""||$_POST['quantity']==null)&&$add_quantity_row===true) {
 	$_GET['upc'] = null; $_GET['subact'] = null; }
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_POST['upc']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_POST['upc']."';");
 $numupc = sql_fetch_assoc($findupc);
-$numrows = $numupc['COUNT'];
+$numrows = $numupc['count'];
 if($numrows<=0) { $_GET['upc'] = null; $_GET['subact'] = null; }
 if($numrows>0) {
 if($add_quantity_row===true) {
@@ -201,9 +201,9 @@ if($add_quantity_row===false) {
 sqlite3_query($slite3, "UPDATE \"".$table_prefix."items\" SET \"description\"='".sqlite3_escape_string($slite3, $_POST['description'])."',\"sizeweight\"='".sqlite3_escape_string($slite3, $_POST['sizeweight'])."' WHERE \"upc\"='".$_GET['upc']."';"); }
 $_GET['upc'] = null; $_GET['subact'] = null; } }
 if($_GET['act']=="editupc"&&validate_ean13($_GET['upc'])===true&&$_GET['subact']===null) { 
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\"='".$_GET['upc']."';");
 $numupc = sql_fetch_assoc($findupc);
-$numrows = $numupc['COUNT'];
+$numrows = $numupc['count'];
 if($numrows<=0) { $_GET['upc'] = null; }
 if($numrows>0) {
 $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $_GET['upc'])."';"); 
@@ -253,9 +253,9 @@ $upcinfo = sql_fetch_assoc($findupc);
    <?php echo $navbar; ?>
    <h2>Edit UPC</h2>
    <?php
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); 
    $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['COUNT'];
+   $numrows = $numupc['count'];
    if($numrows>0) {
    $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }

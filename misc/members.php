@@ -30,9 +30,9 @@ if(($_GET['act']=="login"||$_GET['act']=="signin")&&
     header("Location: ".$website_url.$url_file."?act=login"); exit(); }
     if(strlen($_POST['password'])>60||$_POST['password']==""||$_POST['password']==null) {
     header("Location: ".$website_url.$url_file."?act=login"); exit(); }
-	$findme = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE name='".sqlite3_escape_string($slite3, $_POST['username'])."';");
+	$findme = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE name='".sqlite3_escape_string($slite3, $_POST['username'])."';");
 	$numfindme = sql_fetch_assoc($findme);
-	$numfmrows = $numfindme['COUNT'];
+	$numfmrows = $numfindme['count'];
 	if($numfmrows<1) { $_GET['act'] = "login"; }
 	if($numfmrows>0) {
 	$findme = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE name='".sqlite3_escape_string($slite3, $_POST['username'])."';"); 
@@ -116,12 +116,12 @@ if(($_GET['act']=="login"||$_GET['act']=="signin")&&
 	if($userinfo['password']!=$PasswordCheck) { $_GET['act'] = "login"; 
 	header("Location: ".$website_url.$url_file."?act=login"); exit(); } 
 	if($userinfo['password']==$PasswordCheck) {
-	$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$userinfo['id']."';");
+	$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$userinfo['id']."';");
 	$numupc = sql_fetch_assoc($findupc);
-	$nummypendings = $numupc['COUNT'];
-	$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"userid\"='".$userinfo['id']."';");
+	$nummypendings = $numupc['count'];
+	$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$userinfo['id']."';");
 	$numupc = sql_fetch_assoc($findupc);
-	$nummyitems = $numupc['COUNT'];
+	$nummyitems = $numupc['count'];
 	if($userinfo['numitems']!=$nummyitems&&$userinfo['numpending']==$nummypendings) {
 	sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numitems\"=".$nummyitems." WHERE \"id\"=".$userinfo['id'].";"); }
 	if($userinfo['numitems']==$nummyitems&&$userinfo['numpending']!=$nummypendings) {
@@ -246,29 +246,29 @@ if(!is_numeric($_GET['id'])&&isset($_COOKIE['MemberID'])&&!is_numeric($_COOKIE['
 	$_GET['id'] = 1; }
 if(!is_numeric($_GET['id'])&&isset($_COOKIE['MemberID'])&&is_numeric($_COOKIE['MemberID'])) {
 	$_GET['id'] = $_COOKIE['MemberID']; }
-$findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+$findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
 $nummems = sql_fetch_assoc($findmem);
-$numrows = $nummems['COUNT'];
+$numrows = $nummems['count'];
 if($numrows<=0) { $_GET['id'] = 1;
-$findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+$findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
 $nummems = sql_fetch_assoc($findmem);
-$numrows = $nummems['COUNT']; }
+$numrows = $nummems['count']; }
 if($numrows>0) { 
 $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";"); 
 $meminfo = sql_fetch_assoc($findmem);
 /*
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"userid\"='".$meminfo['id']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$meminfo['id']."';");
 $nummems = sql_fetch_assoc($findupc);
-$nummyitems = $nummems['COUNT'];
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$meminfo['id']."';");
+$nummyitems = $nummems['count'];
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$meminfo['id']."';");
 $nummems = sql_fetch_assoc($findupc);
-$nummypendings = $nummems['COUNT'];
+$nummypendings = $nummems['count'];
 */
 $nummyitems = $meminfo['numitems'];
 $nummypendings = $meminfo['numpending'];
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."modupc\" WHERE \"userid\"='".$meminfo['id']."';");
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."modupc\" WHERE \"userid\"='".$meminfo['id']."';");
 $nummems = sql_fetch_assoc($findupc);
-$nummymods = $nummems['COUNT'];
+$nummymods = $nummems['count'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -318,9 +318,9 @@ $nummymods = $nummems['COUNT'];
    <?php echo $navbar; ?>
    <h2>UPC Database User Info</h2>
    <?php
-   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" ORDER BY \"id\" ASC;"); 
+   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" ORDER BY \"id\" ASC;"); 
    $nummems = sql_fetch_assoc($findmem);
-   $numrows = $nummems['COUNT'];
+   $numrows = $nummems['count'];
    if($numrows>0) {
    $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }

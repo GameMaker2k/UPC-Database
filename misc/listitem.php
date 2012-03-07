@@ -42,20 +42,20 @@ if($_GET['act']=="latest") { ?>
    if($_GET['id']<=0) { $_GET['id'] = null; }
    if(!is_numeric($_GET['id'])) { $_GET['id'] = null; }
    if($_GET['id']>0&&$_GET['id']!==null) {
-   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
    $nummems = sql_fetch_assoc($findmem);
-   $numrows = $nummems['COUNT']; 
+   $numrows = $nummems['count']; 
    if($numrows<=0) { $_GET['id'] = null; }
    if($numrows>0) { 
    $addonurl = "&amp;id=".$_GET['id'];
    $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";"); 
    $meminfo = sql_fetch_assoc($findmem); } }
    if($meminfo===null) {
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); }
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); }
    if($meminfo!==null) {
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"userid\"='".$_GET['id']."' ORDER BY \"lastupdate\" DESC;"); }
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$_GET['id']."' ORDER BY \"lastupdate\" DESC;"); }
    $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['COUNT'];
+   $numrows = $numupc['count'];
    if($numrows>0) {
    $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
@@ -126,9 +126,9 @@ if($_GET['act']=="latest") { ?>
    if($_GET['id']<=0) { $_GET['id'] = null; }
    if(!is_numeric($_GET['id'])) { $_GET['id'] = null; }
    if($_GET['id']>0&&$_GET['id']!==null) {
-   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
    $nummems = sql_fetch_assoc($findmem);
-   $numrows = $nummems['COUNT']; 
+   $numrows = $nummems['count']; 
    if($numrows<=0) { $_GET['id'] = null; }
    if($numrows>0) { 
    $addonurl = "&amp;id=".$_GET['id'];
@@ -137,11 +137,11 @@ if($_GET['act']=="latest") { ?>
    preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
    $findprefix = $fix_matches[1];
    if($meminfo===null) {
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
    if($meminfo!==null) {
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"upc\" AND \"userid\"='".$_GET['id']."' LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" AND \"userid\"='".$_GET['id']."' LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
    $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['COUNT'];
+   $numrows = $numupc['count'];
    if($numrows>0) {
    $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }
@@ -218,9 +218,9 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    if(!is_numeric($_GET['page'])) { $_GET['page'] = 1; }
    preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
    $findprefix = $fix_matches[1];
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_POST['searchterms'])."%';"); 
+   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_POST['searchterms'])."%';"); 
    $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['COUNT'];
+   $numrows = $numupc['count'];
    if($numrows>0) {
    $maxpage = $_GET['page'] * $display_per_page;
    if($maxpage>$numrows) { $maxpage = $numrows; }

@@ -23,9 +23,9 @@ if ($File3Name=="additem.php"||$File3Name=="/additem.php") {
 if(strlen($_POST['upc'])>0&&strlen($_POST['upc'])!=8&&strlen($_POST['upc'])!=12&&strlen($_POST['upc'])!=13) {
 	$_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=add"); exit(); }
 if($_GET['act']=="add"&&isset($_POST['upc'])) {
-$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
+$findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';"); 
 $numupc = sql_fetch_assoc($findupc);
-$numrows = $numupc['COUNT'];
+$numrows = $numupc['count'];
 if($numrows>0) { $_GET['act'] = "lookup"; 
 	header("Location: ".$website_url.$url_file."?act=lookup&upc=".$_POST['upc']); exit(); } }
 if($_GET['act']=="add"&&!isset($_POST['upc'])) { $_GET['act'] = "lookup"; 
@@ -74,12 +74,12 @@ if(($_POST['quantity']==""||$_POST['quantity']==null)&&$add_quantity_row===true)
 header("Location: ".$website_url.$url_file."?act=add&upc=".$_GET['upc']); exit(); }
 $findusrinfo = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_COOKIE['MemberID'].";"); 
 $getuserinfo = sql_fetch_assoc($findusrinfo); 
-$fixcount = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$getuserinfo['id']."';");
+$fixcount = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$getuserinfo['id']."';");
 $numfixcount = sql_fetch_assoc($fixcount);
-$nummypendings = $numfixcount['COUNT'];
-$fixcount = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."items\" WHERE \"userid\"='".$getuserinfo['id']."';");
+$nummypendings = $numfixcount['count'];
+$fixcount = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$getuserinfo['id']."';");
 $numfixcount = sql_fetch_assoc($fixcount);
-$nummyitems = $numfixcount['COUNT'];
+$nummyitems = $numfixcount['count'];
 if($getuserinfo['numitems']!=$nummyitems) {
 	$getuserinfo['numitems'] = $nummyitems; }
 if($getuserinfo['numpending']!=$nummypendings) {
