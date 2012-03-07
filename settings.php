@@ -64,6 +64,8 @@ $metatags = "<meta http-equiv=\"Content-Language\" content=\"en\" />\n  <meta ht
 
 $endhtmltag = "\n  <center>\n   <br /><address><a href=\"".$appmakerurl."\" title=\"".$appname." by ".$appmaker."\">".$appname."</a> ver. ".$appver[0].".".$appver[1].".".$appver[2]." ".$appver[3]."</address>\n  </center>\n </body>\n</html>\n";
 
+$endhtmlxslt = "   <xsl:element name=\"center\">\n    <xsl:element name=\"br\"></xsl:element>\n    <xsl:element name=\"address\">\n     <xsl:element name=\"a\">\n      <xsl:attribute name=\"href\">".$appmakerurl."</xsl:attribute>\n      <xsl:attribute name=\"title\">".$appname." by ".$appmaker."</xsl:attribute>".$appname."</xsl:element>\n	 ver. ".$appver[0].".".$appver[1].".".$appver[2]." ".$appver[3]."\n    </xsl:element>\n   </xsl:element>\n";
+
 $disfunc = @ini_get("disable_functions");
 $disfunc = @trim($disfunc);
 $disfunc = @preg_replace("/([\\s+|\\t+|\\n+|\\r+|\\0+|\\x0B+])/i", "", $disfunc);

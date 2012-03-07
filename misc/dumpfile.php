@@ -559,6 +559,7 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
      </xsl:element>
     </xsl:element>
    </xsl:element>
+   <?php echo $endhtmlxslt; ?>
   </body>
  </html>
 </xsl:template>
