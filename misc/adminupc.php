@@ -76,9 +76,9 @@ if($_GET['act']=="deleteupc") { ?>
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>
    <tr valign="top">
    <td><a href="<?php echo $url_admin_file; ?>?act=deleteupc&amp;upc=<?php echo $upcinfo['upc']; ?>" onclick="if(!confirm('Are you sure you want to delete UPC <?php echo $upcinfo['upc']; ?>?')) { return false; }"><?php echo $upcinfo['upc']; ?></a></td>
-   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
-   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
@@ -148,9 +148,9 @@ if($_GET['act']=="validateupc") { ?>
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>
    <tr valign="top">
    <td><a href="<?php echo $url_admin_file; ?>?act=validateupc&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
-   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
-   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
@@ -231,9 +231,9 @@ $upcinfo = sql_fetch_assoc($findupc);
    <div><br /></div>
    <form action="<?php echo $url_admin_file; ?>?act=editupc" method="post">
     <table>
-    <tr><td style="text-align: center;">Description: <input type="text" name="description" size="50" maxlength="150" value="<?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?>" /></td></tr>
-    <tr><td style="text-align: center;">Size/Weight: <input type="text" name="sizeweight" size="30" maxlength="30" value="<?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?>" /></td></tr>
-    <?php if($add_quantity_row===true) { ?><tr><td style="text-align: center;">Quantity: <input type="text" name="quantity" size="30" maxlength="30"  value="<?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?>" /></td></tr><?php } ?>
+    <tr><td style="text-align: center;">Description: <input type="text" name="description" size="50" maxlength="150" value="<?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>" /></td></tr>
+    <tr><td style="text-align: center;">Size/Weight: <input type="text" name="sizeweight" size="30" maxlength="30" value="<?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>" /></td></tr>
+    <?php if($add_quantity_row===true) { ?><tr><td style="text-align: center;">Quantity: <input type="text" name="quantity" size="30" maxlength="30"  value="<?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>" /></td></tr><?php } ?>
    </table>
    <input type="hidden" name="upc" value="<?php echo $_GET['upc']; ?>" />
    <input type="hidden" name="subact" value="editupc" />
@@ -280,9 +280,9 @@ $upcinfo = sql_fetch_assoc($findupc);
    while ($upcinfo = sql_fetch_assoc($findupc)) { ?>
    <tr valign="top">
    <td><a href="<?php echo $url_admin_file; ?>?act=editupc&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
-   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
-   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }

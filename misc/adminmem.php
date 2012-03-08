@@ -68,8 +68,8 @@ if($_GET['act']=="deletemember") { ?>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?>?')) { return false; }"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
-   <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
+   <td><a href="<?php echo $url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>?')) { return false; }"><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
    </tr>
@@ -129,8 +129,8 @@ if($_GET['act']=="validatemember") { ?>
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $url_admin_file; ?>?act=validatemember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
-   <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
+   <td><a href="<?php echo $url_admin_file; ?>?act=validatemember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
    </tr>
@@ -218,7 +218,7 @@ $nummymods = $nummems['count'];
    <h2>Edit Member</h2>
    <form action="<?php echo $url_admin_file; ?>?act=editmember" method="post">
     <table>
-    <tr><td style="text-align: center;">Username:</td><td><input type="text" name="username" value="<?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?>" /></td></tr>
+    <tr><td style="text-align: center;">Username:</td><td><input type="text" name="username" value="<?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>" /></td></tr>
     <tr><td style="text-align: center;">New Items Unvalidated:</td><td><select name="validateitems"><option value="yes"<?php if($meminfo['validateitems']=="yes") { ?> selected="selected"<?php } ?>>Yes</option><option value="no"<?php if($meminfo['validateitems']=="no") { ?> selected="selected"<?php } ?>>No</option></select></td></tr>
     <tr><td style="text-align: center;">Has Admin Power:</td><td><select name="admin"><option value="yes"<?php if($meminfo['admin']=="yes") { ?> selected="selected"<?php } ?>>Yes</option><option value="no"<?php if($meminfo['admin']=="no") { ?> selected="selected"<?php } ?>>No</option></select></td></tr>
     <tr><td style="text-align: center;">Items Entered:</td><td><?php echo $nummyitems; ?></td></tr>
@@ -269,8 +269,8 @@ $nummymods = $nummems['count'];
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
-   <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
+   <td><a href="<?php echo $url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['ip']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
    </tr>

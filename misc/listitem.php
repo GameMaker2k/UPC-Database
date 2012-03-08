@@ -84,9 +84,9 @@ if($_GET['act']=="latest") { ?>
    ?>
    <tr valign="top">
    <td><a href="<?php echo $url_file; ?>?act=lookup&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
-   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
-   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
@@ -169,9 +169,9 @@ if($_GET['act']=="latest") { ?>
    ?>
    <tr valign="top">
    <td><a href="<?php echo $url_file; ?>?act=lookup&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
-   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
-   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
@@ -206,13 +206,13 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
-<title> <?php echo $sitename; ?>: Search Results for &quot;<?php echo htmlspecialchars($_POST['searchterms'], ENT_HTML401, "UTF-8"); ?>&quot; </title>
+<title> <?php echo $sitename; ?>: Search Results for &quot;<?php echo htmlspecialchars($_POST['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>&quot; </title>
 <?php echo $metatags; ?>
  </head>
  <body>
   <center>
    <?php echo $navbar; ?>
-   <h2>Search Results for &quot;<?php echo htmlspecialchars($_POST['searchterms'], ENT_HTML401, "UTF-8"); ?>&quot;</h2>
+   <h2>Search Results for &quot;<?php echo htmlspecialchars($_POST['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>&quot;</h2>
    <?php
    if(!isset($_GET['page'])) { $_GET['page'] = 1; }
    if(!is_numeric($_GET['page'])) { $_GET['page'] = 1; }
@@ -231,11 +231,11 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_POST['searchterms'])."%';"); 
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
+   echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
    ?>
    <div><br /></div>
    <table>
@@ -245,25 +245,25 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    ?>
    <tr valign="top">
    <td><a href="<?php echo $url_file; ?>?act=lookup&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
-   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_HTML401, "UTF-8"); ?></td>
-   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
    <?php } echo "   </table>   <div><br /></div>"; }
    if($numrows>0) {
    if($maxpage>$display_per_page&&$_GET['page']>1) {
    $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
+   echo "<a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
    echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
    if($maxpage<$numrows) {
    $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
+   echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
    ?>
    <div><br /></div>
    <form action="<?php echo $url_file; ?>?act=search" method="post">
     <table>
-    <tr><td style="text-align: center;">Search String:</td><td><input type="text" name="searchterms" size="40" maxlength="100" value="<?php echo htmlspecialchars($_POST['searchterms'], ENT_HTML401, "UTF-8"); ?>"></td></tr>
+    <tr><td style="text-align: center;">Search String:</td><td><input type="text" name="searchterms" size="40" maxlength="100" value="<?php echo htmlspecialchars($_POST['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>"></td></tr>
    </table>
    <div><br /><input type="submit" value="Search">&nbsp;<input type="reset" value="Clear"></div>
    </form>

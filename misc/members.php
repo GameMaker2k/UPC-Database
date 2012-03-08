@@ -282,10 +282,10 @@ $nummymods = $nummems['count'];
    <?php echo $navbar; ?>
    <h2>UPC Database User Info</h2>
     <table>
-     <tr><td>Username:</td><td><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></td></tr>
+     <tr><td>Username:</td><td><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td></tr>
 	 <?php if((isset($_COOKIE['MemberID'])&&$_COOKIE['MemberID']==$meminfo['id'])||
 			  ($usersiteinfo['admin']=="yes")) { ?>
-     <tr><td>Email:</td><td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td></tr>
+     <tr><td>Email:</td><td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td></tr>
 	 <?php } ?>
      <tr><td>Items Entered:</td><td><?php if($nummyitems>0) { ?><a href="<?php echo $url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $nummyitems; if($nummyitems>0) { ?></a><?php } ?></td></tr>
      <tr><td>Pending Items:</td><td><?php echo $nummypendings; ?></td></tr>
@@ -344,8 +344,8 @@ $nummymods = $nummems['count'];
    <?php
    while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $url_file; ?>?act=user&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_HTML401, "UTF-8"); ?></a></td>
-   <td><?php echo htmlspecialchars($meminfo['email'], ENT_HTML401, "UTF-8"); ?></td>
+   <td><a href="<?php echo $url_file; ?>?act=user&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></a></td>
+   <td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php if($meminfo['numitems']>0) { ?><a href="<?php echo $url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $meminfo['numitems']; if($meminfo['numitems']>0) { ?></a><?php } ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['numpending']; ?></td>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $meminfo['lastactive']); ?></td>
