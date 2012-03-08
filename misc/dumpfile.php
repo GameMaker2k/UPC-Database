@@ -509,6 +509,7 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
   <xsl:element name="link"><xsl:attribute name="rel">shortcut icon</xsl:attribute><xsl:attribute name="href">favicon.ico</xsl:attribute></xsl:element>
   <body style="background-color:#FFFFFF;">
    <xsl:element name="center">
+   <?php echo $navbarxslt; ?>
 	<xsl:element name="h2">
 	XML Database Dump
 	</xsl:element>

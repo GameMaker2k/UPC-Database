@@ -60,12 +60,6 @@ if($sqlite_version==3&&!extension_loaded("sqlite3")) { $sqlite_version = 2; }
 if($sqlite_version==2&&!extension_loaded("sqlite")) { $sqlite_version = 3; }
 if(!is_bool($add_quantity_row)) { $add_quantity_row = false; }
 
-$metatags = "<meta http-equiv=\"Content-Language\" content=\"en\" />\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n  <meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n  <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n  <meta name=\"generator\" content=\"".$sitename."\" />\n  <meta name=\"author\" content=\"".$siteauthor."\" />\n  <meta name=\"keywords\" content=\"".$sitekeywords."\" />\n  <meta name=\"description\" content=\"".$sitedescription."\" />\n  <base href=\"".$website_url."\" />\n  <link rel=\"icon\" href=\"favicon.ico\" />\n  <link rel=\"shortcut icon\" href=\"favicon.ico\" />\n  <script type=\"text/javascript\" src=\"js/validate.js\"></script>\n  <script type=\"text/javascript\" src=\"js/convert.js\"></script>\n  <script type=\"text/javascript\" src=\"js/kittycode.js\"></script>\n  <script type=\"text/javascript\" src=\"js/misc.js\"></script>\n";
-
-$endhtmltag = "\n  <center>\n   <br /><address><a href=\"".$appmakerurl."\" title=\"".$appname." by ".$appmaker."\">".$appname."</a> ver. ".$appver[0].".".$appver[1].".".$appver[2]." ".$appver[3]."</address>\n  </center>\n </body>\n</html>\n";
-
-$endhtmlxslt = "   <xsl:element name=\"center\">\n    <xsl:element name=\"br\"></xsl:element>\n    <xsl:element name=\"address\">\n     <xsl:element name=\"a\">\n      <xsl:attribute name=\"href\">".$appmakerurl."</xsl:attribute>\n      <xsl:attribute name=\"title\">".$appname." by ".$appmaker."</xsl:attribute>".$appname."</xsl:element>\n	 ver. ".$appver[0].".".$appver[1].".".$appver[2]." ".$appver[3]."\n    </xsl:element>\n   </xsl:element>\n";
-
 $disfunc = @ini_get("disable_functions");
 $disfunc = @trim($disfunc);
 $disfunc = @preg_replace("/([\\s+|\\t+|\\n+|\\r+|\\0+|\\x0B+])/i", "", $disfunc);
@@ -337,6 +331,9 @@ setcookie("LastVisit", time(), time() + (7 * 86400), $cbasedir, $cookieDomain);
 setcookie("MemberName", $_COOKIE['MemberName'], time() + (7 * 86400), $cbasedir, $cookieDomain);
 setcookie("MemberID", $_COOKIE['MemberID'], time() + (7 * 86400), $cbasedir, $cookieDomain);
 setcookie("SessPass", $_COOKIE['SessPass'], time() + (7 * 86400), $cbasedir, $cookieDomain); }
+
+$metatags = "<meta http-equiv=\"Content-Language\" content=\"en\" />\n  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n  <meta http-equiv=\"Content-Style-Type\" content=\"text/css\" />\n  <meta http-equiv=\"Content-Script-Type\" content=\"text/javascript\" />\n  <meta name=\"generator\" content=\"".$sitename."\" />\n  <meta name=\"author\" content=\"".$siteauthor."\" />\n  <meta name=\"keywords\" content=\"".$sitekeywords."\" />\n  <meta name=\"description\" content=\"".$sitedescription."\" />\n  <base href=\"".$website_url."\" />\n  <link rel=\"icon\" href=\"favicon.ico\" />\n  <link rel=\"shortcut icon\" href=\"favicon.ico\" />\n  <script type=\"text/javascript\" src=\"js/validate.js\"></script>\n  <script type=\"text/javascript\" src=\"js/convert.js\"></script>\n  <script type=\"text/javascript\" src=\"js/kittycode.js\"></script>\n  <script type=\"text/javascript\" src=\"js/misc.js\"></script>\n";
+
 $adminlink = null;
 if($usersiteinfo['admin']=="yes") { $adminlink = " | <a href=\"".$website_url.$url_admin_file."\">AdminCP</a>"; }
 if($usersiteinfo['admin']=="yes") { $usersiteinfo['validated'] = "yes"; }
@@ -346,6 +343,17 @@ if(isset($_COOKIE['MemberName'])) {
 if(!isset($_COOKIE['MemberName'])) { 
 	$navbar = $navbar."Welcome: Guest | <a href=\"".$website_url.$url_file."?act=lookup\">Index Page</a> | <a href=\"".$website_url.$url_file."?act=join\">Join</a> | <a href=\"".$website_url.$url_file."?act=login\">Login</a>"; }
 $navbar = $navbar." | <a href=\"".$website_url.$url_file."?act=latest&amp;page=1\">Latest</a><br /></div>";
+
+$navbarxslt = "<xsl:element name=\"h1\"><xsl:element name=\"big\"><xsl:element name=\"a\"><xsl:attribute name=\"style\">text-decoration: none;</xsl:attribute><xsl:attribute name=\"href\">".$website_url.$url_file."?act=lookup</xsl:attribute>".$sitename."</xsl:element></xsl:element></xsl:element>\n   <xsl:element name=\"div1\">";
+if(isset($_COOKIE['MemberName'])) { 
+	$navbarxslt = $navbarxslt."Welcome: <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=user</xsl:attribute>".$_COOKIE['MemberName']."</xsl:element>".$adminlink." | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=logout</xsl:attribute>Logout</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=lookup</xsl:attribute>Index Page</xsl:element>"; }
+if(!isset($_COOKIE['MemberName'])) { 
+	$navbarxslt = $navbarxslt."Welcome: Guest | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=lookup</xsl:attribute>Index Page</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=join</xsl:attribute>Join</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=login</xsl:attribute>Login</xsl:element>"; }
+$navbarxslt = $navbarxslt." | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=latest&amp;page=1</xsl:attribute>Latest</xsl:element><xsl:element name=\"br\"></xsl:element></xsl:element>";
+
+$endhtmltag = "\n  <center>\n   <br /><address><a href=\"".$appmakerurl."\" title=\"".$appname." by ".$appmaker."\">".$appname."</a> ver. ".$appver[0].".".$appver[1].".".$appver[2]." ".$appver[3]."</address>\n  </center>\n </body>\n</html>\n";
+
+$endhtmlxslt = "   <xsl:element name=\"center\">\n    <xsl:element name=\"br\"></xsl:element>\n    <xsl:element name=\"address\">\n     <xsl:element name=\"a\">\n      <xsl:attribute name=\"href\">".$appmakerurl."</xsl:attribute>\n      <xsl:attribute name=\"title\">".$appname." by ".$appmaker."</xsl:attribute>".$appname."</xsl:element>\n	 ver. ".$appver[0].".".$appver[1].".".$appver[2]." ".$appver[3]."\n    </xsl:element>\n   </xsl:element>\n";
 
 // Removes the bad stuff
 function remove_bad_entities($Text) {
