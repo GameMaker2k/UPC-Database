@@ -17,7 +17,7 @@
 
 $website_url = "http://localhost/upcdatabase/";
 $url_file = "upc.php";
-$barcode_file = "barcode.php";
+$barcode_file = "ucc.php";
 $url_admin_file = "admin.php";
 $sqlitedatabase = "upcdatabase";
 $usehashtype = "sha256";
@@ -172,7 +172,7 @@ $appversion = version_info($appname,$appver[0],$appver[1],$appver[2],$appver[3].
 require("./functions.php");
 
 // _format_bytes by yatsynych at gmail dot com
-// URL: yatsynych at gmail dot com
+// URL: http://php.net/manual/en/function.filesize.php#106935
 function _format_bytes($a_bytes)
 {
     if ($a_bytes < 1024) {

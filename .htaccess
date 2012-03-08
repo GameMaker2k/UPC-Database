@@ -1,13 +1,27 @@
 #RewriteEngine on
 #RewriteBase   /upcdatabase/
 #RewriteRule   ^item/([0-9]{7,13})$    upc.php?act=lookup&upc=$1
-#RewriteRule   ^barcode/upce/([0-9]{8})$    barcode.php?act=upce&upc=$1
-#RewriteRule   ^barcode/upca/([0-9]{12})$    barcode.php?act=upca&upc=$1
-#RewriteRule   ^barcode/upc/([0-9]{12})$    barcode.php?act=upca&upc=$1
-#RewriteRule   ^barcode/ean13/([0-9]{13})$    barcode.php?act=ean13&upc=$1
-#RewriteRule   ^barcode/ean8/([0-9]{8})$    barcode.php?act=ean8&upc=$1
-#RewriteRule   ^barcode/ean/([0-9]{13})$    barcode.php?act=ean13&upc=$1
-#RewriteRule   ^barcode/itf14/([0-9]{14})$    barcode.php?act=itf14&upc=$1
+#RewriteRule   ^barcode/upce/([0-9]{8})$    ucc.php?act=upce&upc=$1
+#RewriteRule   ^barcode/upca/([0-9]{12})$    ucc.php?act=upca&upc=$1
+#RewriteRule   ^barcode/upc/([0-9]{12})$    ucc.php?act=upca&upc=$1
+#RewriteRule   ^barcode/ean13/([0-9]{13})$    ucc.php?act=ean13&upc=$1
+#RewriteRule   ^barcode/ean8/([0-9]{8})$    ucc.php?act=ean8&upc=$1
+#RewriteRule   ^barcode/ean/([0-9]{13})$    ucc.php?act=ean13&upc=$1
+#RewriteRule   ^barcode/itf14/([0-9]{14})$    ucc.php?act=itf14&upc=$1
+#RewriteRule   ^(.*).asp$    $1.php
+#RewriteRule   ^itemform.php$    upc.php?act=lookup
+#RewriteRule   ^latest.php$    upc.php?act=latest
+#RewriteRule   ^random.php$    upc.php?act=random
+#RewriteRule   ^random_item.php$    upc.php?act=random
+#RewriteRule   ^stats.php$    upc.php?act=stats
+#RewriteRule   ^terms.php$    upc.php?act=terms
+#RewriteRule   ^check.php$    upc.php?act=checkdigit
+#RewriteRule   ^checkdigit.php$    upc.php?act=checkdigit
+#RewriteRule   ^barcode.php$    ucc.php
+#RewriteRule   ^upca.php$    upc.php
+#RewriteRule   ^upce.php$    upc.php
+#RewriteRule   ^ean.php$    upc.php
+#RewriteRule   ^ean13.php$    upc.php
 
  <Files "settings.php">
     Order Deny,Allow
