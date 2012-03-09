@@ -113,11 +113,12 @@ $upcinfo['validated'] = "no"; } } }
    <?php } if(isset($_POST['upc'])&&
 	(preg_match("/^05/", $_POST['upc'])||preg_match("/^09/", $_POST['upc']))) {
    $CouponInfo = get_upca_coupon_info($upca);
+   $CouponInfo['vinfo'] = get_upca_coupon_value_code($CouponInfo['value']);
    ?>
    <h2>Coupon Decode</h2>
    <div>Manufacturer: <?php echo $CouponInfo['manufacturer']; ?><br /><br /></div>
    <div>Coupon Family: <?php echo $CouponInfo['family']; ?><br /><br /></div>
-   <div>Coupon Value: <?php echo $CouponInfo['value']; ?><br /><br /></div>
+   <div>Coupon Value: <?php echo $CouponInfo['vinfo']; ?><br /><br /></div>
    <div>Coupon UPCs are not unique to coupons as other UPCs are to items.<br />  The coupon UPC has its meaning embedded in it.<br />  Therefore, there's no need to store coupon UPCs in the database.</div>
    <table>
    <tr><td width="125">UPC-A</td><td width="50"><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>

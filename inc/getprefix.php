@@ -22,7 +22,7 @@ if ($File3Name=="getprefix.php"||$File3Name=="/getprefix.php") {
 
 if(!isset($upcfunctions)) { $upcfunctions = array(); }
 if(!is_array($upcfunctions)) { $upcfunctions = array(); }
-array_push($upcfunctions, "get_gs1_prefix", "get_upca_ns", "get_itf14_type", "get_upca_vw_info", "get_upca_vw_code", "get_upca_vw_price", "get_upca_vw_pricecs", "get_upca_coupon_info", "get_upca_coupon_manufacturer", "get_upca_coupon_family", "get_upca_coupon_value");
+array_push($upcfunctions, "get_gs1_prefix", "get_upca_ns", "get_itf14_type", "get_upca_vw_info", "get_upca_vw_code", "get_upca_vw_price", "get_upca_vw_pricecs", "get_upca_coupon_info", "get_upca_coupon_manufacturer", "get_upca_coupon_family", "get_upca_coupon_value", "get_upca_coupon_value_code");
 // Get GS1 Prefix for EAN-13 EAN-9 barcodes
 // Source: http://en.wikipedia.org/wiki/List_of_GS1_country_codes
 function get_gs1_prefix($upc) {
@@ -277,4 +277,106 @@ function get_upca_coupon_value($upc) {
 	$product = get_upca_coupon_info($upc);
 	if($product===false) { return false; }
 	return $product['value']; }
+function get_upca_coupon_value_code($vcode) {
+	if(preg_match("/^(00)/", $vcode)) { return "Manual Input Required"; }
+	if(preg_match("/^(01)/", $vcode)) { return "Free Item"; }
+	if(preg_match("/^(02)/", $vcode)) { return "Buy 4 Get 1 Free"; }
+	if(preg_match("/^(03)/", $vcode)) { return "\$1.10"; }
+	if(preg_match("/^(04)/", $vcode)) { return "\$1.35"; }
+	if(preg_match("/^(05)/", $vcode)) { return "\$1.40"; }
+	if(preg_match("/^(06)/", $vcode)) { return "\$1.60"; }
+	if(preg_match("/^(07)/", $vcode)) { return "Buy 3 For $1.50"; }
+	if(preg_match("/^(08)/", $vcode)) { return "Buy 2 For $3.00"; }
+	if(preg_match("/^(09)/", $vcode)) { return "Buy 3 For $2.00"; }
+	if(preg_match("/^(10)/", $vcode)) { return "\$0.10"; }
+	if(preg_match("/^(11)/", $vcode)) { return "\$1.85"; }
+	if(preg_match("/^(12)/", $vcode)) { return "\$0.12"; }
+	if(preg_match("/^(13)/", $vcode)) { return "Buy 4 For $1.00"; }
+	if(preg_match("/^(14)/", $vcode)) { return "Buy 1 Get 1 Free"; }
+	if(preg_match("/^(15)/", $vcode)) { return "\$0.15"; }
+	if(preg_match("/^(16)/", $vcode)) { return "Buy 2 Get 1 Free"; }
+	if(preg_match("/^(17)/", $vcode)) { return "Reserved for future use"; }
+	if(preg_match("/^(18)/", $vcode)) { return "\$2.60"; }
+	if(preg_match("/^(19)/", $vcode)) { return "Buy 3 Get 1 Free"; }
+	if(preg_match("/^(20)/", $vcode)) { return "\$0.20"; }
+	if(preg_match("/^(21)/", $vcode)) { return "Buy 2 For $0.35"; }
+	if(preg_match("/^(22)/", $vcode)) { return "Buy 2 For $0.40"; }
+	if(preg_match("/^(23)/", $vcode)) { return "Buy 2 For $0.45"; }
+	if(preg_match("/^(24)/", $vcode)) { return "Buy 2 For $0.50"; }
+	if(preg_match("/^(25)/", $vcode)) { return "\$0.25"; }
+	if(preg_match("/^(26)/", $vcode)) { return "\$2.85"; }
+	if(preg_match("/^(27)/", $vcode)) { return "Reserved for future use"; }
+	if(preg_match("/^(28)/", $vcode)) { return "Buy 2 For $0.55"; }
+	if(preg_match("/^(29)/", $vcode)) { return "\$0.29"; }
+	if(preg_match("/^(30)/", $vcode)) { return "\$0.30"; }
+	if(preg_match("/^(31)/", $vcode)) { return "Buy 2 For $0.60"; }
+	if(preg_match("/^(32)/", $vcode)) { return "Buy 2 For $0.75"; }
+	if(preg_match("/^(33)/", $vcode)) { return "Buy 2 For $1.00"; }
+	if(preg_match("/^(34)/", $vcode)) { return "Buy 2 For $1.25"; }
+	if(preg_match("/^(35)/", $vcode)) { return "\$0.35"; }
+	if(preg_match("/^(36)/", $vcode)) { return "Buy 2 For $1.50"; }
+	if(preg_match("/^(37)/", $vcode)) { return "Buy 3 For $0.25"; }
+	if(preg_match("/^(38)/", $vcode)) { return "Buy 3 For $0.30"; }
+	if(preg_match("/^(39)/", $vcode)) { return "\$0.39"; }
+	if(preg_match("/^(40)/", $vcode)) { return "\$0.40"; }
+	if(preg_match("/^(41)/", $vcode)) { return "Buy 3 For $0.50"; }
+	if(preg_match("/^(42)/", $vcode)) { return "Buy 3 For $1.00"; }
+	if(preg_match("/^(43)/", $vcode)) { return "Buy 2 For $1.10"; }
+	if(preg_match("/^(44)/", $vcode)) { return "Buy 2 For $1.35"; }
+	if(preg_match("/^(45)/", $vcode)) { return "\$0.45"; }
+	if(preg_match("/^(46)/", $vcode)) { return "Buy 2 For $1.60"; }
+	if(preg_match("/^(47)/", $vcode)) { return "Buy 2 For $1.75"; }
+	if(preg_match("/^(48)/", $vcode)) { return "Buy 2 For $1.85"; }
+	if(preg_match("/^(49)/", $vcode)) { return "\$0.49"; }
+	if(preg_match("/^(50)/", $vcode)) { return "\$0.50"; }
+	if(preg_match("/^(51)/", $vcode)) { return "Buy 2 For $2.00"; }
+	if(preg_match("/^(52)/", $vcode)) { return "Buy 3 For $0.55"; }
+	if(preg_match("/^(53)/", $vcode)) { return "Buy 2 For $0.10"; }
+	if(preg_match("/^(54)/", $vcode)) { return "Buy 2 For $0.15"; }
+	if(preg_match("/^(55)/", $vcode)) { return "\$0.55"; }
+	if(preg_match("/^(56)/", $vcode)) { return "Buy 2 For $0.20"; }
+	if(preg_match("/^(57)/", $vcode)) { return "Buy 2 For $0.25"; }
+	if(preg_match("/^(58)/", $vcode)) { return "Buy 2 For $0.30"; }
+	if(preg_match("/^(59)/", $vcode)) { return "\$0.59"; }
+	if(preg_match("/^(60)/", $vcode)) { return "\$0.60"; }
+	if(preg_match("/^(61)/", $vcode)) { return "\$10.00"; }
+	if(preg_match("/^(62)/", $vcode)) { return "\$9.50"; }
+	if(preg_match("/^(63)/", $vcode)) { return "\$9.00"; }
+	if(preg_match("/^(64)/", $vcode)) { return "\$8.50"; }
+	if(preg_match("/^(65)/", $vcode)) { return "\$0.65"; }
+	if(preg_match("/^(66)/", $vcode)) { return "\$8.00"; }
+	if(preg_match("/^(67)/", $vcode)) { return "\$7.50"; }
+	if(preg_match("/^(68)/", $vcode)) { return "\$7.00"; }
+	if(preg_match("/^(69)/", $vcode)) { return "\$0.69"; }
+	if(preg_match("/^(70)/", $vcode)) { return "\$0.70"; }
+	if(preg_match("/^(71)/", $vcode)) { return "\$6.50"; }
+	if(preg_match("/^(72)/", $vcode)) { return "\$6.00"; }
+	if(preg_match("/^(73)/", $vcode)) { return "\$5.50"; }
+	if(preg_match("/^(74)/", $vcode)) { return "\$5.00"; }
+	if(preg_match("/^(75)/", $vcode)) { return "\$0.75"; }
+	if(preg_match("/^(76)/", $vcode)) { return "\$1.00"; }
+	if(preg_match("/^(77)/", $vcode)) { return "\$1.25"; }
+	if(preg_match("/^(78)/", $vcode)) { return "\$1.50"; }
+	if(preg_match("/^(79)/", $vcode)) { return "\$0.79"; }
+	if(preg_match("/^(80)/", $vcode)) { return "\$0.80"; }
+	if(preg_match("/^(81)/", $vcode)) { return "\$1.75"; }
+	if(preg_match("/^(82)/", $vcode)) { return "\$2.00"; }
+	if(preg_match("/^(83)/", $vcode)) { return "\$2.25"; }
+	if(preg_match("/^(84)/", $vcode)) { return "\$2.50"; }
+	if(preg_match("/^(85)/", $vcode)) { return "\$0.85"; }
+	if(preg_match("/^(86)/", $vcode)) { return "\$2.75"; }
+	if(preg_match("/^(87)/", $vcode)) { return "\$3.00"; }
+	if(preg_match("/^(88)/", $vcode)) { return "\$3.25"; }
+	if(preg_match("/^(89)/", $vcode)) { return "\$0.89"; }
+	if(preg_match("/^(90)/", $vcode)) { return "\$0.90"; }
+	if(preg_match("/^(91)/", $vcode)) { return "\$3.50"; }
+	if(preg_match("/^(92)/", $vcode)) { return "\$3.75"; }
+	if(preg_match("/^(93)/", $vcode)) { return "\$4.00"; }
+	if(preg_match("/^(94)/", $vcode)) { return "Reserved for future use"; }
+	if(preg_match("/^(95)/", $vcode)) { return "\$0.95"; }
+	if(preg_match("/^(96)/", $vcode)) { return "\$4.50"; }
+	if(preg_match("/^(97)/", $vcode)) { return "Reserved for future use"; }
+	if(preg_match("/^(98)/", $vcode)) { return "Buy 2 For $0.65"; }
+	if(preg_match("/^(99)/", $vcode)) { return "\$0.99"; }
+	return false; }
 ?>

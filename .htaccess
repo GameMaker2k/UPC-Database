@@ -12,6 +12,9 @@
 #RewriteRule   ^itemform.php$    upc.php?act=lookup
 #RewriteRule   ^latest.php$    upc.php?act=latest
 #RewriteRule   ^random.php$    upc.php?act=random
+#RewriteRule   ^neighbor.php$    upc.php?act=neighbors
+#RewriteRule   ^neighbors.php$    upc.php?act=neighbors
+#RewriteRule   ^addform.php$    upc.php?act=add
 #RewriteRule   ^random_item.php$    upc.php?act=random
 #RewriteRule   ^stats.php$    upc.php?act=stats
 #RewriteRule   ^terms.php$    upc.php?act=terms
