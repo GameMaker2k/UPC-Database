@@ -209,10 +209,17 @@ $query = "CREATE TABLE \"".$table_prefix."members\" (\n".
 "  \"email\" VARCHAR(256) UNIQUE NOT NULL default '',\n".
 "  \"timestamp\" INTEGER NOT NULL default '0',\n".
 "  \"lastactive\" INTEGER NOT NULL default '0',\n".
+"  \"canviewsite\" VARCHAR(20) NOT NULL default '',\n".
 "  \"validateitems\" VARCHAR(20) NOT NULL default '',\n".
+"  \"canaddupc\" VARCHAR(20) NOT NULL default '',\n".
+"  \"canmakeeditreq\" VARCHAR(20) NOT NULL default '',\n".
+"  \"canmakedelreq\" VARCHAR(20) NOT NULL default '',\n".
+"  \"canuseupcapi\" VARCHAR(20) NOT NULL default '',\n".
 "  \"validated\" VARCHAR(20) NOT NULL default '',\n".
+"  \"bantime\" INTEGER NOT NULL default '0',\n".
 "  \"numitems\" INTEGER NOT NULL default '0',\n".
 "  \"numpending\" INTEGER NOT NULL default '0',\n".
+"  \"numdelreq\" INTEGER NOT NULL default '0',\n".
 "  \"admin\" VARCHAR(20) NOT NULL default '',\n".
 "  \"ip\" VARCHAR(50) NOT NULL default '',\n".
 "  \"salt\" VARCHAR(50) NOT NULL default ''\n".
@@ -230,6 +237,7 @@ $query = "CREATE TABLE \"".$table_prefix."items\" (\n".
 "  \"quantity\" TEXT NOT NULL,\n".
 "  \"validated\" VARCHAR(20) NOT NULL default '',\n".
 "  \"delrequest\" VARCHAR(20) NOT NULL default '',\n".
+"  \"delreqreason\" TEXT NOT NULL,\n".
 "  \"userid\" INTEGER NOT NULL default '0',\n".
 "  \"username\" VARCHAR(150) NOT NULL default '',\n".
 "  \"timestamp\" INTEGER NOT NULL default '0',\n".
@@ -252,6 +260,7 @@ $query = "CREATE TABLE \"".$table_prefix."pending\" (\n".
 "  \"quantity\" TEXT NOT NULL,\n".
 "  \"validated\" VARCHAR(20) NOT NULL default '',\n".
 "  \"delrequest\" VARCHAR(20) NOT NULL default '',\n".
+"  \"delreqreason\" TEXT NOT NULL,\n".
 "  \"userid\" INTEGER NOT NULL default '0',\n".
 "  \"username\" VARCHAR(150) NOT NULL default '',\n".
 "  \"timestamp\" INTEGER NOT NULL default '0',\n".
@@ -271,6 +280,7 @@ $query = "CREATE TABLE \"".$table_prefix."modupc\" (\n".
 "  \"quantity\" TEXT NOT NULL,\n".
 "  \"validated\" VARCHAR(20) NOT NULL default '',\n".
 "  \"delrequest\" VARCHAR(20) NOT NULL default '',\n".
+"  \"delreqreason\" TEXT NOT NULL,\n".
 "  \"userid\" INTEGER NOT NULL default '0',\n".
 "  \"username\" VARCHAR(150) NOT NULL default '',\n".
 "  \"timestamp\" INTEGER NOT NULL default '0',\n".
@@ -305,6 +315,10 @@ if(isset($_COOKIE['MemberName'])&&isset($_COOKIE['MemberID'])&&isset($_COOKIE['S
 	if($numfmrows>0) {
 	$findme = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE name='".sqlite3_escape_string($slite3, $_COOKIE['MemberName'])."';"); 
 	$userinfo = sql_fetch_assoc($findme); $usersiteinfo = $userinfo;
+	$ChkUsrGMTime = time();
+	if($userinfo['bantime']!=0&&$userinfo['bantime']!=null) {
+	if($userinfo['bantime']>=$ChkUsrGMTime) { $userinfo['canviewsite'] = "yes"; }
+	if($userinfo['bantime']<0) { $userinfo['canviewsite'] = "yes"; } }
 	if($userinfo['password']!=$_COOKIE['SessPass']) {
 	unset($_COOKIE['MemberName']); 
 	setcookie("MemberName", NULL, -1, $cbasedir, $cookieDomain);
