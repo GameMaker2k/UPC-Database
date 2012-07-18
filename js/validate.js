@@ -162,3 +162,42 @@ function fix_barcode_checksum(upc) {
 	if(upc.length==12) { return upc+validate_ean13(upc,true); } 
 	if(upc.length==13) { return upc+validate_itf14(upc,true); } 
 	return false; }
+
+// Get variable weight price checksum
+// Source: http://wiki.answers.com/Q/How_does_a_price_embedded_bar_code_work
+// Source: http://en.wikipedia.org/wiki/Universal_Product_Code#Prefixes
+// Source: http://barcodes.gs1us.org/GS1%20US%20BarCodes%20and%20eCom%20-%20The%20Global%20Language%20of%20Business.htm
+function get_vw_price_checksum(price,return_check) {
+	if(price.length==1) { price = "000"+price; }
+	if(price.length==2) { price = "00"+price; }
+	if(price.length==3) { price = "0"+price; }
+	if(price.length>5) {
+	if(price.match(/^(\d{5})/)) { 
+	price_matches = price.match(/^(\d{5})/); price = price_matches[1]; } }
+	price_split = price.split("");
+	numrep1 = [0, 2, 4, 6, 8, 9, 1, 3, 5, 7];
+	numrep2 = [0, 3, 6, 9, 2, 5, 8, 1, 4, 7];
+	numrep3 = [0, 5, 9, 4, 8, 3, 7, 2, 6, 1];
+	if(price.length==4) {
+	price_split[0] = numrep1[price_split[0]];
+	price_split[1] = numrep1[price_split[1]];
+	price_split[2] = numrep2[price_split[2]];
+	price_split[3] = numrep3[price_split[3]];
+	price_add = eval(price_split[0] + price_split[1] + price_split[2] + price_split[3]) * 3; }
+	if(price.length==5) {
+	price_split[1] = numrep1[price_split[1]];
+	price_split[2] = numrep1[price_split[2]];
+	price_split[3] = numrep2[price_split[3]];
+	price_split[4] = numrep3[price_split[4]];
+	price_add = eval(price_split[1] + price_split[2] + price_split[3] + price_split[4]) * 3; }
+	CheckSum = price_add % 10;
+	if(return_check==false&&price.length==5) {
+	if(CheckSum!=price_split[0]) { return false; }
+	if(CheckSum==price_split[0]) { return true; } }
+	if(return_check==true) { return CheckSum; } 
+	if(price.length==4) { return CheckSum; }
+	return CheckSum; }
+function fix_vw_price_checksum(price) {
+	if(price.length==5) { fix_matches = price.match(/^(\d{1})(\d{4})/); price = fix_matches[2]; }
+	if(price.length>4) { fix_matches = price.match(/^(\d{4})/); price = fix_matches[1]; }
+	return get_vw_price_checksum(price,true)+price; }

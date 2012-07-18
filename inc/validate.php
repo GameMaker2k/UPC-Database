@@ -303,13 +303,14 @@ function get_vw_price_checksum($price,$return_check=false) {
 	$price_split[0] = $numrep1[$price_split[0]];
 	$price_split[1] = $numrep1[$price_split[1]];
 	$price_split[2] = $numrep2[$price_split[2]];
-	$price_split[3] = $numrep3[$price_split[3]]; }
+	$price_split[3] = $numrep3[$price_split[3]];
+	$price_add = ($price_split[0] + $price_split[1] + $price_split[2] + $price_split[3]) * 3; }
 	if(strlen($price)==5) {
 	$price_split[1] = $numrep1[$price_split[1]];
 	$price_split[2] = $numrep1[$price_split[2]];
 	$price_split[3] = $numrep2[$price_split[3]];
-	$price_split[4] = $numrep3[$price_split[4]]; }
-	$price_add = ($price_split[0] + $price_split[1] + $price_split[2] + $price_split[3]) * 3;
+	$price_split[4] = $numrep3[$price_split[4]]; 
+	$price_add = ($price_split[1] + $price_split[2] + $price_split[3] + $price_split[4]) * 3; }
 	$CheckSum = $price_add % 10;
 	if($return_check==false&&strlen($price)==5) {
 	if($CheckSum!=$price_split[0]) { return false; }
