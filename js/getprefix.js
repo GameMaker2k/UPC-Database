@@ -1,4 +1,3 @@
-<?php
 /*
     This program is free software; you can redistribute it and/or modify
     it under the terms of the Revised BSD License.
@@ -375,4 +374,3 @@ function get_upca_coupon_value_code(vcode) {
 	if(vcode.match(/^(98)/)) { return "Buy 2 For 0.65"; }
 	if(vcode.match(/^(99)/)) { return "\0.99"; }
 	return false; }
-?>
