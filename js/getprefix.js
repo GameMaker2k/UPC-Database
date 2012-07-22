@@ -21,8 +21,8 @@ function get_gs1_prefix(upc) {
 	if(upc.match(/^0(\d{3}\d{10})/)) { 
 	fix_ean = upc.match(/^0(\d{3}\d{10})/); upc = fix_ean[1]; }
 	if(!upc.match(/^(\d{3}\d{5}|\d{3}\d{10})/)) { return false; }
-	if(upc.match(/^(\d{3}\d{10})/)&&validate_ean13(upc)===false) { return false; }
-	if(upc.match(/^(\d{3}\d{5})/)&&validate_ean8(upc)===false) { return false; }
+	if(upc.match(/^(\d{3}\d{10})/)&&validate_ean13(upc)==false) { return false; }
+	if(upc.match(/^(\d{3}\d{5})/)&&validate_ean8(upc)==false) { return false; }
 	if(upc.match(/^(0[0-1][0-9])/)) { return "United States and Canada"; }
 	if(upc.match(/^(02[0-9])/)) { return "Restricted distribution"; }
 	if(upc.match(/^(03[0-9])/)) { return "United States drugs"; }
@@ -238,15 +238,15 @@ function get_upca_vw_info(upc) {
 	return product; }
 function get_upca_vw_code(upc) {
 	product = get_upca_vw_info(upc);
-	if(product===false) { return false; }
+	if(product==false) { return false; }
 	return product['code']; }
 function get_upca_vw_price(upc) {
 	product = get_upca_vw_info(upc);
-	if(product===false) { return false; }
+	if(product==false) { return false; }
 	return product['price']; }
 function get_upca_vw_pricecs(upc) {
 	product = get_upca_vw_info(upc);
-	if(product===false) { return false; }
+	if(product==false) { return false; }
 	return product['pricecs']; }
 // Get coupon info
 // Source: http://divagirlusa-ivil.tripod.com/austinitecouponers/id29.html
@@ -262,15 +262,15 @@ function get_upca_coupon_info(upc) {
 	return product; }
 function get_upca_coupon_manufacturer(upc) {
 	product = get_upca_coupon_info(upc);
-	if(product===false) { return false; }
+	if(product==false) { return false; }
 	return product['manufacturer']; }
 function get_upca_coupon_family(upc) {
 	product = get_upca_coupon_info(upc);
-	if(product===false) { return false; }
+	if(product==false) { return false; }
 	return product['family']; }
 function get_upca_coupon_value(upc) {
 	product = get_upca_coupon_info(upc);
-	if(product===false) { return false; }
+	if(product==false) { return false; }
 	return product['value']; }
 function get_upca_coupon_value_code(vcode) {
 	if(vcode.match(/^(00)/)) { return "Manual Input Required"; }

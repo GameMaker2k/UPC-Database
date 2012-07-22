@@ -18,7 +18,7 @@ function convert_upce_to_upca(upc) {
 	if(upc.length==7) { upc = upc+validate_upce(upc,true); }
 	if(upc.length>8||upc.length<8) { return false; }
 	if(!upc.match(/^0/)) { return false; }
-	if(validate_upce(upc)===false) { return false; }
+	if(validate_upce(upc)==false) { return false; }
 	if(upc.match(/0(\d{5})([0-3])(\d{1})/)) {
 	upc_matches = upc.match(/0(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/);
 	if(upc_matches[6]==0) {
@@ -57,7 +57,7 @@ function convert_ean13_to_itf14(upc) {
 	if(upc.length==11) { upc = upc+validate_upca(upc,true); }
 	if(upc.length==12) { upc = "0"+upc; }
 	if(upc.length>14||upc.length<13) { return false; }
-	if(validate_ean13(upc)===false) { return false; }
+	if(validate_ean13(upc)==false) { return false; }
 	if(upc.length==13) { itf14 = "0"+upc; }
 	if(upc.length==14) { itf14 = upc; }
 	return itf14; }
@@ -72,7 +72,7 @@ function convert_upca_to_itf14(upc) {
 function convert_ean13_to_upca(upc) {
 	if(upc.length==12) { upc = "0".upc; }
 	if(upc.length>13||upc.length<13) { return false; }
-	if(validate_ean13(upc)===false) { return false; }
+	if(validate_ean13(upc)==false) { return false; }
 	if(!upc.match(/^0(\d{12})/)) {
 	return false; }
 	if(upc.match(/^0(\d{12})/)) {
@@ -83,7 +83,7 @@ function convert_ean13_to_upca(upc) {
 function convert_itf14_to_ean13(upc) {
 	if(upc.length==13) { upc = "0".upc; }
 	if(upc.length>14||upc.length<14) { return false; }
-	if(validate_itf14(upc)===false) { return false; }
+	if(validate_itf14(upc)==false) { return false; }
 	if(!upc.match(/^(\d{1})(\d{12})(\d{1})/)) {
 	return false; }
 	if(upc.match(/^(\d{1})(\d{12})(\d{1})/)) {
@@ -94,7 +94,7 @@ function convert_itf14_to_ean13(upc) {
 function convert_upca_to_upce(upc) {
 	if(upc.length==11) { upc = upc+validate_upca(upc,true); }
 	if(upc.length>12||upc.length<12) { return false; }
-	if(validate_upca(upc)===false) { return false; }
+	if(validate_upca(upc)==false) { return false; }
 	if(!upc.match(/0(\d{11})/, upc)) { return false; }
 	upce = null;
 	if(upc.match(/0(\d{2})00000(\d{3})(\d{1})/)) {
@@ -155,7 +155,7 @@ http://www.upcdatabase.com/
 function convert_ean8_to_upca(upc) {
 	if(upc.length==7) { upc = upc+validate_ean8(upc,true); }
 	if(upc.length>8||upc.length<8) { return false; }
-	if(validate_ean8(upc)===false) { return false; }
+	if(validate_ean8(upc)==false) { return false; }
 	upca = "0000"+upc; 
 	return upca; }
 
@@ -168,7 +168,7 @@ function convert_ean8_to_itf14(upc) {
 function convert_upca_to_ean8(upc) {
 	if(upc.length==11) { upc = upc+validate_upca(upc,true); }
 	if(upc.length>12||upc.length<12) { return false; }
-	if(validate_upca(upc)===false) { return false; }
+	if(validate_upca(upc)==false) { return false; }
 	if(!preg_match(/^0000(\d{8})/, upc, upc_matches)) {
 	return false; }
 	if(preg_match(/^0000(\d{8})/, upc, upc_matches)) {
@@ -234,7 +234,7 @@ function convert_issn8_to_issn13(upc) {
 	upc = upc.replace(/-/g, "");
 	upc = upc.replace(/\s/g, "");
 	upc = upc.replace(/X/g, "");
-	if(validate_issn8(upc)===false) { return false; }
+	if(validate_issn8(upc)==false) { return false; }
 	if(upc.length>7) { fix_matches = upc.match(/^(\d{7})/); upc = fix_matches[1]; }
 	issn13 = "977"+upc+"00"+validate_ean13("977"+upc+"00",true); 
 	return issn13; }
@@ -242,7 +242,7 @@ function convert_issn13_to_issn8(upc) {
 	upc = upc.replace(/-/g, "");
 	upc = upc.replace(/\s/g, "");
 	upc = upc.replace(/X/g, "");
-	if(validate_ean13(upc)===false) { return false; }
+	if(validate_ean13(upc)==false) { return false; }
 	if(!upc.match(/^977(\d{7})/)) {
 	return false; }
 	if(upc.match(/^977(\d{7})/)) {
@@ -279,14 +279,14 @@ http://en.wikipedia.org/wiki/ISBN
 function convert_isbn10_to_isbn13(upc) {
 	upc = upc.replace(/-/g, "");
 	upc = upc.replace(/\s/g, "");
-	if(validate_isbn10(upc)===false) { return false; }
+	if(validate_isbn10(upc)==false) { return false; }
 	if(upc.length>9) { fix_matches = upc.match(/^(\d{9})/); upc = fix_matches[1]; }
 	isbn13 = "978"+upc+validate_ean13("978"+upc,true); 
 	return isbn13; }
 function convert_isbn13_to_isbn10(upc) {
 	upc = upc.replace(/-/g, "");
 	upc = upc.replace(/\s/g, "");
-	if(validate_ean13(upc)===false) { return false; }
+	if(validate_ean13(upc)==false) { return false; }
 	if(!upc.match(/^978(\d{9})/)) {
 	return false; }
 	if(upc.match(/^978(\d{9})/)) {
@@ -334,7 +334,7 @@ function convert_ismn10_to_ismn13(upc) {
 	upc = upc.replace(/M/g, "");
 	upc = upc.replace(/-/g, "");
 	upc = upc.replace(/\s/g, "");
-	if(validate_ismn10(upc)===false) { return false; }
+	if(validate_ismn10(upc)==false) { return false; }
 	if(upc.length>8) { fix_matches = upc.match(/^(\d{8})/); upc = fix_matches[1]; }
 	ismn13 = "9790"+upc+validate_ean13("9790"+upc,true); 
 	return ismn13; }
@@ -342,7 +342,7 @@ function convert_ismn13_to_ismn10(upc) {
 	upc = upc.replace(/M/g, "");
 	upc = upc.replace(/-/g, "");
 	upc = upc.replace(/\s/g, "");
-	if(validate_ean13(upc)===false) { return false; }
+	if(validate_ean13(upc)==false) { return false; }
 	if(!upc.match(/^9790(\d{8})/)) {
 	return false; }
 	if(upc.match(/^9790(\d{8})/)) {
