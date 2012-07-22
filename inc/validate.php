@@ -219,7 +219,7 @@ function validate_isbn10($upc,$return_check=false) {
 	if(strlen($upc)==10) {
 	preg_match("/^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1}|X{1})/", $upc, $upc_matches); }
 	$AllSum = ($upc_matches[1] * 10) + ($upc_matches[2] * 9) + ($upc_matches[3] * 8) + ($upc_matches[4] * 7) + ($upc_matches[5] * 6) + ($upc_matches[6] * 5) + ($upc_matches[7] * 4) + ($upc_matches[8] * 3) + ($upc_matches[9] * 2);
-	$CheckSum = 1;
+	$CheckSum = 0;
 	while(($AllSum + ($CheckSum * 1)) % 11) {
 	++$CheckSum; }
 	if($CheckSum==10) { $CheckSum = "X"; }

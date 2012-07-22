@@ -163,6 +163,125 @@ function fix_barcode_checksum(upc) {
 	if(upc.length==13) { return upc+validate_itf14(upc,true); } 
 	return false; }
 
+/*
+ISSN (International Standard Serial Number)
+http://en.wikipedia.org/wiki/International_Standard_Serial_Number
+*/
+function validate_issn8(upc,return_check) {
+	upc = upc.replace(/-/g, "");
+	upc = upc.replace(/\s/g, "");
+	if(upc.length>8) { fix_matches = upc.match(/^(\d{8})/); upc = fix_matches[1]+fix_matches[2]; }
+	if(upc.length>8||upc.length<7) { return false; }
+	if(upc.length==7) {
+	upc_matches = upc.match(/^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/); }
+	if(upc.length==8) {
+	upc_matches = upc.match(/^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/); }
+	AllSum = eval(upc_matches[1] * 8) + (upc_matches[2] * 7) + eval(upc_matches[3] * 6) + eval(upc_matches[4] * 5) + eval(upc_matches[5] * 4) + eval(upc_matches[6] * 3) + eval(upc_matches[7] * 2);
+	CheckSum = AllSum % 11;
+	if(CheckSum>0) {
+	CheckSum = 11 - CheckSum; }
+	if(return_check==false&&upc.length==8) {
+	if(CheckSum!=upc_matches[8]) { return false; }
+	if(CheckSum==upc_matches[8]) { return true; } }
+	if(return_check==true) { return CheckSum; } 
+	if(upc.length==7) { return CheckSum; } }
+function fix_issn8_checksum(upc) {
+	upc = upc.replace(/-/g, "");
+	upc = upc.replace(/\s/g, "");
+	if(upc.length>7) { fix_matches = upc.match(/^(\d{7})/); upc = fix_matches[1]; }
+	return upc+validate_issn8(upc,true); }
+function validate_issn13(upc,return_check) {
+	if(!upc.match(/^977(\d{9})/)) {
+	return false; }
+	if(upc.match(/^977(\d{9})/)) {
+	return validate_ean13(upc,return_check); } }
+function fix_issn13_checksum(upc) {
+	if(!upc.match(/^977(\d{9})/)) {
+	return false; }
+	if(upc.match(/^977(\d{9})/)) {
+	return fix_ean13_checksum(upc); } }
+
+/*
+ISBN (International Standard Book Number)
+http://en.wikipedia.org/wiki/ISBN
+*/
+function validate_isbn10(upc,return_check) {
+	upc = upc.replace(/-/g, "");
+	upc = upc.replace(/\s/g, "");
+	if(upc.length>10) { fix_matches = upc.match(/^(\d{9})(\d{1}|X{1})/); upc = fix_matches[1].fix_matches[2]; }
+	if(upc.length>10||upc.length<9) { return false; }
+	if(upc.length==9) {
+	upc_matches = upc.match(/^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/); }
+	if(upc.length==10) {
+	upc_matches = upc.match(/^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1}|X{1})/); }
+	AllSum = eval(upc_matches[1] * 10) + eval(upc_matches[2] * 9) + eval(upc_matches[3] * 8) + eval(upc_matches[4] * 7) + eval(upc_matches[5] * 6) + eval(upc_matches[6] * 5) + eval(upc_matches[7] * 4) + eval(upc_matches[8] * 3) + eval(upc_matches[9] * 2);
+	CheckSum = 0;
+	while(eval(AllSum + (CheckSum * 1)) % 11) {
+	++CheckSum; }
+	if(CheckSum==10) { CheckSum = "X"; }
+	if(return_check==false&&upc.length==10) {
+	if(CheckSum!=upc_matches[10]) { return false; }
+	if(CheckSum==upc_matches[10]) { return true; } }
+	if(return_check==true) { return CheckSum; } 
+	if(upc.length==9) { return CheckSum; } }
+function fix_isbn10_checksum(upc) {
+	upc = upc.replace(/-/g, "");
+	upc = upc.replace(/\s/g, "");
+	if(upc.length>9) { fix_matches = upc.match(/^(\d{9})/); upc = fix_matches[1]; }
+	return upc+validate_isbn10(upc,true); }
+function validate_isbn13(upc,return_check) {
+	if(!upc.match(/^978(\d{9})/, upc)) {
+	return false; }
+	if(upc.match(/^978(\d{9})/, upc)) {
+	return validate_ean13(upc,return_check); } }
+function fix_isbn13_checksum(upc) {
+	if(!upc.match(/^978(\d{9})/, upc)) {
+	return false; }
+	if(upc.match(/^978(\d{9})/, upc)) {
+	return fix_ean13_checksum(upc); } }
+
+/*
+ISMN (International Standard Music Number)
+http://en.wikipedia.org/wiki/International_Standard_Music_Number
+http://www.ismn-international.org/whatis.html
+http://www.ismn-international.org/manual_1998/chapter2.html
+*/
+function validate_ismn10(upc,return_check) {
+	upc = upc.replace(/M/g, "");
+	upc = upc.replace(/-/g, "");
+	upc = upc.replace(/\s/g, "");
+	if(upc.length>9) { fix_matches = upc.match(/^(\d{8})(\d{1})/); upc = fix_matches[1]+fix_matches[2]; }
+	if(upc.length>9||upc.length<8) { return false; }
+	if(upc.length==8) {
+	upc_matches = upc.match(/^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/); }
+	if(upc.length==9) {
+	upc_matches = upc.match(/^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})/); }
+	AllSum = eval(3 * 3) + eval(upc_matches[1] * 1) + eval(upc_matches[2] * 3) + eval(upc_matches[3] * 1) + eval(upc_matches[4] * 3) + eval(upc_matches[5] * 1) + eval(upc_matches[6] * 3) + eval(upc_matches[7] * 1) + eval(upc_matches[8] * 3);
+	CheckSum = 1;
+	while(eval(AllSum + (CheckSum * 1)) % 10) {
+	++CheckSum; }
+	if(return_check==false&&upc.length==9) {
+	if(CheckSum!=upc_matches[9]) { return false; }
+	if(CheckSum==upc_matches[9]) { return true; } }
+	if(return_check==true) { return CheckSum; } 
+	if(upc.length==8) { return CheckSum; } }
+function fix_ismn10_checksum(upc) {
+	upc = upc.replace(/M/g, "");
+	upc = upc.replace(/-/g, "");
+	upc = upc.replace(/\s/g, "");
+	if(upc.length>9) { fix_matches = upc.match(/^(\d{9})/); upc = fix_matches[1]; }
+	return upc+validate_ismn10(upc,true); }
+function validate_ismn13(upc,return_check) {
+	if(!upc.match(/^9790(\d{8})/)) {
+	return false; }
+	if(upc.match(/^9790(\d{8})/)) {
+	return validate_ean13(upc,return_check); } }
+function fix_ismn13_checksum(upc) {
+	if(!upc.match(/^9790(\d{8})/)) {
+	return false; }
+	if(upc.match(/^9790(\d{8})/)) {
+	return fix_ean13_checksum(upc); } }
+
 // Get variable weight price checksum
 // Source: http://wiki.answers.com/Q/How_does_a_price_embedded_bar_code_work
 // Source: http://en.wikipedia.org/wiki/Universal_Product_Code#Prefixes
