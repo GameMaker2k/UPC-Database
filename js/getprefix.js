@@ -18,7 +18,7 @@
 // Get GS1 Prefix for EAN-13 EAN-9 barcodes
 // Source: http://en.wikipedia.org/wiki/List_of_GS1_country_codes
 function get_gs1_prefix(upc) {
-	if(upc.match(/^(\d{12})/)) { upc = "0".upc; }
+	if(upc.match(/^(\d{12})/)) { upc = "0"+upc; }
 	if(upc.match(/^0(\d{3}\d{10})/)) { 
 	fix_ean = upc.match(/^0(\d{3}\d{10})/); upc = fix_ean[1]; }
 	if(!upc.match(/^(\d{3}\d{5}|\d{3}\d{10})/)) { return false; }
