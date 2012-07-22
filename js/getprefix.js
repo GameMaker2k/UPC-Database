@@ -21,8 +21,8 @@ function get_gs1_prefix(upc) {
 	if(upc.match(/^0(\d{3}\d{10})/)) { 
 	fix_ean = upc.match(/^0(\d{3}\d{10})/); upc = fix_ean[1]; }
 	if(!upc.match(/^(\d{3}\d{5}|\d{3}\d{10})/)) { return false; }
-	if(upc.match(/^(\d{3}\d{10})/)&&validate_ean13(upc)==false) { return false; }
-	if(upc.match(/^(\d{3}\d{5})/)&&validate_ean8(upc)==false) { return false; }
+	if(upc.length==13&&upc.match(/^(\d{3}\d{10})/)&&validate_ean13(upc)==false) { return false; }
+	if(upc.length==8&&upc.match(/^(\d{3}\d{5})/)&&validate_ean8(upc)==false) { return false; }
 	if(upc.match(/^(0[0-1][0-9])/)) { return "United States and Canada"; }
 	if(upc.match(/^(02[0-9])/)) { return "Restricted distribution"; }
 	if(upc.match(/^(03[0-9])/)) { return "United States drugs"; }
