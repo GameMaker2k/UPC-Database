@@ -336,6 +336,8 @@ function convert_itf14_to_ismn10($upc) {
 	return convert_itf14_to_ean13(convert_ismn13_to_ismn10($upc)); }
 function print_ismn10($upc) {
 	$upc = str_replace("M", "", $upc);
+	$upc = str_replace("-", "", $upc);
+	$upc = str_replace(" ", "", $upc);
 	if(strlen($upc)>9) { preg_match("/^(\d{9})/", $upc, $fix_matches); $upc = $fix_matches[1]; }
 	if(strlen($upc)>9||strlen($upc)<9) { return false; }
 	if(!preg_match("/^(\d{4})(\d{4})(\d{1})/", $upc, $ismn_matches)) {
@@ -363,7 +365,7 @@ function make_vw_upca($code, $price) {
 	if(strlen($price)>5) {
 	if(preg_match("/^(\d{5})/", $code, $code_matches)) { $code = $code_matches[1]; } }
 	$pricecs = get_vw_price_checksum($price);
-	$vwupc = "207362".$pricecs.$price;
+	$vwupc = "2".$code.$pricecs.$price;
 	$vwupc = $vwupc.validate_upca($vwupc, true);
 	return $vwupc; }
 function make_vw_to_ean13($code, $price) {
