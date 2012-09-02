@@ -370,3 +370,50 @@ def fix_ismn13_checksum(upc):
 // Source: http://en.wikipedia.org/wiki/Universal_Product_Code#Prefixes
 // Source: http://barcodes.gs1us.org/GS1%20US%20BarCodes%20and%20eCom%20-%20The%20Global%20Language%20of%20Business.htm
 '''
+def get_vw_price_checksum(price,return_check=False):
+	if(len(price)==1):
+		price = "000".price;
+	if(len(price)==2):
+		price = "00".price;
+	if(len(price)==3):
+		price = "0".price;
+	if(len(price)>5):
+		if(preg_match("^(\d{5})", price)):
+			price_matches = preg_match("^(\d{5})", price);
+			price = price_matches[0];
+	price_split = list(price);
+	numrep1 = [0, 2, 4, 6, 8, 9, 1, 3, 5, 7];
+	numrep2 = [0, 3, 6, 9, 2, 5, 8, 1, 4, 7];
+	numrep3 = [0, 5, 9, 4, 8, 3, 7, 2, 6, 1];
+	if(len(price)==4):
+		price_split[0] = numrep1[int(price_split[0])];
+		price_split[1] = numrep1[int(price_split[1])];
+		price_split[2] = numrep2[int(price_split[2])];
+		price_split[3] = numrep3[int(price_split[3])];
+		price_add = (price_split[0] + price_split[1] + price_split[2] + price_split[3]) * 3;
+	if(len(price)==5):
+		price_split[1] = numrep1[int(price_split[1])];
+		price_split[2] = numrep1[int(price_split[2])];
+		price_split[3] = numrep2[int(price_split[3])];
+		price_split[4] = numrep3[int(price_split[4])]; 
+		price_add = (price_split[1] + price_split[2] + price_split[3] + price_split[4]) * 3;
+	CheckSum = price_add % 10;
+	if(return_check==False and len(price)==5):
+		if(CheckSum!=int(price_split[0])):
+			return False;
+		if(CheckSum==int(price_split[0])):
+			return True;
+	if(return_check==True):
+		return CheckSum;
+	if(len(price)==4):
+		return CheckSum;
+	return CheckSum;
+def fix_vw_price_checksum(price):
+	if(len(price)==5):
+		fix_matches = re.findall("^(\d{1})(\d{4})", price); 
+		fix_matches = fix_matches[0];
+		price = fix_matches[1];
+	if(len(price)>4):
+		fix_matches = re.findall("^(\d{4})", price); 
+		price = fix_matches[0];
+	return str(get_vw_price_checksum(price,True))+price;
