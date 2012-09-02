@@ -1,6 +1,22 @@
 #!/usr/bin/python
 
-import re;
+'''
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the Revised BSD License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    Revised BSD License for more details.
+
+    Copyright 2011-2012 Cool Dude 2k - http://idb.berlios.de/
+    Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
+    Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
+
+    $FileInfo: validate.py - Last Update: 02/28/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+'''
+
+import sys,re;
 
 def validate_upca(upc,return_check=False): 
 	if(len(upc)>12):
@@ -197,3 +213,160 @@ def fix_upce_checksum(upc):
 		fix_matches = re.findall("^(\d{7})", upc); 
 		upc = fix_matches[0];
 	return upc+str(validate_upce(upc,True));
+
+'''
+ISSN (International Standard Serial Number)
+http://en.wikipedia.org/wiki/International_Standard_Serial_Number
+'''
+def validate_issn8(upc,return_check=False):
+	upc = upc.replace("-", "");
+	upc = upc.replace(" ", "");
+	if(len(upc)>8):
+		fix_matches = re.findall("^(\d{8})", upc); 
+		upc = fix_matches[0].fix_matches[1];
+	if(len(upc)>8 or len(upc)<7):
+		return False;
+	if(len(upc)==7):
+		upc_matches = re.findall("^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", upc);
+	if(len(upc)==8):
+		upc_matches = re.findall("^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", upc);
+	upc_matches = upc_matches[0];
+	AllSum = eval(upc_matches[0]+"*8") + eval(upc_matches[1]+"*7") + eval(upc_matches[2]+"*6") + eval(upc_matches[3]+"*5") + eval(upc_matches[4]+"*4") + eval(upc_matches[5]+"*3") + eval(upc_matches[6]+"*2");
+	CheckSum = AllSum % 11;
+	if(CheckSum>0):
+		CheckSum = 11 - CheckSum;
+	if(return_check==False and len(upc)==8):
+		if(CheckSum!=int(upc_matches[7])):
+			return False;
+		if(CheckSum==int(upc_matches[7])):
+			return True;
+	if(return_check==True):
+		return CheckSum;
+	if(len(upc)==7):
+		return CheckSum;
+def fix_issn8_checksum(upc):
+	upc = upc.replace("-", "");
+	upc = upc.replace(" ", "");
+	if(len(upc)>7):
+		fix_matches = re.findall("^(\d{7})", upc); 
+		upc = fix_matches[0];
+	return upc+str(validate_issn8(upc,True));
+def validate_issn13(upc,return_check=False):
+	if(not re.findall("^977(\d{9})", upc)):
+		return False;
+	if(re.findall("^977(\d{9})", upc)):
+		return validate_ean13(upc,return_check);
+def fix_issn13_checksum(upc):
+	if(not re.findall("^977(\d{9})", upc)):
+		return False;
+	if(re.findall("^977(\d{9})", upc)):
+		return fix_ean13_checksum(upc);
+
+'''
+ISBN (International Standard Book Number)
+http://en.wikipedia.org/wiki/ISBN
+'''
+def validate_isbn10(upc,return_check=False):
+	upc = upc.replace("-", "");
+	upc = upc.replace(" ", "");
+	if(len(upc)>10):
+		fix_matches = re.findall("^(\d{9})(\d{1}|X{1})", upc); 
+		upc = fix_matches[0].fix_matches[1];
+	if(len(upc)>10 or len(upc)<9):
+		return False;
+	if(len(upc)==9):
+		upc_matches = re.findall("^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", upc);
+	if(len(upc)==10):
+		upc_matches = re.findall("^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1}|X{1})", upc);
+	upc_matches = upc_matches[0];
+	AllSum = eval(upc_matches[0]+"*10") + eval(upc_matches[1]+"*9") + eval(upc_matches[2]+"*8") + eval(upc_matches[3]+"*7") + eval(upc_matches[4]+"*6") + eval(upc_matches[5]+"*5") + eval(upc_matches[6]+"*4") + eval(upc_matches[7]+"*3") + eval(upc_matches[8]+"*2");
+	CheckSum = 0;
+	while((AllSum + (CheckSum * 1)) % 11):
+		CheckSum += 1;
+	if(CheckSum==10):
+		CheckSum = "X";
+	if(return_check==False and len(upc)==10):
+		if(str(CheckSum)!=upc_matches[9]):
+			return False;
+		if(str(CheckSum)==upc_matches[9]):
+			return True;
+	if(return_check==True):
+		return CheckSum;
+	if(len(upc)==9):
+		return CheckSum;
+def fix_isbn10_checksum(upc):
+	upc = upc.replace("-", "");
+	upc = upc.replace(" ", "");
+	if(len(upc)>9):
+		fix_matches = re.findall("^(\d{9})", upc);
+		upc = fix_matches[1];
+	return upc+str(validate_isbn10(upc,True));
+def validate_isbn13(upc,return_check=False):
+	if(not re.findall("^978(\d{9})", upc)):
+		return False;
+	if(re.findall("^978(\d{9})", upc)):
+		return validate_ean13(upc,return_check);
+def fix_isbn13_checksum(upc):
+	if(not re.findall("^978(\d{9})", upc)):
+		return False;
+	if(re.findall("^978(\d{9})", upc)):
+		return fix_ean13_checksum(upc);
+
+'''
+ISMN (International Standard Music Number)
+http://en.wikipedia.org/wiki/International_Standard_Music_Number
+http://www.ismn-international.org/whatis.html
+http://www.ismn-international.org/manual_1998/chapter2.html
+'''
+def validate_ismn10(upc,return_check=False):
+	upc = upc.replace("M", "");
+	upc = upc.replace("-", "");
+	upc = upc.replace(" ", "");
+	if(len(upc)>9):
+		fix_matches = re.findall("^(\d{8})(\d{1})", upc); 
+		upc = fix_matches[0].fix_matches[1];
+	if(len(upc)>9 or len(upc)<8):
+		return False;
+	if(len(upc)==8):
+		upc_matches = re.findall("^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", upc);
+	if(len(upc)==9):
+		upc_matches = re.findall("^(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})(\d{1})", upc);
+	upc_matches = upc_matches[0];
+	AllSum = (3 * 3) + eval(upc_matches[0]+"*1") + eval(upc_matches[1]+"*3") + eval(upc_matches[2]+"*1") + eval(upc_matches[3]+"*3") + eval(upc_matches[4]+"*1") + eval(upc_matches[5]+"*3") + eval(upc_matches[6]+"*1") + eval(upc_matches[7]+"*3");
+	CheckSum = 1;
+	while((AllSum + (CheckSum * 1)) % 10):
+		CheckSum += 1;
+	if(return_check==False and len(upc)==9):
+		if(CheckSum!=int(upc_matches[8])):
+			return False;
+		if(CheckSum==int(upc_matches[8])):
+			return True;
+	if(return_check==True):
+		return CheckSum;
+	if(len(upc)==8):
+		return CheckSum;
+def fix_ismn10_checksum(upc):
+	upc = upc.replace("M", "");
+	upc = upc.replace("-", "");
+	upc = upc.replace(" ", "");
+	if(len(upc)>9):
+		fix_matches = re.findall("^(\d{9})", upc); 
+		upc = fix_matches[1];
+	return upc+str(validate_ismn10(upc,True));
+def validate_ismn13(upc,return_check=False):
+	if(not re.findall("^9790(\d{8})", upc)):
+		return False;
+	if(re.findall("^9790(\d{8})", upc)):
+		return validate_ean13(upc,return_check);
+def fix_ismn13_checksum(upc):
+	if(not re.findall("^9790(\d{8})", upc)):
+		return False;
+	if(re.findall("^9790(\d{8})", upc)):
+		return fix_ean13_checksum(upc);
+
+'''
+// Get variable weight price checksum
+// Source: http://wiki.answers.com/Q/How_does_a_price_embedded_bar_code_work
+// Source: http://en.wikipedia.org/wiki/Universal_Product_Code#Prefixes
+// Source: http://barcodes.gs1us.org/GS1%20US%20BarCodes%20and%20eCom%20-%20The%20Global%20Language%20of%20Business.htm
+'''
