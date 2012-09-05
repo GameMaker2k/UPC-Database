@@ -422,9 +422,11 @@ def get_itf14_type(upc):
 	if(re.findall("^(9)", upc)):
 		return "Variable quantity content";
 	return False;
+'''
 // Get variable weight info
 // Source: http://wiki.answers.com/Q/How_does_a_price_embedded_bar_code_work
 // Source: http://en.wikipedia.org/wiki/Universal_Product_Code#Prefixes
+'''
 def get_upca_vw_info(upc):
 	if(re.findall("^0(\d{12})", upc, upc_matches)):
 		upc = upc_matches[1];
