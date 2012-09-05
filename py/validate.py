@@ -378,8 +378,8 @@ def get_vw_price_checksum(price,return_check=False):
 	if(len(price)==3):
 		price = "0".price;
 	if(len(price)>5):
-		if(preg_match("^(\d{5})", price)):
-			price_matches = preg_match("^(\d{5})", price);
+		if(re.findall("^(\d{5})", price)):
+			price_matches = re.findall("^(\d{5})", price);
 			price = price_matches[0];
 	price_split = list(price);
 	numrep1 = [0, 2, 4, 6, 8, 9, 1, 3, 5, 7];
