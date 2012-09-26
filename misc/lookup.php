@@ -210,6 +210,9 @@ $upcinfo['validated'] = "no"; } } }
    <?php } } ?>
    </table>
    <div><br /></div>
+   <?php if($usersiteinfo['admin']=="yes"&&$upcinfo['validated']=="yes") { ?>
+   <a href="<?php echo $url_admin_file; ?>?act=editupc&amp;upc=<?php echo $ean13; ?>">Edit UPC</a> | <a href="<?php echo $url_admin_file; ?>?act=deleteupc&amp;upc=<?php echo $ean13; ?>" onclick="if(!confirm('Are you sure you want to delete UPC <?php echo $ean13; ?>?')) { return false; }">Delete UPC</a><br />
+   <?php } ?>
    <a href="<?php echo $url_file; ?>?act=neighbors&amp;upc=<?php echo $ean13; ?>&amp;page=1">List Neighboring Items</a><br />
    <!--<a href="/editform.asp?upc=<?php echo $ean13; ?>">Submit Modification Request</a><br />-->
    <!--<a href="/deleteform.asp?upc=<?php echo $ean13; ?>">Submit Deletion Request</a><br />-->

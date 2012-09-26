@@ -296,6 +296,9 @@ $nummymods = $nummems['count'];
      <tr><td>IP Address:</td><td><?php echo $meminfo['ip']; ?></td></tr>
 	 <?php } ?>
     </table>
+   <?php if($usersiteinfo['admin']=="yes"&&$meminfo['id']>1) { ?>
+   <a href="<?php echo $url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>">Edit User</a> | <a href="<?php echo $url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>?')) { return false; }">Delete User</a><br />
+   <?php } ?>
     <form action="<?php echo $url_file; ?>?act=lookup" method="get">
     <input type="hidden" name="act" value="lookup" />
     <div><br /></div>
