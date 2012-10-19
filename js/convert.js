@@ -388,9 +388,12 @@ function print_convert_ismn13_to_ismn10(upc) {
 // Source: http://en.wikipedia.org/wiki/Universal_Product_Code#Prefixes
 // Source: http://barcodes.gs1us.org/GS1%20US%20BarCodes%20and%20eCom%20-%20The%20Global%20Language%20of%20Business.htm
 function make_vw_upca(code, price) {
-	if(price.length>5) {
+	if(code.length>5) {
 	if(code.match(/^(\d{5})/)) { 
 	code_matches = code.match(/^(\d{5})/); code = code_matches[1]; } }
+	if(price.length>4) {
+	if(price.match(/^(\d{4})/)) { 
+	price_matches = price.match(/^(\d{4})/); price = price_matches[1]; } }
 	pricecs = get_vw_price_checksum(price);
 	vwupc = "2"+code+pricecs+price;
 	vwupc = vwupc+validate_upca(vwupc, true);
