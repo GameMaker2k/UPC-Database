@@ -137,7 +137,7 @@ function create_ean5($upc,$offsetadd,$imgres) {
 		imageline($imgres, $LineStart, 10, $LineStart, $LineSize, $alt_text_color); }
 		$LineStart += 1;
 		++$InnerUPCNum; }
-		if($NumZero < 5) {
+		if($NumZero < 4) {
 		imageline($imgres, $LineStart, 10, $LineStart, $LineSize, $alt_text_color);
 		$LineStart += 1;
 		imageline($imgres, $LineStart, 10, $LineStart, $LineSize, $text_color);
