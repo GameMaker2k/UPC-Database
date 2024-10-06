@@ -15,16 +15,23 @@
     $FileInfo: listitem.php - Last Update: 02/29/2012 Ver. 1.0.0 RC 1 - Author: cooldude2k $
 */
 $File3Name = basename($_SERVER['SCRIPT_NAME']);
-if ($File3Name=="listitem.php"||$File3Name=="/listitem.php") {
-	chdir("../");
-	require("./upc.php");
-	exit(); }
+if ($File3Name == "listitem.php" || $File3Name == "/listitem.php") {
+    chdir("../");
+    require("./upc.php");
+    exit();
+}
 
-if($_GET['act']=="neighbor"&&!isset($_POST['upc'])) { $_GET['act'] = "lookup"; 
-	header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
-if($_GET['act']=="neighbors"&&!isset($_POST['upc'])) { $_GET['act'] = "lookup"; 
-	header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
-if($_GET['act']=="latest") { ?>
+if ($_GET['act'] == "neighbor" && !isset($_POST['upc'])) {
+    $_GET['act'] = "lookup";
+    header("Location: ".$website_url.$url_file."?act=lookup");
+    exit();
+}
+if ($_GET['act'] == "neighbors" && !isset($_POST['upc'])) {
+    $_GET['act'] = "lookup";
+    header("Location: ".$website_url.$url_file."?act=lookup");
+    exit();
+}
+if ($_GET['act'] == "latest") { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
@@ -36,69 +43,100 @@ if($_GET['act']=="latest") { ?>
    <?php echo $navbar; ?>
    <h2>Latest Submissions</h2>
    <?php
-   if(!isset($_GET['page'])) { $_GET['page'] = 1; }
-   if(!is_numeric($_GET['page'])) { $_GET['page'] = 1; }
-   $meminfo = null; $addonurl = null;
-   if($_GET['id']<=0) { $_GET['id'] = null; }
-   if(!is_numeric($_GET['id'])) { $_GET['id'] = null; }
-   if($_GET['id']>0&&$_GET['id']!==null) {
-   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
-   $nummems = sql_fetch_assoc($findmem);
-   $numrows = $nummems['count']; 
-   if($numrows<=0) { $_GET['id'] = null; }
-   if($numrows>0) { 
-   $addonurl = "&amp;id=".$_GET['id'];
-   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";"); 
-   $meminfo = sql_fetch_assoc($findmem); } }
-   if($meminfo===null) {
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;"); }
-   if($meminfo!==null) {
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$_GET['id']."' ORDER BY \"lastupdate\" DESC;"); }
-   $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['count'];
-   if($numrows>0) {
-   $maxpage = $_GET['page'] * $display_per_page;
-   if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestartshow = ($maxpage - $display_per_page) + 1;
-   $startoffset = $maxpage - $display_per_page;
-   if($pagestartshow<0) { $pagestartshow = 1; }
-   if($startoffset<0) { $startoffset = 0; }
-   if($numrows<$display_per_page) { $maxpage = $numrows; }
-   if($meminfo===null) {
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC LIMIT ".$startoffset.", ".$display_per_page.";"); }
-   if($meminfo!==null) {
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"userid\"='".$_GET['id']."' ORDER BY \"lastupdate\" DESC LIMIT ".$startoffset.", ".$display_per_page.";"); }
-   if($maxpage>$display_per_page&&$_GET['page']>1) {
-   $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
-   echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($maxpage<$numrows) {
-   $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
-   ?>
+   if (!isset($_GET['page'])) {
+       $_GET['page'] = 1;
+   }
+    if (!is_numeric($_GET['page'])) {
+        $_GET['page'] = 1;
+    }
+    $meminfo = null;
+    $addonurl = null;
+    if ($_GET['id'] <= 0) {
+        $_GET['id'] = null;
+    }
+    if (!is_numeric($_GET['id'])) {
+        $_GET['id'] = null;
+    }
+    if ($_GET['id'] > 0 && $_GET['id'] !== null) {
+        $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+        $nummems = sql_fetch_assoc($findmem);
+        $numrows = $nummems['count'];
+        if ($numrows <= 0) {
+            $_GET['id'] = null;
+        }
+        if ($numrows > 0) {
+            $addonurl = "&amp;id=".$_GET['id'];
+            $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+            $meminfo = sql_fetch_assoc($findmem);
+        }
+    }
+    if ($meminfo === null) {
+        $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;");
+    }
+    if ($meminfo !== null) {
+        $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$_GET['id']."' ORDER BY \"lastupdate\" DESC;");
+    }
+    $numupc = sql_fetch_assoc($findupc);
+    $numrows = $numupc['count'];
+    if ($numrows > 0) {
+        $maxpage = $_GET['page'] * $display_per_page;
+        if ($maxpage > $numrows) {
+            $maxpage = $numrows;
+        }
+        $pagestartshow = ($maxpage - $display_per_page) + 1;
+        $startoffset = $maxpage - $display_per_page;
+        if ($pagestartshow < 0) {
+            $pagestartshow = 1;
+        }
+        if ($startoffset < 0) {
+            $startoffset = 0;
+        }
+        if ($numrows < $display_per_page) {
+            $maxpage = $numrows;
+        }
+        if ($meminfo === null) {
+            $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC LIMIT ".$startoffset.", ".$display_per_page.";");
+        }
+        if ($meminfo !== null) {
+            $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"userid\"='".$_GET['id']."' ORDER BY \"lastupdate\" DESC LIMIT ".$startoffset.", ".$display_per_page.";");
+        }
+        if ($maxpage > $display_per_page && $_GET['page'] > 1) {
+            $backpage = $_GET['page'] - 1;
+            echo "<a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n";
+        }
+        echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
+        if ($maxpage < $numrows) {
+            $nextpage = $_GET['page'] + 1;
+            echo "\n-- <a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$nextpage."\">Next</a>";
+        }
+        ?>
    <div><br /></div>
    <table>
-   <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
+   <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if ($add_quantity_row === true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
-   while ($upcinfo = sql_fetch_assoc($findupc)) {
-   ?>
+        while ($upcinfo = sql_fetch_assoc($findupc)) {
+            ?>
    <tr valign="top">
    <td><a href="<?php echo $url_file; ?>?act=lookup&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
    <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <?php if ($add_quantity_row === true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
-   <?php } echo "   </table>   <div><br /></div>"; }
-   if($numrows>0) {
-   if($maxpage>$display_per_page&&$_GET['page']>1) {
-   $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
-   echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($maxpage<$numrows) {
-   $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
-   ?>
+   <?php } echo "   </table>   <div><br /></div>";
+    }
+    if ($numrows > 0) {
+        if ($maxpage > $display_per_page && $_GET['page'] > 1) {
+            $backpage = $_GET['page'] - 1;
+            echo "<a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n";
+        }
+        echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
+        if ($maxpage < $numrows) {
+            $nextpage = $_GET['page'] + 1;
+            echo "\n-- <a href=\"".$url_file."?act=latest".$addonurl."&amp;page=".$nextpage."\">Next</a>";
+        }
+    }
+    ?>
    <div><br /></div>
    <form name="upcform" action="<?php echo $url_file; ?>?act=lookup" onsubmit="if(validate_str_size(document.upcform.upc.value)==false) { return false; }" method="get">
     <input type="hidden" name="act" value="lookup" />
@@ -108,7 +146,7 @@ if($_GET['act']=="latest") { ?>
    </form>
   </center>
   <?php echo $endhtmltag; ?>
-<?php } if(isset($_GET['upc'])&&($_GET['act']=="neighbor"||$_GET['act']=="neighbors")) { ?>
+<?php } if (isset($_GET['upc']) && ($_GET['act'] == "neighbor" || $_GET['act'] == "neighbors")) { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
@@ -120,70 +158,99 @@ if($_GET['act']=="latest") { ?>
    <?php echo $navbar; ?>
    <h2>Item Neighbors</h2>
    <?php
-   if(!isset($_GET['page'])) { $_GET['page'] = 1; }
-   if(!is_numeric($_GET['page'])) { $_GET['page'] = 1; }
-   $meminfo = null; $addonurl = null;
-   if($_GET['id']<=0) { $_GET['id'] = null; }
-   if(!is_numeric($_GET['id'])) { $_GET['id'] = null; }
-   if($_GET['id']>0&&$_GET['id']!==null) {
-   $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
-   $nummems = sql_fetch_assoc($findmem);
-   $numrows = $nummems['count']; 
-   if($numrows<=0) { $_GET['id'] = null; }
-   if($numrows>0) { 
-   $addonurl = "&amp;id=".$_GET['id'];
-   $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";"); 
-   $meminfo = sql_fetch_assoc($findmem); } }
-   preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
-   $findprefix = $fix_matches[1];
-   if($meminfo===null) {
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
-   if($meminfo!==null) {
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" AND \"userid\"='".$_GET['id']."' LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
-   $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['count'];
-   if($numrows>0) {
-   $maxpage = $_GET['page'] * $display_per_page;
-   if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestartshow = ($maxpage - $display_per_page) + 1;
-   $startoffset = $maxpage - $display_per_page;
-   if($pagestartshow<0) { $pagestartshow = 0; }
-   if($startoffset<0) { $startoffset = 0; }
-   if($meminfo===null) {
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;"); }
-   if($meminfo!==null) {
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' AND \"userid\"='".$_GET['id']."' ORDER BY \"upc\" ASC;"); }
-   if($maxpage>$display_per_page&&$_GET['page']>1) {
-   $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
-   echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($maxpage<$numrows) {
-   $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
-   ?>
+    if (!isset($_GET['page'])) {
+        $_GET['page'] = 1;
+    }
+      if (!is_numeric($_GET['page'])) {
+          $_GET['page'] = 1;
+      }
+      $meminfo = null;
+      $addonurl = null;
+      if ($_GET['id'] <= 0) {
+          $_GET['id'] = null;
+      }
+      if (!is_numeric($_GET['id'])) {
+          $_GET['id'] = null;
+      }
+      if ($_GET['id'] > 0 && $_GET['id'] !== null) {
+          $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+          $nummems = sql_fetch_assoc($findmem);
+          $numrows = $nummems['count'];
+          if ($numrows <= 0) {
+              $_GET['id'] = null;
+          }
+          if ($numrows > 0) {
+              $addonurl = "&amp;id=".$_GET['id'];
+              $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+              $meminfo = sql_fetch_assoc($findmem);
+          }
+      }
+      preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches);
+      $findprefix = $fix_matches[1];
+      if ($meminfo === null) {
+          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;");
+      }
+      if ($meminfo !== null) {
+          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" AND \"userid\"='".$_GET['id']."' LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;");
+      }
+      $numupc = sql_fetch_assoc($findupc);
+      $numrows = $numupc['count'];
+      if ($numrows > 0) {
+          $maxpage = $_GET['page'] * $display_per_page;
+          if ($maxpage > $numrows) {
+              $maxpage = $numrows;
+          }
+          $pagestartshow = ($maxpage - $display_per_page) + 1;
+          $startoffset = $maxpage - $display_per_page;
+          if ($pagestartshow < 0) {
+              $pagestartshow = 0;
+          }
+          if ($startoffset < 0) {
+              $startoffset = 0;
+          }
+          if ($meminfo === null) {
+              $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' ORDER BY \"upc\" ASC;");
+          }
+          if ($meminfo !== null) {
+              $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".$findprefix."%' AND \"userid\"='".$_GET['id']."' ORDER BY \"upc\" ASC;");
+          }
+          if ($maxpage > $display_per_page && $_GET['page'] > 1) {
+              $backpage = $_GET['page'] - 1;
+              echo "<a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n";
+          }
+          echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
+          if ($maxpage < $numrows) {
+              $nextpage = $_GET['page'] + 1;
+              echo "\n-- <a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$nextpage."\">Next</a>";
+          }
+          ?>
    <div><br /></div>
    <table>
-   <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
+   <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if ($add_quantity_row === true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
-   while ($upcinfo = sql_fetch_assoc($findupc)) {
-   ?>
+          while ($upcinfo = sql_fetch_assoc($findupc)) {
+              ?>
    <tr valign="top">
    <td><a href="<?php echo $url_file; ?>?act=lookup&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
    <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <?php if ($add_quantity_row === true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
-   <?php } echo "   </table>   <div><br /></div>"; }
-   if($numrows>0) {
-   if($maxpage>$display_per_page&&$_GET['page']>1) {
-   $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
-   echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($maxpage<$numrows) {
-   $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
-   ?>
+   <?php } echo "   </table>   <div><br /></div>";
+      }
+      if ($numrows > 0) {
+          if ($maxpage > $display_per_page && $_GET['page'] > 1) {
+              $backpage = $_GET['page'] - 1;
+              echo "<a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$backpage."\">Prev</a> --\n";
+          }
+          echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
+          if ($maxpage < $numrows) {
+              $nextpage = $_GET['page'] + 1;
+              echo "\n-- <a href=\"".$url_file."?act=neighbor".$addonurl."&amp;page=".$nextpage."\">Next</a>";
+          }
+      }
+      ?>
    <div><br /></div>
    <form action="<?php echo $url_file; ?>?act=lookup" method="get">
     <input type="hidden" name="act" value="lookup" />
@@ -193,16 +260,20 @@ if($_GET['act']=="latest") { ?>
    </form>
   </center>
   <?php echo $endhtmltag; ?>
-<?php } if($_GET['act']=="search"&&(isset($_POST['searchterms'])||isset($_POST['searchterms']))) { 
-if(!isset($_POST['searchterms'])&&isset($_GET['searchterms'])) { 
-	$_POST['searchterms'] = $_GET['searchterms']; }
-$_POST['searchterms'] = trim($_POST['searchterms']);
-$_POST['searchterms'] = remove_spaces($_POST['searchterms']);
-if(strlen($_POST['searchterms'])>100||strlen($_POST['searchterms'])<=3) { 
-	$_POST['searchterms'] = null; }
-if($_POST['searchterms']==""||$_POST['searchterms']==null) {
-header("Location: ".$website_url.$url_file."?act=search"); exit(); }
-?>
+<?php } if ($_GET['act'] == "search" && (isset($_POST['searchterms']) || isset($_POST['searchterms']))) {
+      if (!isset($_POST['searchterms']) && isset($_GET['searchterms'])) {
+          $_POST['searchterms'] = $_GET['searchterms'];
+      }
+      $_POST['searchterms'] = trim($_POST['searchterms']);
+      $_POST['searchterms'] = remove_spaces($_POST['searchterms']);
+      if (strlen($_POST['searchterms']) > 100 || strlen($_POST['searchterms']) <= 3) {
+          $_POST['searchterms'] = null;
+      }
+      if ($_POST['searchterms'] == "" || $_POST['searchterms'] == null) {
+          header("Location: ".$website_url.$url_file."?act=search");
+          exit();
+      }
+      ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
@@ -214,52 +285,68 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    <?php echo $navbar; ?>
    <h2>Search Results for &quot;<?php echo htmlspecialchars($_POST['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>&quot;</h2>
    <?php
-   if(!isset($_GET['page'])) { $_GET['page'] = 1; }
-   if(!is_numeric($_GET['page'])) { $_GET['page'] = 1; }
-   preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches); 
-   $findprefix = $fix_matches[1];
-   $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_POST['searchterms'])."%';"); 
-   $numupc = sql_fetch_assoc($findupc);
-   $numrows = $numupc['count'];
-   if($numrows>0) {
-   $maxpage = $_GET['page'] * $display_per_page;
-   if($maxpage>$numrows) { $maxpage = $numrows; }
-   $pagestartshow = ($maxpage - $display_per_page) + 1;
-   $startoffset = $maxpage - $display_per_page;
-   if($pagestartshow<0) { $pagestartshow = 0; }
-   if($startoffset<0) { $startoffset = 0; }
-   $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_POST['searchterms'])."%';"); 
-   if($maxpage>$display_per_page&&$_GET['page']>1) {
-   $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
-   echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($maxpage<$numrows) {
-   $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; }
-   ?>
+         if (!isset($_GET['page'])) {
+             $_GET['page'] = 1;
+         }
+      if (!is_numeric($_GET['page'])) {
+          $_GET['page'] = 1;
+      }
+      preg_match("/^(\d{7})/", $_GET['upc'], $fix_matches);
+      $findprefix = $fix_matches[1];
+      $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_POST['searchterms'])."%';");
+      $numupc = sql_fetch_assoc($findupc);
+      $numrows = $numupc['count'];
+      if ($numrows > 0) {
+          $maxpage = $_GET['page'] * $display_per_page;
+          if ($maxpage > $numrows) {
+              $maxpage = $numrows;
+          }
+          $pagestartshow = ($maxpage - $display_per_page) + 1;
+          $startoffset = $maxpage - $display_per_page;
+          if ($pagestartshow < 0) {
+              $pagestartshow = 0;
+          }
+          if ($startoffset < 0) {
+              $startoffset = 0;
+          }
+          $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"description\" LIKE '%".sqlite3_escape_string($slite3, $_POST['searchterms'])."%';");
+          if ($maxpage > $display_per_page && $_GET['page'] > 1) {
+              $backpage = $_GET['page'] - 1;
+              echo "<a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n";
+          }
+          echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
+          if ($maxpage < $numrows) {
+              $nextpage = $_GET['page'] + 1;
+              echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>";
+          }
+          ?>
    <div><br /></div>
    <table>
-   <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if($add_quantity_row===true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
+   <tr><th>EAN/UCC</th><th>Description</th><th>Size/Weight</th><?php if ($add_quantity_row === true) { ?><th>Quantity</th><?php } ?><th>Last Mod</th></tr>
    <?php
-   while ($upcinfo = sql_fetch_assoc($findupc)) {
-   ?>
+          while ($upcinfo = sql_fetch_assoc($findupc)) {
+              ?>
    <tr valign="top">
    <td><a href="<?php echo $url_file; ?>?act=lookup&amp;upc=<?php echo $upcinfo['upc']; ?>"><?php echo $upcinfo['upc']; ?></a></td>
    <td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
-   <?php if($add_quantity_row===true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
+   <?php if ($add_quantity_row === true) { ?><td nowrap="nowrap"><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td><?php } ?>
    <td nowrap="nowrap"><?php echo date("j M Y, g:i A T", $upcinfo['lastupdate']); ?></td>
    </tr>
-   <?php } echo "   </table>   <div><br /></div>"; }
-   if($numrows>0) {
-   if($maxpage>$display_per_page&&$_GET['page']>1) {
-   $backpage = $_GET['page'] - 1;
-   echo "<a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n"; }
-   echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
-   if($maxpage<$numrows) {
-   $nextpage = $_GET['page'] + 1;
-   echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>"; } }
-   ?>
+   <?php } echo "   </table>   <div><br /></div>";
+      }
+      if ($numrows > 0) {
+          if ($maxpage > $display_per_page && $_GET['page'] > 1) {
+              $backpage = $_GET['page'] - 1;
+              echo "<a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$backpage."\">Prev</a> --\n";
+          }
+          echo $numrows." items, displaying ".$pagestartshow." through ".$maxpage;
+          if ($maxpage < $numrows) {
+              $nextpage = $_GET['page'] + 1;
+              echo "\n-- <a href=\"".$url_file."?act=search&amp;searchterms=".htmlspecialchars($_GET['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8").$addonurl."&amp;page=".$nextpage."\">Next</a>";
+          }
+      }
+      ?>
    <div><br /></div>
    <form action="<?php echo $url_file; ?>?act=search" method="post">
     <table>
@@ -269,7 +356,7 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    </form>
   </center>
   <?php echo $endhtmltag; ?>
-<?php } if($_GET['act']=="search"&&!isset($_POST['searchterms'])) { ?>
+<?php } if ($_GET['act'] == "search" && !isset($_POST['searchterms'])) { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
@@ -288,4 +375,5 @@ header("Location: ".$website_url.$url_file."?act=search"); exit(); }
    <div><br /><input type="submit" value="Search">&nbsp;<input type="reset" value="Clear"></div>
    </form>
   </center>
-  <?php echo $endhtmltag; } ?>
+  <?php echo $endhtmltag;
+  } ?>

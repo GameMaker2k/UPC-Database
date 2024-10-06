@@ -17,44 +17,84 @@
 
 require("./settings.php");
 
-if($usersiteinfo['admin']=="no") { 
-	$_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
+if ($usersiteinfo['admin'] == "no") {
+    $_GET['act'] = "lookup";
+    header("Location: ".$website_url.$url_file."?act=lookup");
+    exit();
+}
 
-if(!isset($_COOKIE['MemberName'])||!isset($_COOKIE['MemberID'])||!isset($_COOKIE['SessPass'])) {
-	$_GET['act'] = "lookup"; header("Location: ".$website_url.$url_file."?act=lookup"); exit(); }
+if (!isset($_COOKIE['MemberName']) || !isset($_COOKIE['MemberID']) || !isset($_COOKIE['SessPass'])) {
+    $_GET['act'] = "lookup";
+    header("Location: ".$website_url.$url_file."?act=lookup");
+    exit();
+}
 
-if(!isset($_GET['act'])&&isset($_POST['act'])) { $_GET['act'] = $_POST['act']; }
-if(!isset($_GET['act'])) { $_GET['act'] = "view"; }
-if(!isset($_GET['subact'])&&isset($_POST['subact'])) { $_GET['subact'] = $_POST['subact']; }
-if(!isset($_GET['subact'])) { $_GET['subact'] = null; }
-if(!isset($_POST['upc'])&&isset($_GET['upc'])) { $_POST['upc'] = $_GET['upc']; }
-if(!isset($_GET['upc'])&&isset($_POST['upc'])) { $_GET['upc'] = $_POST['upc']; }
-if(!isset($_POST['upc'])) { $_POST['upc'] = null; }
-if(!isset($_POST['id'])&&isset($_GET['id'])) { $_POST['id'] = $_GET['id']; }
-if(!isset($_GET['id'])&&isset($_POST['id'])) { $_GET['id'] = $_POST['id']; }
-if(!isset($_POST['id'])) { $_POST['id'] = null; }
-if(strlen($_POST['upc'])>0&&(strlen($_POST['upc'])<13||strlen($_POST['upc'])>13)) {
-	$_GET['act'] = "view"; header("Location: ".$website_url.$url_admin_file."?act=view"); exit(); }
-if(strlen($_POST['upc'])>0&&validate_ean13($_POST['upc'])===false) { 
-	$_GET['act'] = "view"; header("Location: ".$website_url.$url_admin_file."?act=view"); exit(); }
+if (!isset($_GET['act']) && isset($_POST['act'])) {
+    $_GET['act'] = $_POST['act'];
+}
+if (!isset($_GET['act'])) {
+    $_GET['act'] = "view";
+}
+if (!isset($_GET['subact']) && isset($_POST['subact'])) {
+    $_GET['subact'] = $_POST['subact'];
+}
+if (!isset($_GET['subact'])) {
+    $_GET['subact'] = null;
+}
+if (!isset($_POST['upc']) && isset($_GET['upc'])) {
+    $_POST['upc'] = $_GET['upc'];
+}
+if (!isset($_GET['upc']) && isset($_POST['upc'])) {
+    $_GET['upc'] = $_POST['upc'];
+}
+if (!isset($_POST['upc'])) {
+    $_POST['upc'] = null;
+}
+if (!isset($_POST['id']) && isset($_GET['id'])) {
+    $_POST['id'] = $_GET['id'];
+}
+if (!isset($_GET['id']) && isset($_POST['id'])) {
+    $_GET['id'] = $_POST['id'];
+}
+if (!isset($_POST['id'])) {
+    $_POST['id'] = null;
+}
+if (strlen($_POST['upc']) > 0 && (strlen($_POST['upc']) < 13 || strlen($_POST['upc']) > 13)) {
+    $_GET['act'] = "view";
+    header("Location: ".$website_url.$url_admin_file."?act=view");
+    exit();
+}
+if (strlen($_POST['upc']) > 0 && validate_ean13($_POST['upc']) === false) {
+    $_GET['act'] = "view";
+    header("Location: ".$website_url.$url_admin_file."?act=view");
+    exit();
+}
 
-if(!isset($_GET['page'])&&isset($_POST['page'])) { $_GET['page'] = $_POST['page']; }
-if(!isset($_GET['page'])) { $_GET['page'] = 1; }
-if(!is_numeric($_GET['page'])) { $_GET['page'] = 1; }
+if (!isset($_GET['page']) && isset($_POST['page'])) {
+    $_GET['page'] = $_POST['page'];
+}
+if (!isset($_GET['page'])) {
+    $_GET['page'] = 1;
+}
+if (!is_numeric($_GET['page'])) {
+    $_GET['page'] = 1;
+}
 
 $navbar = $navbar."<br />\n   <div><a href=\"".$url_admin_file."?act=deleteupc\">Delete UPC</a> | <a href=\"".$url_admin_file."?act=validateupc\">Validate UPC</a> | <a href=\"".$url_admin_file."?act=editupc\">Edit UPC</a> | <a href=\"".$url_admin_file."?act=upcdelrequests\">UPC Delete Requests</a> | <a href=\"".$url_admin_file."?act=upceditrequests\">UPC Edit Request</a></div>";
 $navbar = $navbar."\n   <div><a href=\"".$url_admin_file."?act=deletemember\">Delete Member</a> | <a href=\"".$url_admin_file."?act=validatemember\">Validate Member</a> | <a href=\"".$url_admin_file."?act=editmember\">Edit Member</a></div>";
 
-if($_GET['act']=="deleteupc"||$_GET['act']=="validateupc"||
-	$_GET['act']=="editupc"||$_GET['act']=="upcdelrequests"||
-	$_GET['act']=="upceditrequests") { 
-require("./misc/adminupc.php"); }
+if ($_GET['act'] == "deleteupc" || $_GET['act'] == "validateupc" ||
+    $_GET['act'] == "editupc" || $_GET['act'] == "upcdelrequests" ||
+    $_GET['act'] == "upceditrequests") {
+    require("./misc/adminupc.php");
+}
 
-if($_GET['act']=="deletemember"||$_GET['act']=="validatemember"||
-	$_GET['act']=="editmember") { 
-require("./misc/adminmem.php"); }
+if ($_GET['act'] == "deletemember" || $_GET['act'] == "validatemember" ||
+    $_GET['act'] == "editmember") {
+    require("./misc/adminmem.php");
+}
 
-if($_GET['act']=="view") { ?>
+if ($_GET['act'] == "view") { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
@@ -72,6 +112,7 @@ if($_GET['act']=="view") { ?>
     </table>
    </form>
   </center>
-  <?php echo $endhtmltag; } 
+  <?php echo $endhtmltag;
+}
 sqlite3_query($slite3, "VACUUM;");
 sqlite3_close($slite3); ?>
