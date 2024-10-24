@@ -197,6 +197,7 @@ if ($_GET['act'] == "latest" || $_GET['act'] == "neighbor" ||
 }
 if ($_GET['act'] == "csv" || $_GET['act'] == "dumpcsv" ||
    $_GET['act'] == "xml" || $_GET['act'] == "dumpxml" ||
+   $_GET['act'] == "sgml" || $_GET['act'] == "dumpsgml" ||
    $_GET['act'] == "yml" || $_GET['act'] == "dumpyml" ||
    $_GET['act'] == "json" || $_GET['act'] == "dumpjson" ||
    $_GET['act'] == "yaml" || $_GET['act'] == "dumpyaml" ||

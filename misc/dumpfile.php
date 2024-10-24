@@ -149,7 +149,7 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
 "<?php echo $upcinfo['upc']; ?>", "<?php echo $upcinfo['description']; ?>", "<?php echo $upcinfo['sizeweight']; ?>"<?php if ($add_quantity_row === true) { ?>, "<?php echo $upcinfo['quantity']; ?>"<?php } echo "\n"; ?>
 <?php }
         }
-} if ($_GET['act'] == "xml" || $_GET['act'] == "dumpxml") {
+} if ($_GET['act'] == "xml" || $_GET['act'] == "dumpxml" || $_GET['act'] == "sgml" || $_GET['act'] == "dumpsgml") {
     $deep_sub_act = null;
     if (isset($_GET['deepsubact'])) {
         $deep_sub_act = $_GET['deepsubact'];
@@ -164,6 +164,7 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
         $_GET['upc'] = $upcinfo['upc'];
         $_GET['subact'] = "lookup";
     }
+    if($_GET['act'] == "xml" || $_GET['act'] == "dumpxml") {
     @header("Content-Type: application/xml; charset=UTF-8");
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     echo "<?xml-stylesheet type=\"text/xsl\" href=\"".$url_file."?act=xslt\"?>\n";
@@ -175,7 +176,21 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
 <!ELEMENT description (#PCDATA)>
 <!ELEMENT sizeweight (#PCDATA)>
 ]>
-
+<?php 
+	} 
+	if($_GET['act'] == "sgml" || $_GET['act'] == "dumpsgml") {
+    @header("Content-Type: application/sgml; charset=UTF-8");
+	?>
+<!DOCTYPE <?php echo $sqlitedatabase; ?> [
+<!ELEMENT <?php echo $sqlitedatabase; ?> - - (item*)>
+<!ELEMENT item - - (upc, description, sizeweight)>
+<!ELEMENT upc - - (#PCDATA)>
+<!ELEMENT description - - (#PCDATA)>
+<!ELEMENT sizeweight - - (#PCDATA)>
+]>
+<?php 
+	} 
+	?>
 <<?php echo $sqlitedatabase; ?>>
 
 <?php
