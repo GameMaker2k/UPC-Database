@@ -23,7 +23,9 @@ if ($File3Name == "dumpfile.php" || $File3Name == "/dumpfile.php") {
 
 if ($_GET['act'] == "csv" || $_GET['act'] == "dumpcsv") {
     @header("Content-Type: text/csv; charset=UTF-8");
-    @header("Content-Disposition: attachment; filename=\"".$sqlitedatabase.".csv\"");
+	$inlinedown = "inline";
+	if(isset($_GET['download'])) { $inlinedown = "attachment"; }
+    @header("Content-Disposition: ".$inlinedown."; filename=\"".$sqlitedatabase.".csv\"");
     $deep_sub_act = null;
     if (isset($_GET['deepsubact'])) {
         $deep_sub_act = $_GET['deepsubact'];
@@ -166,6 +168,9 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
     }
     if($_GET['act'] == "xml" || $_GET['act'] == "dumpxml") {
     @header("Content-Type: application/xml; charset=UTF-8");
+	$inlinedown = "inline";
+	if(isset($_GET['download'])) { $inlinedown = "attachment"; }
+    @header("Content-Disposition: ".$inlinedown."; filename=\"".$sqlitedatabase.".xml\"");
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     echo "<?xml-stylesheet type=\"text/xsl\" href=\"".$url_file."?act=xslt\"?>\n";
     ?>
@@ -180,6 +185,9 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
 	} 
 	if($_GET['act'] == "sgml" || $_GET['act'] == "dumpsgml") {
     @header("Content-Type: application/sgml; charset=UTF-8");
+	$inlinedown = "inline";
+	if(isset($_GET['download'])) { $inlinedown = "attachment"; }
+    @header("Content-Disposition: ".$inlinedown."; filename=\"".$sqlitedatabase.".sgml\"");
 	?>
 <!DOCTYPE <?php echo $sqlitedatabase; ?> [
 <!ELEMENT <?php echo $sqlitedatabase; ?> - - (item*)>
@@ -329,7 +337,9 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
         $_GET['subact'] = "lookup";
     }
     @header("Content-Type: text/x-yaml; charset=UTF-8");
-    @header("Content-Disposition: attachment; filename=\"".$sqlitedatabase.".yaml\"");
+	$inlinedown = "inline";
+	if(isset($_GET['download'])) { $inlinedown = "attachment"; }
+    @header("Content-Disposition: ".$inlinedown."; filename=\"".$sqlitedatabase.".yaml\"");
     ?>
 item: 
 <?php
@@ -461,6 +471,9 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
         $_GET['subact'] = "lookup";
     }
     @header("Content-Type: application/json; charset=UTF-8");
+	$inlinedown = "inline";
+	if(isset($_GET['download'])) { $inlinedown = "attachment"; }
+    @header("Content-Disposition: ".$inlinedown."; filename=\"".$sqlitedatabase.".json\"");
     ?>
 {
   "item": [
