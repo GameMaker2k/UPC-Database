@@ -73,8 +73,8 @@ if ($_GET['act'] == "lookup") {
         }
     }
     ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
   <?php if (!isset($_POST['upc'])) { ?>
 <title> <?php echo $sitename; ?>: Item Lookup </title>
@@ -297,8 +297,8 @@ if ($_GET['act'] == "lookup") {
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if ($_GET['act'] == "check" || $_GET['act'] == "checkdigit") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Check Digit Calculator </title>
 <?php echo $metatags; ?>
@@ -346,8 +346,8 @@ if ($_GET['act'] == "lookup") {
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if ($_GET['act'] == "terms" || $_GET['act'] == "termsofuse") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Web Site Terms of Use </title>
 <?php echo $metatags; ?>
@@ -407,8 +407,8 @@ if ($_GET['act'] == "lookup") {
       $nummembers = number_format($countemp['count']);
       $dbsize = _format_bytes(filesize($sdb_file));
       ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Database Statistics </title>
 <?php echo $metatags; ?>

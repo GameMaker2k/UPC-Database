@@ -34,8 +34,8 @@ if ($_GET['act'] == "deletemember" && isset($_GET['id']) && $_GET['id'] > 1) {
     }
 }
 if ($_GET['act'] == "deletemember") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : Delete Member </title>
 <?php echo $metatags; ?>
@@ -111,8 +111,8 @@ if ($_GET['act'] == "deletemember") { ?>
       }
   }
 if ($_GET['act'] == "validatemember") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : Validate Member </title>
 <?php echo $metatags; ?>
@@ -265,8 +265,8 @@ if ($_GET['act'] == "editmember" && isset($_GET['id']) && $_GET['id'] > 1 && $_G
         $nummems = sql_fetch_assoc($findupc);
         $nummymods = $nummems['count'];
         ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : Edit Member </title>
 <?php echo $metatags; ?>
@@ -292,8 +292,8 @@ if ($_GET['act'] == "editmember" && isset($_GET['id']) && $_GET['id'] > 1 && $_G
   <?php echo $endhtmltag; ?>
 <?php }
     } if ($_GET['act'] == "editmember" && !isset($_GET['id']) && $_GET['subact'] === null) { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : Edit Member </title>
 <?php echo $metatags; ?>

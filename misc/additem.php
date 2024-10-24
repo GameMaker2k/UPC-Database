@@ -180,8 +180,8 @@ if ($_GET['act'] == "add" && isset($_POST['upc']) &&
     exit();
 }
 if ($_GET['act'] == "add" && isset($_POST['upc'])) { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Add New Entry </title>
 <?php echo $metatags; ?>

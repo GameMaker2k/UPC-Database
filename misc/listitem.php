@@ -32,8 +32,8 @@ if ($_GET['act'] == "neighbors" && !isset($_POST['upc'])) {
     exit();
 }
 if ($_GET['act'] == "latest") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Latest Submissions </title>
 <?php echo $metatags; ?>
@@ -147,8 +147,8 @@ if ($_GET['act'] == "latest") { ?>
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if (isset($_GET['upc']) && ($_GET['act'] == "neighbor" || $_GET['act'] == "neighbors")) { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Item Neighbors </title>
 <?php echo $metatags; ?>
@@ -274,8 +274,8 @@ if ($_GET['act'] == "latest") { ?>
           exit();
       }
       ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Search Results for &quot;<?php echo htmlspecialchars($_POST['searchterms'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>&quot; </title>
 <?php echo $metatags; ?>
@@ -357,8 +357,8 @@ if ($_GET['act'] == "latest") { ?>
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if ($_GET['act'] == "search" && !isset($_POST['searchterms'])) { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Search by Description </title>
 <?php echo $metatags; ?>

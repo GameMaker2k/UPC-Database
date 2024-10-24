@@ -42,8 +42,8 @@ if ($_GET['act'] == "deleteupc" && isset($_GET['upc']) && validate_ean13($_GET['
     }
 }
 if ($_GET['act'] == "deleteupc") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : Delete UPC </title>
 <?php echo $metatags; ?>
@@ -130,8 +130,8 @@ if ($_GET['act'] == "deleteupc") { ?>
       }
   }
 if ($_GET['act'] == "validateupc") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : Validate UPC </title>
 <?php echo $metatags; ?>
@@ -274,8 +274,8 @@ if ($_GET['act'] == "editupc" && validate_ean13($_GET['upc']) === true && $_GET[
         $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $_GET['upc'])."';");
         $upcinfo = sql_fetch_assoc($findupc);
         ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : Edit UPC </title>
 <?php echo $metatags; ?>
@@ -308,8 +308,8 @@ if ($_GET['act'] == "editupc" && validate_ean13($_GET['upc']) === true && $_GET[
   <?php echo $endhtmltag; ?>
 <?php }
     } if ($_GET['act'] == "editupc" && validate_ean13($_GET['upc']) === false) { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : Edit UPC </title>
 <?php echo $metatags; ?>
@@ -378,8 +378,8 @@ if ($_GET['act'] == "editupc" && validate_ean13($_GET['upc']) === true && $_GET[
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if ($_GET['act'] == "upcdelrequests") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : UPC Delete Requests </title>
 <?php echo $metatags; ?>
@@ -391,8 +391,8 @@ if ($_GET['act'] == "editupc" && validate_ean13($_GET['upc']) === true && $_GET[
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if ($_GET['act'] == "upceditrequests") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: AdminCP : UPC Edit Requests </title>
 <?php echo $metatags; ?>

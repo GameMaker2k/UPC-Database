@@ -292,8 +292,8 @@ if (($_GET['act'] == "join" || $_GET['act'] == "signup") &&
     exit();
 }
 if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Create an Account </title>
 <?php echo $metatags; ?>
@@ -315,8 +315,8 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if ($_GET['act'] == "login" || $_GET['act'] == "signin") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: Log In </title>
 <?php echo $metatags; ?>
@@ -374,8 +374,8 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
           $nummems = sql_fetch_assoc($findupc);
           $nummymods = $nummems['count'];
           ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: UPC Database User Info </title>
 <?php echo $metatags; ?>
@@ -415,8 +415,8 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
   <?php echo $endhtmltag; ?>
 <?php }
       } if ($_GET['act'] == "usrs" || $_GET['act'] == "users") { ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
  <head>
 <title> <?php echo $sitename; ?>: UPC Database User Info </title>
 <?php echo $metatags; ?>
