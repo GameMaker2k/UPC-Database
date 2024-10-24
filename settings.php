@@ -454,7 +454,7 @@ if (isset($_COOKIE['MemberName'])) {
 if (!isset($_COOKIE['MemberName'])) {
     $navbar = $navbar."Welcome: Guest | <a href=\"".$website_url.$url_file."?act=lookup\">Index Page</a> | <a href=\"".$website_url.$url_file."?act=join\">Join</a> | <a href=\"".$website_url.$url_file."?act=login\">Login</a>";
 }
-$navbar = $navbar." | <a href=\"".$website_url.$url_file."?act=latest&amp;page=1\">Latest</a> | <a href=\"".$website_url.$url_file."?act=random\">Random</a><br /></div>";
+$navbar = $navbar." | <a href=\"".$website_url.$url_file."?act=latest&amp;page=1\">Latest</a> | <a href=\"".$website_url.$url_file."?act=random\">Random</a> | <a href=\"".$website_url.$url_file."?act=stats\">Stats</a> | <a href=\"".$website_url.$url_file."?act=checkdigit\">Checkdigit</a><br /></div>";
 
 $navbarxslt = "<xsl:element name=\"h1\"><xsl:element name=\"big\"><xsl:element name=\"a\"><xsl:attribute name=\"style\">text-decoration: none;</xsl:attribute><xsl:attribute name=\"href\">".$website_url.$url_file."?act=lookup</xsl:attribute>".$sitename."</xsl:element></xsl:element></xsl:element>\n   <xsl:element name=\"div1\">";
 if (isset($_COOKIE['MemberName'])) {
@@ -463,7 +463,7 @@ if (isset($_COOKIE['MemberName'])) {
 if (!isset($_COOKIE['MemberName'])) {
     $navbarxslt = $navbarxslt."Welcome: Guest | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=lookup</xsl:attribute>Index Page</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=join</xsl:attribute>Join</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=login</xsl:attribute>Login</xsl:element>";
 }
-$navbarxslt = $navbarxslt." | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=latest&amp;page=1</xsl:attribute>Latest</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=random</xsl:attribute>Random</xsl:element><xsl:element name=\"br\"></xsl:element></xsl:element>";
+$navbarxslt = $navbarxslt." | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=latest&amp;page=1</xsl:attribute>Latest</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=random</xsl:attribute>Random</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=stats</xsl:attribute>Stats</xsl:element> | <xsl:element name=\"a\"><xsl:attribute name=\"href\">".$website_url.$url_file."?act=checkdigit</xsl:attribute>Checkdigit</xsl:element><xsl:element name=\"br\"></xsl:element></xsl:element>";
 
 $endhtmltag = "\n  <center>\n   <br /><address><a href=\"".$appmakerurl."\" title=\"".$appname." by ".$appmaker."\">".$appname."</a> ver. ".$appver[0].".".$appver[1].".".$appver[2]." ".$appver[3]."</address>\n  </center>\n </body>\n</html>\n";
 
