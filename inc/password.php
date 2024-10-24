@@ -84,113 +84,21 @@ function salt_hmac($size1 = 6, $size2 = 12)
     } return $hpass;
 }
 // PHP 5 hash algorithms to functions :o
+// Automatically define hash functions for all supported algorithms
 if (function_exists('hash') && function_exists('hash_algos')) {
-    if (in_array("md2", hash_algos()) && !function_exists("md2")) {
-        function md2($data)
-        {
-            return hash("md2", $data);
-        }
-    }
-    if (in_array("md4", hash_algos()) && !function_exists("md4")) {
-        function md4($data)
-        {
-            return hash("md4", $data);
-        }
-    }
-    if (in_array("md5", hash_algos()) && !function_exists("md5")) {
-        function md5($data)
-        {
-            return hash("md5", $data);
-        }
-    }
-    if (in_array("sha1", hash_algos()) && !function_exists("sha1")) {
-        function sha1($data)
-        {
-            return hash("sha1", $data);
-        }
-    }
-    if (in_array("sha224", hash_algos()) && !function_exists("sha224")) {
-        function sha224($data)
-        {
-            return hash("sha224", $data);
-        }
-    }
-    if (in_array("sha256", hash_algos()) && !function_exists("sha256")) {
-        function sha256($data)
-        {
-            return hash("sha256", $data);
-        }
-    }
-    if (in_array("sha384", hash_algos()) && !function_exists("sha384")) {
-        function sha384($data)
-        {
-            return hash("sha384", $data);
-        }
-    }
-    if (in_array("sha512", hash_algos()) && !function_exists("sha512")) {
-        function sha512($data)
-        {
-            return hash("sha512", $data);
-        }
-    }
-    if (in_array("ripemd128", hash_algos()) && !function_exists("ripemd128")) {
-        function ripemd128($data)
-        {
-            return hash("ripemd128", $data);
-        }
-    }
-    if (in_array("ripemd160", hash_algos()) && !function_exists("ripemd160")) {
-        function ripemd160($data)
-        {
-            return hash("ripemd160", $data);
-        }
-    }
-    if (in_array("ripemd256", hash_algos()) && !function_exists("ripemd256")) {
-        function ripemd256($data)
-        {
-            return hash("ripemd256", $data);
-        }
-    }
-    if (in_array("ripemd512", hash_algos()) && !function_exists("ripemd512")) {
-        function ripemd320($data)
-        {
-            return hash("ripemd320", $data);
-        }
-    }
-    if (in_array("salsa10", hash_algos()) && !function_exists("salsa10")) {
-        function salsa10($data)
-        {
-            return hash("salsa10", $data);
-        }
-    }
-    if (in_array("salsa20", hash_algos()) && !function_exists("salsa20")) {
-        function salsa20($data)
-        {
-            return hash("salsa20", $data);
-        }
-    }
-    if (in_array("snefru", hash_algos()) && !function_exists("snefru")) {
-        function snefru($data)
-        {
-            return hash("snefru", $data);
-        }
-    }
-    if (in_array("snefru256", hash_algos()) && !function_exists("snefru256")) {
-        function snefru256($data)
-        {
-            return hash("snefru256", $data);
-        }
-    }
-    if (in_array("gost", hash_algos()) && !function_exists("gost")) {
-        function gost($data)
-        {
-            return hash("gost", $data);
-        }
-    }
-    if (in_array("joaat", hash_algos()) && !function_exists("joaat")) {
-        function joaat($data)
-        {
-            return hash("joaat", $data);
+    $algos = hash_algos();  // Get the list of available hash algorithms
+
+    foreach ($algos as $algo) {
+        // Format function names: Remove non-alphanumeric characters for function names
+        $function_name = preg_replace('/[^a-zA-Z0-9]/', '', $algo);
+
+        // Check if the function already exists to avoid redeclaration
+        if (!function_exists($function_name)) {
+            eval("
+                function $function_name(\$data, \$raw_output = false) {
+                    return hash('$algo', \$data, \$raw_output);
+                }
+            ");
         }
     }
 }
