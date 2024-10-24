@@ -11,7 +11,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: convert.js - Last Update: 02/13/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+    $FileInfo: convert.js - Last Update: 10/24/2024 Ver. 2.2.5 RC 1 - Author: cooldude2k $
 */
 
 function convert_upce_to_upca(upc) {

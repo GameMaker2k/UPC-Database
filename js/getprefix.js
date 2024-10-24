@@ -11,7 +11,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: getprefix.js - Last Update: 02/13/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+    $FileInfo: getprefix.js - Last Update: 10/24/2024 Ver. 2.2.5 RC 1 - Author: cooldude2k $
 */
 
 // Get GS1 Prefix for EAN-13 EAN-9 barcodes
@@ -82,7 +82,7 @@ function get_gs1_prefix(upc) {
 	if(upc.match(/^(613)/)) { return "Algeria"; }
 	if(upc.match(/^(615)/)) { return "Nigeria"; }
 	if(upc.match(/^(616)/)) { return "Kenya"; }
-	if(upc.match(/^(618)/)) { return "Côte d'Ivoire"; }
+	if(upc.match(/^(618)/)) { return "Cï¿½te d'Ivoire"; }
 	if(upc.match(/^(619)/)) { return "Tunisia"; }
 	if(upc.match(/^(621)/)) { return "Syria"; }
 	if(upc.match(/^(622)/)) { return "Egypt"; }

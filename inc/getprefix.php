@@ -12,7 +12,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: getprefix.php - Last Update: 02/13/2012 Ver. 2.2.5 RC 1 - Author: cooldude2k $
+    $FileInfo: getprefix.php - Last Update: 10/24/2024 Ver. 2.2.5 RC 1 - Author: cooldude2k $
 */
 $File3Name = basename($_SERVER['SCRIPT_NAME']);
 if ($File3Name == "getprefix.php" || $File3Name == "/getprefix.php") {
@@ -225,7 +225,7 @@ function get_gs1_prefix($upc)
         return "Kenya";
     }
     if (preg_match("/^(618)/", $upc)) {
-        return "Côte d'Ivoire";
+        return "Cï¿½te d'Ivoire";
     }
     if (preg_match("/^(619)/", $upc)) {
         return "Tunisia";

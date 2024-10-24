@@ -12,7 +12,7 @@
     Copyright 2011-2012 Game Maker 2k - http://intdb.sourceforge.net/
     Copyright 2011-2012 Kazuki Przyborowski - https://github.com/KazukiPrzyborowski
 
-    $FileInfo: adminmem.php - Last Update: 02/29/2012 Ver. 1.0.0 RC 1 - Author: cooldude2k $
+    $FileInfo: adminmem.php - Last Update: 10/24/2024 Ver. 2.2.5 RC 1 - Author: cooldude2k $
 */
 $File3Name = basename($_SERVER['SCRIPT_NAME']);
 if ($File3Name == "adminmem.php" || $File3Name == "/adminmem.php") {
