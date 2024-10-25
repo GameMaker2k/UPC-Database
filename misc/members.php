@@ -171,22 +171,22 @@ if (($_GET['act'] == "login" || $_GET['act'] == "signin") &&
             exit();
         }
         if ($userinfo['password'] == $PasswordCheck) {
-            $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$userinfo['id']."';");
+            $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $userinfo['id'])."';");
             $numupc = sql_fetch_assoc($findupc);
             $nummypendings = $numupc['count'];
-            $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$userinfo['id']."';");
+            $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $userinfo['id'])."';");
             $numupc = sql_fetch_assoc($findupc);
             $nummyitems = $numupc['count'];
             if ($userinfo['numitems'] != $nummyitems && $userinfo['numpending'] == $nummypendings) {
-                sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numitems\"=".$nummyitems." WHERE \"id\"=".$userinfo['id'].";");
+                sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numitems\"=".sqlite3_escape_string($slite3, $nummyitems)." WHERE \"id\"=".sqlite3_escape_string($slite3, $userinfo['id']).";");
             }
             if ($userinfo['numitems'] == $nummyitems && $userinfo['numpending'] != $nummypendings) {
-                sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numpending\"=".$nummypendings." WHERE \"id\"=".$userinfo['id'].";");
+                sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numpending\"=".sqlite3_escape_string($slite3, $nummypendings)." WHERE \"id\"=".sqlite3_escape_string($slite3, $userinfo['id']).";");
             }
             if ($userinfo['numitems'] != $nummyitems && $userinfo['numpending'] != $nummypendings) {
-                sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numitems\"=".$nummyitems.",\"numpending\"=".$nummypendings." WHERE \"id\"=".$userinfo['id'].";");
+                sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"numitems\"=".sqlite3_escape_string($slite3, $nummyitems).",\"numpending\"=".sqlite3_escape_string($slite3, $nummypendings)." WHERE \"id\"=".sqlite3_escape_string($slite3, $userinfo['id']).";");
             }
-            sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"lastactive\"='".time()."',\"ip\"='".sqlite3_escape_string($slite3, $usersip)."',\"password\"='".sqlite3_escape_string($slite3, $NewPassword)."',\"salt\"='".sqlite3_escape_string($slite3, $NewHashSalt)."',\"hashtype\"='".sqlite3_escape_string($slite3, $usehashtype)."' WHERE \"name\"='".$userinfo['name']."' AND \"id\"=".$userinfo['id'].";");
+            sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"lastactive\"='".time()."',\"ip\"='".sqlite3_escape_string($slite3, $usersip)."',\"password\"='".sqlite3_escape_string($slite3, $NewPassword)."',\"salt\"='".sqlite3_escape_string($slite3, $NewHashSalt)."',\"hashtype\"='".sqlite3_escape_string($slite3, $usehashtype)."' WHERE \"name\"='".sqlite3_escape_string($slite3, $userinfo['name'])."' AND \"id\"=".sqlite3_escape_string($slite3, $userinfo['id']).";");
             setcookie("MemberName", $userinfo['name'], time() + (7 * 86400), $cbasedir, $cookieDomain);
             setcookie("MemberID", $userinfo['id'], time() + (7 * 86400), $cbasedir, $cookieDomain);
             setcookie("SessPass", $NewPassword, time() + (7 * 86400), $cbasedir, $cookieDomain);
@@ -279,10 +279,10 @@ if (($_GET['act'] == "join" || $_GET['act'] == "signup") &&
     sqlite3_query($slite3, "INSERT INTO \"".$table_prefix."members\" (\"name\", \"password\", \"hashtype\", \"email\", \"timestamp\", \"lastactive\", \"canviewsite\", \"validateitems\", \"canaddupc\", \"canmakeeditreq\", \"canmakedelreq\", \"canuseupcapi\", \"validated\", \"bantime\", \"numitems\", \"numpending\", \"numdelreq\", \"admin\", \"ip\", \"salt\") VALUES ('".sqlite3_escape_string($slite3, $_POST['username'])."', '".sqlite3_escape_string($slite3, $NewPassword)."', '".sqlite3_escape_string($slite3, $usehashtype)."', '".sqlite3_escape_string($slite3, $_POST['email'])."', ".sqlite3_escape_string($slite3, $UserJoined).", ".sqlite3_escape_string($slite3, $UserJoined).", 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'no', 0, 0, 0, 0, 'no', '".sqlite3_escape_string($slite3, $usersip)."', '".sqlite3_escape_string($slite3, $HashSalt)."');");
     $usersid = sqlite3_last_insert_rowid($slite3);
     if ($usersid > 1 && $validate_members === false) {
-        sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"validated\"='yes' WHERE \"name\"='".$_POST['username']."' AND \"id\"=".$usersid.";");
+        sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"validated\"='yes' WHERE \"name\"='".sqlite3_escape_string($slite3, $_POST['username'])."' AND \"id\"=".sqlite3_escape_string($slite3, $usersid).";");
     }
     if ($usersid == 1) {
-        sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"validated\"='yes',\"admin\"='yes' WHERE \"name\"='".$_POST['username']."' AND \"id\"=1;");
+        sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"validated\"='yes',\"admin\"='yes' WHERE \"name\"='".sqlite3_escape_string($slite3, $_POST['username'])."' AND \"id\"=1;");
     }
     setcookie("MemberName", $_POST['username'], time() + (7 * 86400), $cbasedir, $cookieDomain);
     setcookie("MemberID", $usersid, time() + (7 * 86400), $cbasedir, $cookieDomain);
@@ -348,29 +348,29 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
       if (!is_numeric($_GET['id']) && isset($_COOKIE['MemberID']) && is_numeric($_COOKIE['MemberID'])) {
           $_GET['id'] = $_COOKIE['MemberID'];
       }
-      $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+      $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
       $nummems = sql_fetch_assoc($findmem);
       $numrows = $nummems['count'];
       if ($numrows <= 0) {
           $_GET['id'] = 1;
-          $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+          $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
           $nummems = sql_fetch_assoc($findmem);
           $numrows = $nummems['count'];
       }
       if ($numrows > 0) {
-          $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_GET['id'].";");
+          $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
           $meminfo = sql_fetch_assoc($findmem);
           /*
-          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$meminfo['id']."';");
+          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $meminfo['id'])."';");
           $nummems = sql_fetch_assoc($findupc);
           $nummyitems = $nummems['count'];
-          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$meminfo['id']."';");
+          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $meminfo['id'])."';");
           $nummems = sql_fetch_assoc($findupc);
           $nummypendings = $nummems['count'];
           */
           $nummyitems = $meminfo['numitems'];
           $nummypendings = $meminfo['numpending'];
-          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."modupc\" WHERE \"userid\"='".$meminfo['id']."';");
+          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."modupc\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $meminfo['id'])."';");
           $nummems = sql_fetch_assoc($findupc);
           $nummymods = $nummems['count'];
           ?>
@@ -386,10 +386,10 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
    <?php echo $navbar; ?>
    <h2>UPC Database User Info</h2>
     <table>
-     <tr><td>Username:</td><td><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td></tr>
+     <tr><td>Username:</td><td><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?></td></tr>
 	 <?php if ((isset($_COOKIE['MemberID']) && $_COOKIE['MemberID'] == $meminfo['id']) ||
                         ($usersiteinfo['admin'] == "yes")) { ?>
-     <tr><td>Email:</td><td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td></tr>
+     <tr><td>Email:</td><td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?></td></tr>
 	 <?php } ?>
      <tr><td>Items Entered:</td><td><?php if ($nummyitems > 0) { ?><a href="<?php echo $url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $nummyitems;
           if ($nummyitems > 0) { ?></a><?php } ?></td></tr>
@@ -402,7 +402,7 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
 	 <?php } ?>
     </table>
    <?php if ($usersiteinfo['admin'] == "yes" && $meminfo['id'] > 1) { ?>
-   <a href="<?php echo $url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>">Edit User</a> | <a href="<?php echo $url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?>?')) { return false; }">Delete User</a><br />
+   <a href="<?php echo $url_admin_file; ?>?act=editmember&amp;id=<?php echo $meminfo['id']; ?>">Edit User</a> | <a href="<?php echo $url_admin_file; ?>?act=deletemember&amp;id=<?php echo $meminfo['id']; ?>" onclick="if(!confirm('Are you sure you want to delete member <?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?>?')) { return false; }">Delete User</a><br />
    <?php } ?>
     <form action="<?php echo $url_file; ?>?act=lookup" method="get">
     <input type="hidden" name="act" value="lookup" />
@@ -446,7 +446,7 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
               if ($numrows < $display_per_page) {
                   $maxpage = $numrows;
               }
-              $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" ORDER BY \"id\" ASC LIMIT ".$startoffset.", ".$display_per_page.";");
+              $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" ORDER BY \"id\" ASC LIMIT ".sqlite3_escape_string($slite3, $startoffset).", ".$display_per_page.";");
               if ($maxpage > $display_per_page && $_GET['page'] > 1) {
                   $backpage = $_GET['page'] - 1;
                   echo "<a href=\"".$url_file."?act=users&amp;page=".$backpage."\">Prev</a> --\n";
@@ -463,8 +463,8 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
    <?php
               while ($meminfo = sql_fetch_assoc($findmem)) { ?>
    <tr valign="top">
-   <td><a href="<?php echo $url_file; ?>?act=user&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></a></td>
-   <td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td>
+   <td><a href="<?php echo $url_file; ?>?act=user&amp;id=<?php echo $meminfo['id']; ?>"><?php echo htmlspecialchars($meminfo['name'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?></a></td>
+   <td><?php echo htmlspecialchars($meminfo['email'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?></td>
    <td nowrap="nowrap"><?php if ($meminfo['numitems'] > 0) { ?><a href="<?php echo $url_file; ?>?act=latest&amp;id=<?php echo $meminfo['id']; ?>&amp;page=1"><?php } echo $meminfo['numitems'];
                   if ($meminfo['numitems'] > 0) { ?></a><?php } ?></td>
    <td nowrap="nowrap"><?php echo $meminfo['numpending']; ?></td>

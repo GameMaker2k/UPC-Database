@@ -116,12 +116,12 @@ if ($_GET['act'] == "add" && isset($_POST['upc']) &&
         header("Location: ".$website_url.$url_file."?act=add&upc=".$_GET['upc']);
         exit();
     }
-    $findusrinfo = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".$_COOKIE['MemberID'].";");
+    $findusrinfo = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_COOKIE['MemberID']).";");
     $getuserinfo = sql_fetch_assoc($findusrinfo);
-    $fixcount = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".$getuserinfo['id']."';");
+    $fixcount = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $getuserinfo['id'])."';");
     $numfixcount = sql_fetch_assoc($fixcount);
     $nummypendings = $numfixcount['count'];
-    $fixcount = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".$getuserinfo['id']."';");
+    $fixcount = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $getuserinfo['id'])."';");
     $numfixcount = sql_fetch_assoc($fixcount);
     $nummyitems = $numfixcount['count'];
     if ($getuserinfo['numitems'] != $nummyitems) {
@@ -144,7 +144,7 @@ if ($_GET['act'] == "add" && isset($_POST['upc']) &&
     if ($usersiteinfo['admin'] == "no" && $validate_items === false) {
         $newnumitems = $getuserinfo['numitems'] + 1;
     }
-    sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"lastactive\"='".time()."',\"numitems\"=".$newnumitems.",\"numpending\"=".$newnumpending.",\"ip\"='".$usersip."' WHERE \"id\"=".$_COOKIE['MemberID'].";");
+    sqlite3_query($slite3, "UPDATE \"".$table_prefix."members\" SET \"lastactive\"='".time()."',\"numitems\"=".sqlite3_escape_string($slite3, $newnumitems).",\"numpending\"=".sqlite3_escape_string($slite3, $newnumpending).",\"ip\"='".sqlite3_escape_string($slite3, $usersip)."' WHERE \"id\"=".sqlite3_escape_string($slite3, $_COOKIE['MemberID']).";");
     $itemvalidated = "no";
     if ($_COOKIE['MemberID'] == 1) {
         $itemvalidated = "yes";

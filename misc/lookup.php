@@ -220,9 +220,9 @@ if ($_GET['act'] == "lookup") {
    <?php } if ($ean13 !== null && validate_ean13($ean13) === true) { ?>
    <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
    <?php } ?>
-   <tr><td>Description</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td></tr>
-   <tr><td>Size/Weight</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td></tr>
-   <?php if ($add_quantity_row === true) { ?><tr><td>Quantity</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML401, "UTF-8"); ?></td></tr><?php } ?>
+   <tr><td>Description</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?></td></tr>
+   <tr><td>Size/Weight</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?></td></tr>
+   <?php if ($add_quantity_row === true) { ?><tr><td>Quantity</td><td width="50"></td><td><?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?></td></tr><?php } ?>
    <tr><td>Issuing Country</td><td width="50"></td><td><?php echo get_gs1_prefix($ean13); ?></td></tr>
    <tr><td>Created</td><td width="50"></td><td><?php echo date("j M Y, g:i A T", $upcinfo['timestamp']); ?></td></tr>
    <tr><td>Created By</td><td width="50"></td><td><?php if ($upcinfo['userid'] > 0) { ?><a href="<?php echo $url_file."?act=user&amp;id=".$upcinfo['userid']; ?>"><?php } echo $upcinfo['username']; ?><?php if ($upcinfo['userid'] > 0) { ?></a><?php } ?></td></tr>
