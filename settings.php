@@ -50,6 +50,7 @@ if ($File3Name == "settings.php" || $File3Name == "/settings.php") {
 }
 
 $usersip = $_SERVER['REMOTE_ADDR'];
+$useragent = $_SERVER['HTTP_USER_AGENT'];
 $basecheck = parse_url($website_url);
 $basedir = $basecheck['path'];
 $cbasedir = $basedir;
@@ -109,13 +110,24 @@ if (!defined("E_DEPRECATED")) {
     define("E_DEPRECATED", 0);
 }
 @error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+@set_time_limit(30);
+@ignore_user_abort(true);
 if (function_exists("date_default_timezone_set")) {
     @date_default_timezone_set("UTC");
 }
 
 @header("Content-Type: text/html; charset=UTF-8");
 @header("Content-Language: en");
-@header("content-Style-Type: text/css");
+@header("X-Robots-Tag: all");
+@header("X-Frame-Options: SAMEORIGIN");
+@header("Cross-Origin-Resource-Policy: same-origin");
+@header("X-XSS-Protection: 1; mode=block");
+@header("Referrer-Policy: no-referrer-when-downgrade");
+@header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+@header("X-Content-Type-Options: nosniff");
+@header("Vary: Accept-Language, Accept-Encoding, User-Agent, Cookie, Referer, X-Requested-With");
+@header("Accept-CH: Accept-CH: Sec-CH-UA, Sec-CH-UA-Platform, Sec-CH-UA-Mobile, Sec-CH-UA-Full-Version, Sec-CH-UA-Full-Version-List, Sec-CH-UA-Platform-Version, Sec-CH-UA-Arch, Sec-CH-UA-Bitness, Sec-CH-UA-Model, Sec-CH-Viewport-Width, Sec-CH-Viewport-Height, Sec-CH-Lang, Sec-CH-Save-Data, Sec-CH-Width, Sec-CH-DPR, Sec-CH-Device-Memory, Sec-CH-RTT, Sec-CH-Downlink, Sec-CH-ECT, Sec-CH-Prefers-Color-Scheme, Sec-CH-Prefers-Reduced-Motion, Sec-CH-Prefers-Reduced-Transparency, Sec-CH-Prefers-Contrast, Sec-CH-Forced-Colors");
+@header("Content-Style-Type: text/css");
 @header("Content-Script-Type: text/javascript");
 if (!isset($_SERVER['HTTP_USER_AGENT'])) {
     $_SERVER['HTTP_USER_AGENT'] = "";
@@ -127,6 +139,9 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], "msie") &&
 if (strpos($_SERVER['HTTP_USER_AGENT'], "chromeframe")) {
     @header("X-UA-Compatible: IE=Edge,chrome=1");
 }
+@header("Cache-Control: private, no-cache, no-store, must-revalidate, pre-check=0, post-check=0, max-age=0");
+@header("Pragma: private, no-cache, no-store, must-revalidate, pre-check=0, post-check=0, max-age=0");
+@header("P3P: CP=\"IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT\"");
 @header("Date: ".gmdate("D, d M Y H:i:s")." GMT");
 @header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
 @header("Expires: ".gmdate("D, d M Y H:i:s")." GMT");
@@ -526,19 +541,26 @@ if (date("Ymd", time()) > date("Ymd", $_COOKIE['LastVisit'])) {
 }
 
 $metatags = "<meta charset=\"UTF-8\">
+  <meta name=\"language\" content=\"english\" />
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
   <meta name=\"generator\" content=\"".$sitename."\">
   <meta name=\"author\" content=\"".$siteauthor."\">
   <meta name=\"keywords\" content=\"".$sitekeywords."\">
   <meta name=\"description\" content=\"".$sitedescription."\">
+  <meta http-equiv=\"X-Content-Type-Options\" content=\"nosniff\">
   <meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'self'; script-src 'self'\">
   <base href=\"".$website_url."\">
   <link rel=\"icon\" href=\"favicon.ico\">
-  <script src=\"js/validate.js\"></script>
-  <script src=\"js/convert.js\"></script>
-  <script src=\"js/kittycode.js\"></script>
-  <script src=\"js/misc.js\"></script>
-  <style>
+  <script type=\"text/javascript\" src=\"js/validate.js\"></script>
+  <script type=\"text/javascript\" src=\"js/convert.js\"></script>
+  <script type=\"text/javascript\" src=\"js/kittycode.js\"></script>
+  <script type=\"text/javascript\" src=\"js/misc.js\"></script>
+  <meta name=\"handheldfriendly\" content=\"true\" />
+  <meta name=\"robots\" content=\"Index, FOLLOW\" />
+  <meta name=\"googlebot\" content=\"Index, FOLLOW\" />
+  <meta name=\"revisit-after\" content=\"7 days\" />
+  <meta name=\"distribution\" content=\"web\" />
+  <style type=\"text/css\">
   body {
       min-width: 750px;
       margin: 0;
