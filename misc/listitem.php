@@ -58,7 +58,7 @@ if ($_GET['act'] == "latest") { ?>
         $_GET['id'] = null;
     }
     if ($_GET['id'] > 0 && $_GET['id'] !== null) {
-        $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
+        $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_GET['id']).";");
         $nummems = sql_fetch_assoc($findmem);
         $numrows = $nummems['count'];
         if ($numrows <= 0) {
@@ -66,7 +66,7 @@ if ($_GET['act'] == "latest") { ?>
         }
         if ($numrows > 0) {
             $addonurl = "&amp;id=".$_GET['id'];
-            $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
+            $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_GET['id']).";");
             $meminfo = sql_fetch_assoc($findmem);
         }
     }
@@ -74,7 +74,7 @@ if ($_GET['act'] == "latest") { ?>
         $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC;");
     }
     if ($meminfo !== null) {
-        $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $_POST['upc'])."' ORDER BY \"lastupdate\" DESC;");
+        $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $_GET['id'])."' ORDER BY \"lastupdate\" DESC;");
     }
     $numupc = sql_fetch_assoc($findupc);
     $numrows = $numupc['count'];
@@ -98,7 +98,7 @@ if ($_GET['act'] == "latest") { ?>
             $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" ORDER BY \"lastupdate\" DESC LIMIT ".sqlite3_escape_string($slite3, $startoffset).", ".$display_per_page.";");
         }
         if ($meminfo !== null) {
-            $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $_POST['upc'])."' ORDER BY \"lastupdate\" DESC LIMIT ".sqlite3_escape_string($slite3, $startoffset).", ".$display_per_page.";");
+            $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $_GET['id'])."' ORDER BY \"lastupdate\" DESC LIMIT ".sqlite3_escape_string($slite3, $startoffset).", ".$display_per_page.";");
         }
         if ($maxpage > $display_per_page && $_GET['page'] > 1) {
             $backpage = $_GET['page'] - 1;
@@ -173,7 +173,7 @@ if ($_GET['act'] == "latest") { ?>
           $_GET['id'] = null;
       }
       if ($_GET['id'] > 0 && $_GET['id'] !== null) {
-          $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
+          $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_GET['id']).";");
           $nummems = sql_fetch_assoc($findmem);
           $numrows = $nummems['count'];
           if ($numrows <= 0) {
@@ -181,7 +181,7 @@ if ($_GET['act'] == "latest") { ?>
           }
           if ($numrows > 0) {
               $addonurl = "&amp;id=".$_GET['id'];
-              $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
+              $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_GET['id']).";");
               $meminfo = sql_fetch_assoc($findmem);
           }
       }
@@ -191,7 +191,7 @@ if ($_GET['act'] == "latest") { ?>
           $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' ORDER BY \"upc\" ASC;");
       }
       if ($meminfo !== null) {
-          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" AND \"userid\"='".sqlite3_escape_string($slite3, $_POST['upc'])."' LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' ORDER BY \"upc\" ASC;");
+          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" AND \"userid\"='".sqlite3_escape_string($slite3, $_GET['id'])."' LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' ORDER BY \"upc\" ASC;");
       }
       $numupc = sql_fetch_assoc($findupc);
       $numrows = $numupc['count'];
@@ -212,7 +212,7 @@ if ($_GET['act'] == "latest") { ?>
               $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' ORDER BY \"upc\" ASC;");
           }
           if ($meminfo !== null) {
-              $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' AND \"userid\"='".sqlite3_escape_string($slite3, $_POST['upc'])."' ORDER BY \"upc\" ASC;");
+              $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' AND \"userid\"='".sqlite3_escape_string($slite3, $_GET['id'])."' ORDER BY \"upc\" ASC;");
           }
           if ($maxpage > $display_per_page && $_GET['page'] > 1) {
               $backpage = $_GET['page'] - 1;
