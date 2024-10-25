@@ -619,6 +619,9 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
             $_GET['subact'] = "lookup";
         }
         @header("Content-Type: text/plain; charset=UTF-8");
+        $inlinedown = "inline";
+        if(isset($_GET['download'])) { $inlinedown = "attachment"; }
+        @header("Content-Disposition: ".$inlinedown."; filename=\"".$sqlitedatabase.".txt\"");
         if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
             if (!isset($_GET['upc']) || !is_numeric($_GET['upc'])) {
                 $_GET['upc'] = null;
@@ -739,6 +742,9 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
         }
     } if ($_GET['act'] == "xslt") {
         @header("Content-Type: application/xml; charset=UTF-8");
+        $inlinedown = "inline";
+        if(isset($_GET['download'])) { $inlinedown = "attachment"; }
+        @header("Content-Disposition: ".$inlinedown."; filename=\"".$sqlitedatabase.".xslt\"");
         echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         ?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
