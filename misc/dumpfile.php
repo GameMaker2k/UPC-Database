@@ -741,7 +741,7 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
             echo serialize($items);
         }
     } if ($_GET['act'] == "xslt") {
-        @header("Content-Type: application/xml; charset=UTF-8");
+        @header("Content-Type: application/xslt+xml; charset=UTF-8");
         $inlinedown = "inline";
         if(isset($_GET['download'])) { $inlinedown = "attachment"; }
         @header("Content-Disposition: ".$inlinedown."; filename=\"".$sqlitedatabase.".xslt\"");
