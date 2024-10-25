@@ -336,7 +336,13 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if ($_GET['act'] == "usr" || $_GET['act'] == "user") {
-      if (!isset($_GET['id'])) {
+      if (!isset($_GET['id']) && !isset($_COOKIE['MemberID'])) {
+          $_GET['id'] = 1;
+      }
+      if (!isset($_GET['id']) && isset($_COOKIE['MemberID']) && is_numeric($_COOKIE['MemberID'])) {
+          $_GET['id'] = intval($_COOKIE['MemberID']);
+      }
+      if (!isset($_GET['id']) && isset($_COOKIE['MemberID']) && !is_numeric($_COOKIE['MemberID'])) {
           $_GET['id'] = 1;
       }
       if (!is_numeric($_GET['id']) && !isset($_COOKIE['MemberID'])) {
