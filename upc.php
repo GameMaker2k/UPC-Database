@@ -210,5 +210,4 @@ if ($_GET['act'] == "csv" || $_GET['act'] == "dumpcsv" ||
     }
     require("./misc/dumpfile.php");
 }
-sqlite3_query($slite3, "VACUUM;");
 sqlite3_close($slite3);

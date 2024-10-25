@@ -336,8 +336,8 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
   </center>
   <?php echo $endhtmltag; ?>
 <?php } if ($_GET['act'] == "usr" || $_GET['act'] == "user") {
-      if ($_GET['id'] <= 0) {
-          $_GET['id'] = null;
+      if (!isset($_GET['id'])) {
+          $_GET['id'] = 1;
       }
       if (!is_numeric($_GET['id']) && !isset($_COOKIE['MemberID'])) {
           $_GET['id'] = 1;
@@ -346,19 +346,22 @@ if ($_GET['act'] == "join" || $_GET['act'] == "signup") { ?>
           $_GET['id'] = 1;
       }
       if (!is_numeric($_GET['id']) && isset($_COOKIE['MemberID']) && is_numeric($_COOKIE['MemberID'])) {
-          $_GET['id'] = $_COOKIE['MemberID'];
+          $_GET['id'] = intval($_COOKIE['MemberID']);
       }
-      $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
+      if ($_GET['id'] <= 0) {
+          $_GET['id'] = 1;
+      }
+      $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_GET['id']).";");
       $nummems = sql_fetch_assoc($findmem);
       $numrows = $nummems['count'];
       if ($numrows <= 0) {
           $_GET['id'] = 1;
-          $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
+          $findmem = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_GET['id']).";");
           $nummems = sql_fetch_assoc($findmem);
           $numrows = $nummems['count'];
       }
       if ($numrows > 0) {
-          $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['upc']).";");
+          $findmem = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_GET['id']).";");
           $meminfo = sql_fetch_assoc($findmem);
           /*
           $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $meminfo['id'])."';");

@@ -135,10 +135,10 @@ if (extension_loaded("sqlite3") && $sqlite_version == 3) {
     function sqlite3_open($filename, $mode = 0666)
     {
         global $site_encryption_key;
-        if ($site_encryption_key === null) {
+        if ($site_encryption_key === null || $site_encryption_key == "") {
             $handle = new SQLite3($filename, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
         }
-        if ($site_encryption_key !== null) {
+        if ($site_encryption_key !== null && $site_encryption_key != "") {
             $handle = new SQLite3($filename, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE, $site_encryption_key);
         }
         return $handle;
@@ -183,14 +183,7 @@ if (extension_loaded("sqlite3") && $sqlite_version == 3) {
 if (extension_loaded('pdo') && extension_loaded('pdo_sqlite') && $sqlite_version == 4) {
     function sqlite3_open($filename, $mode = 0666)
     {
-        global $site_encryption_key;
-        if ($site_encryption_key === null) {
-            $handle = new PDO('sqlite:' . $filename);
-        } else {
-            // Note: Encryption is not natively supported in PDO SQLite.
-            // You may need to use an external library or extension for encryption support.
-            throw new Exception('Encryption with PDO SQLite is not supported natively.');
-        }
+        $handle = new PDO('sqlite:' . $filename);
         return $handle;
     }
 
@@ -336,100 +329,120 @@ function _format_bytes($a_bytes)
     }
 }
 
+// Function to check if a table exists using your custom functions
+function tableExists($dbhandle, $tableName) {
+    $escapedTableName = sqlite3_escape_string($dbhandle, $tableName);
+    $query = "SELECT name FROM sqlite_master WHERE type='table' AND name='$escapedTableName'";
+    $result = sqlite3_query($dbhandle, $query);
+    $row = sqlite3_fetch_array($result, SQLITE3_ASSOC);
+    return ($row !== false);
+}
+
+// Open the database connection using your custom function
 $slite3 = sqlite3_open($sdb_file);
-$tablecheck1 = @sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."members\"");
-if ($tablecheck1 === false) {
-    sqlite3_query($slite3, "PRAGMA auto_vacuum = 1;");
-    sqlite3_query($slite3, "PRAGMA encoding = \"UTF-8\";");
-    $query = "CREATE TABLE \"".$table_prefix."members\" (\n".
-    "  \"id\" INTEGER PRIMARY KEY NOT NULL,\n".
-    "  \"name\" VARCHAR(150) UNIQUE NOT NULL default '',\n".
-    "  \"password\" VARCHAR(250) NOT NULL default '',\n".
-    "  \"hashtype\" VARCHAR(50) NOT NULL default '',\n".
-    "  \"email\" VARCHAR(256) UNIQUE NOT NULL default '',\n".
-    "  \"timestamp\" INTEGER NOT NULL default '0',\n".
-    "  \"lastactive\" INTEGER NOT NULL default '0',\n".
-    "  \"canviewsite\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"validateitems\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"canaddupc\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"canmakeeditreq\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"canmakedelreq\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"canuseupcapi\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"validated\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"bantime\" INTEGER NOT NULL default '0',\n".
-    "  \"numitems\" INTEGER NOT NULL default '0',\n".
-    "  \"numpending\" INTEGER NOT NULL default '0',\n".
-    "  \"numdelreq\" INTEGER NOT NULL default '0',\n".
-    "  \"admin\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"ip\" VARCHAR(50) NOT NULL default '',\n".
-    "  \"salt\" VARCHAR(50) NOT NULL default ''\n".
-    ");";
+
+// Set PRAGMA options
+sqlite3_query($slite3, "PRAGMA encoding = 'UTF-8';");
+sqlite3_query($slite3, "PRAGMA journal_mode = WAL;");
+sqlite3_query($slite3, "PRAGMA synchronous = NORMAL;");
+sqlite3_query($slite3, "PRAGMA foreign_keys = ON;");
+sqlite3_query($slite3, "PRAGMA cache_size = -20000;"); // Adjust based on server memory
+sqlite3_query($slite3, "PRAGMA temp_store = MEMORY;");
+sqlite3_query($slite3, "PRAGMA locking_mode = NORMAL;");
+// Reclaim 10 pages of free space
+sqlite3_query($slite3, "PRAGMA auto_vacuum = INCREMENTAL;");
+sqlite3_query($slite3, "PRAGMA incremental_vacuum(10);");
+sqlite3_query($slite3, "PRAGMA busy_timeout = 5000;");
+sqlite3_query($slite3, "PRAGMA mmap_size = 268435456;"); // Use only if appropriate
+
+// Check and create the "members" table if it doesn't exist
+if (!tableExists($slite3, $table_prefix . "members")) {
+    $query = "CREATE TABLE \"" . $table_prefix . "members\" (
+        \"id\" INTEGER PRIMARY KEY NOT NULL,
+        \"name\" VARCHAR(150) UNIQUE NOT NULL default '',
+        \"password\" VARCHAR(250) NOT NULL default '',
+        \"hashtype\" VARCHAR(50) NOT NULL default '',
+        \"email\" VARCHAR(256) UNIQUE NOT NULL default '',
+        \"timestamp\" INTEGER NOT NULL default '0',
+        \"lastactive\" INTEGER NOT NULL default '0',
+        \"canviewsite\" VARCHAR(20) NOT NULL default '',
+        \"validateitems\" VARCHAR(20) NOT NULL default '',
+        \"canaddupc\" VARCHAR(20) NOT NULL default '',
+        \"canmakeeditreq\" VARCHAR(20) NOT NULL default '',
+        \"canmakedelreq\" VARCHAR(20) NOT NULL default '',
+        \"canuseupcapi\" VARCHAR(20) NOT NULL default '',
+        \"validated\" VARCHAR(20) NOT NULL default '',
+        \"bantime\" INTEGER NOT NULL default '0',
+        \"numitems\" INTEGER NOT NULL default '0',
+        \"numpending\" INTEGER NOT NULL default '0',
+        \"numdelreq\" INTEGER NOT NULL default '0',
+        \"admin\" VARCHAR(20) NOT NULL default '',
+        \"ip\" VARCHAR(50) NOT NULL default '',
+        \"salt\" VARCHAR(50) NOT NULL default ''
+    );";
     sqlite3_query($slite3, $query);
 }
-$tablecheck2 = @sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\"");
-if ($tablecheck2 === false) {
-    sqlite3_query($slite3, "PRAGMA auto_vacuum = 1;");
-    sqlite3_query($slite3, "PRAGMA encoding = \"UTF-8\";");
-    $query = "CREATE TABLE \"".$table_prefix."items\" (\n".
-    "  \"id\" INTEGER PRIMARY KEY NOT NULL,\n".
-    "  \"upc\" TEXT UNIQUE NOT NULL,\n".
-    "  \"description\" TEXT NOT NULL,\n".
-    "  \"sizeweight\" TEXT NOT NULL,\n".
-    "  \"quantity\" TEXT NOT NULL,\n".
-    "  \"validated\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"delrequest\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"delreqreason\" TEXT NOT NULL,\n".
-    "  \"userid\" INTEGER NOT NULL default '0',\n".
-    "  \"username\" VARCHAR(150) NOT NULL default '',\n".
-    "  \"timestamp\" INTEGER NOT NULL default '0',\n".
-    "  \"lastupdate\" INTEGER NOT NULL default '0',\n".
-    "  \"edituserid\" INTEGER NOT NULL default '0',\n".
-    "  \"editname\" VARCHAR(150) NOT NULL default '',\n".
-    "  \"ip\" VARCHAR(50) NOT NULL default '',\n".
-    "  \"editip\" VARCHAR(50) NOT NULL default ''\n".
-    ");";
+
+// Check and create the "items" table if it doesn't exist
+if (!tableExists($slite3, $table_prefix . "items")) {
+    $query = "CREATE TABLE \"" . $table_prefix . "items\" (
+        \"id\" INTEGER PRIMARY KEY NOT NULL,
+        \"upc\" TEXT UNIQUE NOT NULL,
+        \"description\" TEXT NOT NULL,
+        \"sizeweight\" TEXT NOT NULL,
+        \"quantity\" TEXT NOT NULL,
+        \"validated\" VARCHAR(20) NOT NULL default '',
+        \"delrequest\" VARCHAR(20) NOT NULL default '',
+        \"delreqreason\" TEXT NOT NULL,
+        \"userid\" INTEGER NOT NULL default '0',
+        \"username\" VARCHAR(150) NOT NULL default '',
+        \"timestamp\" INTEGER NOT NULL default '0',
+        \"lastupdate\" INTEGER NOT NULL default '0',
+        \"edituserid\" INTEGER NOT NULL default '0',
+        \"editname\" VARCHAR(150) NOT NULL default '',
+        \"ip\" VARCHAR(50) NOT NULL default '',
+        \"editip\" VARCHAR(50) NOT NULL default ''
+    );";
     sqlite3_query($slite3, $query);
 }
-$tablecheck3 = @sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."pending\"");
-if ($tablecheck3 === false) {
-    sqlite3_query($slite3, "PRAGMA auto_vacuum = 1;");
-    sqlite3_query($slite3, "PRAGMA encoding = \"UTF-8\";");
-    $query = "CREATE TABLE \"".$table_prefix."pending\" (\n".
-    "  \"id\" INTEGER PRIMARY KEY NOT NULL,\n".
-    "  \"upc\" TEXT UNIQUE NOT NULL,\n".
-    "  \"description\" TEXT NOT NULL,\n".
-    "  \"sizeweight\" TEXT NOT NULL,\n".
-    "  \"quantity\" TEXT NOT NULL,\n".
-    "  \"validated\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"delrequest\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"delreqreason\" TEXT NOT NULL,\n".
-    "  \"userid\" INTEGER NOT NULL default '0',\n".
-    "  \"username\" VARCHAR(150) NOT NULL default '',\n".
-    "  \"timestamp\" INTEGER NOT NULL default '0',\n".
-    "  \"lastupdate\" INTEGER NOT NULL default '0',\n".
-    "  \"ip\" VARCHAR(50) NOT NULL default ''\n".
-    ");";
+
+// Check and create the "pending" table if it doesn't exist
+if (!tableExists($slite3, $table_prefix . "pending")) {
+    $query = "CREATE TABLE \"" . $table_prefix . "pending\" (
+        \"id\" INTEGER PRIMARY KEY NOT NULL,
+        \"upc\" TEXT UNIQUE NOT NULL,
+        \"description\" TEXT NOT NULL,
+        \"sizeweight\" TEXT NOT NULL,
+        \"quantity\" TEXT NOT NULL,
+        \"validated\" VARCHAR(20) NOT NULL default '',
+        \"delrequest\" VARCHAR(20) NOT NULL default '',
+        \"delreqreason\" TEXT NOT NULL,
+        \"userid\" INTEGER NOT NULL default '0',
+        \"username\" VARCHAR(150) NOT NULL default '',
+        \"timestamp\" INTEGER NOT NULL default '0',
+        \"lastupdate\" INTEGER NOT NULL default '0',
+        \"ip\" VARCHAR(50) NOT NULL default ''
+    );";
     sqlite3_query($slite3, $query);
 }
-$tablecheck3 = @sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."modupc\"");
-if ($tablecheck3 === false) {
-    sqlite3_query($slite3, "PRAGMA auto_vacuum = 1;");
-    sqlite3_query($slite3, "PRAGMA encoding = \"UTF-8\";");
-    $query = "CREATE TABLE \"".$table_prefix."modupc\" (\n".
-    "  \"id\" INTEGER PRIMARY KEY NOT NULL,\n".
-    "  \"upc\" TEXT UNIQUE NOT NULL,\n".
-    "  \"description\" TEXT NOT NULL,\n".
-    "  \"sizeweight\" TEXT NOT NULL,\n".
-    "  \"quantity\" TEXT NOT NULL,\n".
-    "  \"validated\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"delrequest\" VARCHAR(20) NOT NULL default '',\n".
-    "  \"delreqreason\" TEXT NOT NULL,\n".
-    "  \"userid\" INTEGER NOT NULL default '0',\n".
-    "  \"username\" VARCHAR(150) NOT NULL default '',\n".
-    "  \"timestamp\" INTEGER NOT NULL default '0',\n".
-    "  \"lastupdate\" INTEGER NOT NULL default '0',\n".
-    "  \"ip\" VARCHAR(50) NOT NULL default ''\n".
-    ");";
+
+// Check and create the "modupc" table if it doesn't exist
+if (!tableExists($slite3, $table_prefix . "modupc")) {
+    $query = "CREATE TABLE \"" . $table_prefix . "modupc\" (
+        \"id\" INTEGER PRIMARY KEY NOT NULL,
+        \"upc\" TEXT UNIQUE NOT NULL,
+        \"description\" TEXT NOT NULL,
+        \"sizeweight\" TEXT NOT NULL,
+        \"quantity\" TEXT NOT NULL,
+        \"validated\" VARCHAR(20) NOT NULL default '',
+        \"delrequest\" VARCHAR(20) NOT NULL default '',
+        \"delreqreason\" TEXT NOT NULL,
+        \"userid\" INTEGER NOT NULL default '0',
+        \"username\" VARCHAR(150) NOT NULL default '',
+        \"timestamp\" INTEGER NOT NULL default '0',
+        \"lastupdate\" INTEGER NOT NULL default '0',
+        \"ip\" VARCHAR(50) NOT NULL default ''
+    );";
     sqlite3_query($slite3, $query);
 }
 
