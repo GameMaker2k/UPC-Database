@@ -58,7 +58,10 @@ $cookieDomain = $basecheck['host'];
 if (!is_numeric($sqlite_version)) {
     $sqlite_version = 3;
 }
-if ($sqlite_version > 3 || $sqlite_version < 2) {
+if ($sqlite_version > 4 || $sqlite_version < 2) {
+    $sqlite_version = 3;
+}
+if ($sqlite_version == 4 && !extension_loaded('pdo') && !extension_loaded('pdo_sqlite')) {
     $sqlite_version = 3;
 }
 if ($sqlite_version == 3 && !extension_loaded("sqlite3")) {
@@ -174,6 +177,77 @@ if (extension_loaded("sqlite3") && $sqlite_version == 3) {
     {
         $dbversion = $dbhandle->version();
         return $dbversion['versionString'];
+    }
+}
+
+if (extension_loaded('pdo') && extension_loaded('pdo_sqlite') && $sqlite_version == 4) {
+    function sqlite3_open($filename, $mode = 0666)
+    {
+        global $site_encryption_key;
+        if ($site_encryption_key === null) {
+            $handle = new PDO('sqlite:' . $filename);
+        } else {
+            // Note: Encryption is not natively supported in PDO SQLite.
+            // You may need to use an external library or extension for encryption support.
+            throw new Exception('Encryption with PDO SQLite is not supported natively.');
+        }
+        return $handle;
+    }
+
+    function sqlite3_close($dbhandle)
+    {
+        $dbhandle = null; // Closing the connection
+        return true;
+    }
+
+    function sqlite3_escape_string($dbhandle, $string)
+    {
+        // PDO::quote adds surrounding quotes, so we trim them.
+        $escapedString = $dbhandle->quote($string);
+        return substr($escapedString, 1, -1);
+    }
+
+    function sqlite3_query($dbhandle, $query)
+    {
+        $results = $dbhandle->query($query);
+        return $results;
+    }
+
+    function sqlite3_fetch_array($result, $result_type = SQLITE3_BOTH)
+    {
+        switch ($result_type) {
+            case SQLITE3_ASSOC:
+                $fetch_style = PDO::FETCH_ASSOC;
+                break;
+            case SQLITE3_NUM:
+                $fetch_style = PDO::FETCH_NUM;
+                break;
+            case SQLITE3_BOTH:
+            default:
+                $fetch_style = PDO::FETCH_BOTH;
+                break;
+        }
+        $row = $result->fetch($fetch_style);
+        return $row;
+    }
+
+    function sql_fetch_assoc($result)
+    {
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
+
+    function sqlite3_last_insert_rowid($dbhandle)
+    {
+        $rowid = $dbhandle->lastInsertId();
+        return $rowid;
+    }
+
+    function sqlite3_libversion($dbhandle)
+    {
+        $stmt = $dbhandle->query('SELECT sqlite_version()');
+        $version = $stmt->fetchColumn();
+        return $version;
     }
 }
 
