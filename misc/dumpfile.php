@@ -176,10 +176,11 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
     ?>
 <!DOCTYPE <?php echo $sqlitedatabase; ?> [
 <!ELEMENT <?php echo $sqlitedatabase; ?> (item*)>
-<!ELEMENT item (upc,description,sizeweight)>
+<!ELEMENT item (upc, description, sizeweight, quantity?)>
 <!ELEMENT upc (#PCDATA)>
 <!ELEMENT description (#PCDATA)>
 <!ELEMENT sizeweight (#PCDATA)>
+<!ELEMENT quantity (#PCDATA)>
 ]>
 <?php 
 	} 
@@ -191,10 +192,11 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
 	?>
 <!DOCTYPE <?php echo $sqlitedatabase; ?> [
 <!ELEMENT <?php echo $sqlitedatabase; ?> - - (item*)>
-<!ELEMENT item - - (upc, description, sizeweight)>
+<!ELEMENT item - - (upc, description, sizeweight, quantity?)>
 <!ELEMENT upc - - (#PCDATA)>
 <!ELEMENT description - - (#PCDATA)>
 <!ELEMENT sizeweight - - (#PCDATA)>
+<!ELEMENT quantity - - (#PCDATA)>
 ]>
 <?php 
 	} 
@@ -314,7 +316,7 @@ if ($_GET['subact'] == "neighbor" || $_GET['subact'] == "neighbors") {
 <upc><?php echo $upcinfo['upc']; ?></upc>
 <description><?php echo htmlspecialchars($upcinfo['description'], ENT_XML1, "UTF-8"); ?></description>
 <sizeweight><?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_XML1, "UTF-8"); ?></sizeweight>
-<?php if ($add_quantity_row === true) { ?><sizeweight><?php echo htmlspecialchars($upcinfo['quantity'], ENT_XML1, "UTF-8"); ?></sizeweight><?php } ?>
+<?php if ($add_quantity_row === true) { ?><quantity><?php echo htmlspecialchars($upcinfo['quantity'], ENT_XML1, "UTF-8"); ?></quantity><?php } ?>
 </item>
 
 <?php }
