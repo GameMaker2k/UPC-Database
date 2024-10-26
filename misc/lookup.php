@@ -53,16 +53,16 @@ if ($_GET['act'] == "lookup") {
 }
 if ($_GET['act'] == "lookup") {
     if (isset($_POST['upc'])) {
-        $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';");
+        $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $ean13)."';");
         $numupc = sql_fetch_assoc($findupc);
         $numrows = $numupc['count'];
         if ($numrows > 0) {
-            $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';");
+            $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $ean13)."';");
             $upcinfo = sql_fetch_assoc($findupc);
         }
         $oldnumrows = $numrows;
         if ($oldnumrows < 1) {
-            $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE upc='".sqlite3_escape_string($slite3, $ean13)."';");
+            $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $ean13)."';");
             $numupc = sql_fetch_assoc($findupc);
             $numrows = $numupc['count'];
             if ($numrows > 0) {

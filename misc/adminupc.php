@@ -26,7 +26,7 @@ if ($_GET['act'] == "deleteupc" && isset($_GET['upc']) && validate_ean13($_GET['
     $numupc = sql_fetch_assoc($findupc);
     $numrows = $numupc['count'];
     if ($numrows > 0) {
-        $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
+        $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
         $upcinfo = sql_fetch_assoc($findupc);
         $delupc = sqlite3_query($slite3, "DELETE FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
         $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $upcinfo['userid'])."';");
@@ -116,14 +116,37 @@ if ($_GET['act'] == "deleteupc") { ?>
     ?>
   </center>
   <?php echo $endhtmltag; ?>
-<?php } if ($_GET['act'] == "validateupc" && isset($_GET['upc']) && validate_ean13($_GET['upc']) === true) {
+<?php } if (($_GET['act'] == "approveedit" || $_GET['act'] == "rejectedit") && isset($_GET['id'])) {
+      $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."modupc\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['id']).";");
+      $numupc = sql_fetch_assoc($findupc);
+      $numrows = $numupc['count'];
+      if ($numrows > 0) {
+		  if($_GET['act'] == "approveedit") {
+                $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."modupc\" WHERE \"id\"='".sqlite3_escape_string($slite3, $_POST['id'])."';");
+                $upcinfo = sql_fetch_assoc($findupc);
+                if ($add_quantity_row === true) {
+                    sqlite3_query($slite3, "UPDATE \"".$table_prefix."items\" SET \"description\"='".sqlite3_escape_string($slite3, $upcinfo['description'])."',\"sizeweight\"='".sqlite3_escape_string($slite3, $upcinfo['sizeweight'])."',\"quantity\"='".sqlite3_escape_string($slite3, $upcinfo['quantity'])."',\"edituserid\"=".sqlite3_escape_string($slite3, $upcinfo['userid']).",\"editname\"='".sqlite3_escape_string($slite3, $upcinfo['username'])."',\"editip\"='".sqlite3_escape_string($slite3, $upcinfo['ip'])."',\"lastupdate\"=".sqlite3_escape_string($slite3, $upcinfo['lastupdate'])." WHERE \"upc\"='".sqlite3_escape_string($slite3, $upcinfo['upc'])."';");
+                }
+                if ($add_quantity_row === false) {
+                    sqlite3_query($slite3, "UPDATE \"".$table_prefix."items\" SET \"description\"='".sqlite3_escape_string($slite3, $upcinfo['description'])."',\"sizeweight\"='".sqlite3_escape_string($slite3, $upcinfo['sizeweight'])."',\"edituserid\"=".sqlite3_escape_string($slite3, $upcinfo['userid']).",\"editname\"='".sqlite3_escape_string($slite3, $upcinfo['username'])."',\"editip\"='".sqlite3_escape_string($slite3, $upcinfo['ip'])."',\"lastupdate\"=".sqlite3_escape_string($slite3, $upcinfo['lastupdate'])." WHERE \"upc\"='".sqlite3_escape_string($slite3, $upcinfo['upc'])."';");
+                }
+		  }
+          $delupc = sqlite3_query($slite3, "DELETE FROM \"".$table_prefix."modupc\" WHERE \"id\"=".sqlite3_escape_string($slite3, $_POST['id']).";");
+          $_GET['act'] = "upceditrequests";
+      }
+  } if ($_GET['act'] == "validateupc" && isset($_GET['upc']) && validate_ean13($_GET['upc']) === true) {
       $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
       $numupc = sql_fetch_assoc($findupc);
       $numrows = $numupc['count'];
       if ($numrows > 0) {
-          $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."pending\" WHERE upc='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
+          $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."pending\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
           $upcinfo = sql_fetch_assoc($findupc);
-          sqlite3_query($slite3, "INSERT INTO \"".$table_prefix."items\" (\"upc\", \"description\", \"sizeweight\", \"quantity\", \"validated\", \"delrequest\", \"delreqreason\", \"userid\", \"username\", \"timestamp\", \"lastupdate\", \"edituserid\", \"editname\", \"ip\", \"editip\") VALUES ('".sqlite3_escape_string($slite3, $upcinfo['upc'])."', '".sqlite3_escape_string($slite3, $upcinfo['description'])."', '".sqlite3_escape_string($slite3, $upcinfo['sizeweight'])."', '".sqlite3_escape_string($slite3, $upcinfo['quantity'])."', 'yes', 'no', '', ".sqlite3_escape_string($slite3, $upcinfo['userid']).", '".sqlite3_escape_string($slite3, $upcinfo['username'])."', ".sqlite3_escape_string($slite3, $upcinfo['timestamp']).", ".sqlite3_escape_string($slite3, $upcinfo['lastupdate']).", ".sqlite3_escape_string($slite3, $upcinfo['userid']).", '".sqlite3_escape_string($slite3, $upcinfo['username'])."', '".sqlite3_escape_string($slite3, $upcinfo['ip'])."', '".sqlite3_escape_string($slite3, $upcinfo['ip'])."');");
+          if ($add_quantity_row === true) {
+			  sqlite3_query($slite3, "INSERT INTO \"".$table_prefix."items\" (\"upc\", \"description\", \"sizeweight\", \"quantity\", \"validated\", \"delrequest\", \"delreqreason\", \"userid\", \"username\", \"timestamp\", \"lastupdate\", \"edituserid\", \"editname\", \"ip\", \"editip\") VALUES ('".sqlite3_escape_string($slite3, $upcinfo['upc'])."', '".sqlite3_escape_string($slite3, $upcinfo['description'])."', '".sqlite3_escape_string($slite3, $upcinfo['sizeweight'])."', '".sqlite3_escape_string($slite3, $upcinfo['quantity'])."', 'yes', 'no', '', ".sqlite3_escape_string($slite3, $upcinfo['userid']).", '".sqlite3_escape_string($slite3, $upcinfo['username'])."', ".sqlite3_escape_string($slite3, $upcinfo['timestamp']).", ".sqlite3_escape_string($slite3, $upcinfo['lastupdate']).", ".sqlite3_escape_string($slite3, $upcinfo['userid']).", '".sqlite3_escape_string($slite3, $upcinfo['username'])."', '".sqlite3_escape_string($slite3, $upcinfo['ip'])."', '".sqlite3_escape_string($slite3, $upcinfo['ip'])."');");
+		  }
+          if ($add_quantity_row === false) {
+			  sqlite3_query($slite3, "INSERT INTO \"".$table_prefix."items\" (\"upc\", \"description\", \"sizeweight\", \"quantity\", \"validated\", \"delrequest\", \"delreqreason\", \"userid\", \"username\", \"timestamp\", \"lastupdate\", \"edituserid\", \"editname\", \"ip\", \"editip\") VALUES ('".sqlite3_escape_string($slite3, $upcinfo['upc'])."', '".sqlite3_escape_string($slite3, $upcinfo['description'])."', '".sqlite3_escape_string($slite3, $upcinfo['sizeweight'])."', '', 'yes', 'no', '', ".sqlite3_escape_string($slite3, $upcinfo['userid']).", '".sqlite3_escape_string($slite3, $upcinfo['username'])."', ".sqlite3_escape_string($slite3, $upcinfo['timestamp']).", ".sqlite3_escape_string($slite3, $upcinfo['lastupdate']).", ".sqlite3_escape_string($slite3, $upcinfo['userid']).", '".sqlite3_escape_string($slite3, $upcinfo['username'])."', '".sqlite3_escape_string($slite3, $upcinfo['ip'])."', '".sqlite3_escape_string($slite3, $upcinfo['ip'])."');");
+		  }
           $delupc = sqlite3_query($slite3, "DELETE FROM \"".$table_prefix."pending\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
           $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $upcinfo['userid'])."';");
           $numupc = sql_fetch_assoc($findupc);
@@ -276,7 +299,7 @@ if ($_GET['act'] == "editupc" && validate_ean13($_GET['upc']) === true && $_GET[
         $_GET['upc'] = null;
     }
     if ($numrows > 0) {
-        $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE upc='".sqlite3_escape_string($slite3, $_GET['upc'])."';");
+        $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_GET['upc'])."';");
         $upcinfo = sql_fetch_assoc($findupc);
         ?>
 <!DOCTYPE html>

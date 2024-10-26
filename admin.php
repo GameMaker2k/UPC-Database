@@ -85,7 +85,8 @@ $navbar = $navbar."\n   <div><a href=\"".$url_admin_file."?act=deletemember\">De
 
 if ($_GET['act'] == "deleteupc" || $_GET['act'] == "validateupc" ||
     $_GET['act'] == "editupc" || $_GET['act'] == "upcdelrequests" ||
-    $_GET['act'] == "upceditrequests" || $_GET['act'] == "undeleteupc") {
+    $_GET['act'] == "upceditrequests" || $_GET['act'] == "undeleteupc" ||
+    $_GET['act'] == "approveedit" || $_GET['act'] == "rejectedit") {
     require("./misc/adminupc.php");
 }
 
