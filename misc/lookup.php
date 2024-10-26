@@ -51,7 +51,137 @@ if ($_GET['act'] == "lookup") {
         $lookupupc = null;
     }
 }
-if ($_GET['act'] == "lookup") {
+
+ if ($_GET['act'] == "editupc" && validate_ean13($_GET['upc']) === true && $_GET['subact'] === "editupc") {
+      if (!isset($_POST['description']) || !isset($_POST['sizeweight'])) {
+          $_GET['upc'] = null;
+          $_GET['subact'] = null;
+      }
+      if (!isset($_POST['description'])) {
+          $_POST['description'] = null;
+      }
+      if (!isset($_POST['sizeweight'])) {
+          $_POST['sizeweight'] = null;
+      }
+      $_POST['description'] = trim($_POST['description']);
+      $_POST['description'] = remove_spaces($_POST['description']);
+      $_POST['sizeweight'] = trim($_POST['sizeweight']);
+      $_POST['sizeweight'] = remove_spaces($_POST['sizeweight']);
+      if ($add_quantity_row === true) {
+          $_POST['quantity'] = trim($_POST['quantity']);
+          $_POST['quantity'] = remove_spaces($_POST['quantity']);
+      }
+      if ($add_quantity_row === false) {
+          $_POST['quantity'] = null;
+      }
+      if (strlen($_POST['description']) > 150) {
+          $_GET['upc'] = null;
+          $_GET['subact'] = null;
+      }
+      if (strlen($_POST['sizeweight']) > 30) {
+          $_GET['upc'] = null;
+          $_GET['subact'] = null;
+      }
+      if (strlen($_POST['quantity']) > 30 && $add_quantity_row === true) {
+          $_GET['upc'] = null;
+          $_GET['subact'] = null;
+      }
+      if ($_POST['description'] == "" || $_POST['description'] == null) {
+          $_GET['upc'] = null;
+          $_GET['subact'] = null;
+      }
+      if ($_POST['sizeweight'] == "" || $_POST['sizeweight'] == null) {
+          $_GET['upc'] = null;
+          $_GET['subact'] = null;
+      }
+      if (($_POST['quantity'] == "" || $_POST['quantity'] == null) && $add_quantity_row === true) {
+          $_GET['upc'] = null;
+          $_GET['subact'] = null;
+      }
+      $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
+      $numupc = sql_fetch_assoc($findupc);
+      $numrows = $numupc['count'];
+      if ($numrows <= 0) {
+          $_GET['upc'] = null;
+          $_GET['subact'] = null;
+      }
+      if ($numrows > 0) {
+          $itemvalidated = "no";
+          if ($_COOKIE['MemberID'] == 1) {
+              $itemvalidated = "yes";
+          }
+          if ($usersiteinfo['admin'] == "yes") {
+              $itemvalidated = "yes";
+          }
+          if ($usersiteinfo['admin'] == "no" && $_COOKIE['MemberID'] > 1 && $validate_items === false) {
+              $itemvalidated = "yes";
+          }
+          if ($usersiteinfo['admin'] == "no" && $_COOKIE['MemberID'] > 1 && $validate_items === true &&
+              $usersiteinfo['validateitems'] == "yes") {
+              $itemvalidated = "no";
+          }
+          if ($usersiteinfo['admin'] == "no" && $_COOKIE['MemberID'] > 1 && $validate_items === true &&
+              $usersiteinfo['validateitems'] == "no") {
+              $itemvalidated = "yes";
+          }
+          if ($add_quantity_row === true) {
+              sqlite3_query($slite3, "INSERT INTO \"".$table_prefix."modupc\" (\"upc\", \"description\", \"sizeweight\", \"quantity\", \"validated\", \"delrequest\", \"delreqreason\", \"userid\", \"username\", \"timestamp\", \"lastupdate\", \"edituserid\", \"editname\", \"ip\", \"editip\") VALUES ('".sqlite3_escape_string($slite3, $_POST['upc'])."', '".sqlite3_escape_string($slite3, $_POST['description'])."', '".sqlite3_escape_string($slite3, $_POST['sizeweight'])."', '".sqlite3_escape_string($slite3, $_POST['quantity'])."', '".sqlite3_escape_string($slite3, $itemvalidated)."', 'no', '', ".sqlite3_escape_string($slite3, $_COOKIE['MemberID']).", '".sqlite3_escape_string($slite3, $_COOKIE['MemberName'])."', ".time().", ".time().", ".sqlite3_escape_string($slite3, $_COOKIE['MemberID']).", '".sqlite3_escape_string($slite3, $_COOKIE['MemberName'])."', '".sqlite3_escape_string($slite3, $usersip)."', '".sqlite3_escape_string($slite3, $usersip)."');");
+          }
+          if ($add_quantity_row === false) {
+              sqlite3_query($slite3, "INSERT INTO \"".$table_prefix."modupc\" (\"upc\", \"description\", \"sizeweight\", \"quantity\", \"validated\", \"delrequest\", \"delreqreason\", \"userid\", \"username\", \"timestamp\", \"lastupdate\", \"edituserid\", \"editname\", \"ip\", \"editip\") VALUES ('".sqlite3_escape_string($slite3, $_POST['upc'])."', '".sqlite3_escape_string($slite3, $_POST['description'])."', '".sqlite3_escape_string($slite3, $_POST['sizeweight'])."', '', '".sqlite3_escape_string($slite3, $itemvalidated)."', 'no', '', ".sqlite3_escape_string($slite3, $_COOKIE['MemberID']).", '".sqlite3_escape_string($slite3, $_COOKIE['MemberName'])."', ".time().", ".time().", ".sqlite3_escape_string($slite3, $_COOKIE['MemberID']).", '".sqlite3_escape_string($slite3, $_COOKIE['MemberName'])."', '".sqlite3_escape_string($slite3, $usersip)."', '".sqlite3_escape_string($slite3, $usersip)."');");
+          }
+          $_GET['upc'] = "lookup";
+          $_GET['subact'] = null;
+      }
+  }
+if ($_GET['act'] == "editupc" && validate_ean13($_GET['upc']) === true && $_GET['subact'] === null) {
+    $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
+    $numupc = sql_fetch_assoc($findupc);
+    $numrows = $numupc['count'];
+    if ($numrows <= 0) {
+        $_GET['upc'] = null;
+    }
+    if ($numrows > 0) {
+        $findupc = sqlite3_query($slite3, "SELECT * FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $_GET['upc'])."';");
+        $upcinfo = sql_fetch_assoc($findupc);
+        ?>
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<title> <?php echo $sitename; ?>: Edit UPC Request </title>
+<?php echo $metatags; ?>
+ </head>
+ <body>
+  <center>
+   <?php echo $navbar; ?>
+   <h2>Edit UPC</h2>
+   <table>
+   <?php if ($upce !== null && validate_upce($upce) === true) { ?>
+   <tr><td>UPC-E</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upce&amp;upc=<?php echo $upce; ?>" alt="<?php echo $upce; ?>" title="<?php echo $upce; ?>" /></td></tr>
+   <?php } if ($upca !== null && validate_upca($upca) === true) { ?>
+   <tr><td>UPC-A</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=upca&amp;upc=<?php echo $upca; ?>" alt="<?php echo $upca; ?>" title="<?php echo $upca; ?>" /></td></tr>
+   <?php } if ($ean13 !== null && validate_ean13($ean13) === true) { ?>
+   <tr><td>EAN/UCC-13</td><td width="50"></td><td><img src="<?php echo $barcode_file; ?>?act=ean13&amp;upc=<?php echo $ean13; ?>" alt="<?php echo $ean13; ?>" title="<?php echo $ean13; ?>" /></td></tr>
+   <?php } ?>
+   </table>
+   <div><br /></div>
+   <form action="<?php echo $url_file; ?>?act=editupc" method="post">
+    <table>
+    <tr><td style="text-align: center;">Description: <input type="text" name="description" size="50" maxlength="150" value="<?php echo htmlspecialchars($upcinfo['description'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?>" /></td></tr>
+    <tr><td style="text-align: center;">Size/Weight: <input type="text" name="sizeweight" size="30" maxlength="30" value="<?php echo htmlspecialchars($upcinfo['sizeweight'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?>" /></td></tr>
+    <?php if ($add_quantity_row === true) { ?><tr><td style="text-align: center;">Quantity: <input type="text" name="quantity" size="30" maxlength="30"  value="<?php echo htmlspecialchars($upcinfo['quantity'], ENT_COMPAT | ENT_HTML5, "UTF-8"); ?>" /></td></tr><?php } ?>
+   </table>
+   <input type="hidden" name="upc" value="<?php echo $_GET['upc']; ?>" />
+   <input type="hidden" name="subact" value="editupc" />
+   <div><br /><input type="submit" value="Save Entry" /> <input type="reset" value="Clear" /></div>
+   </form>
+  </center>
+  <?php echo $endhtmltag; ?>
+<?php }
+    }  if ($_GET['act'] == "deleteupc" && validate_ean13($_GET['upc']) === true) {
+        sqlite3_query($slite3, "UPDATE \"".$table_prefix."items\" SET \"delrequest\"='yes',\"delreqreason\"='Delete This' WHERE \"upc\"='".sqlite3_escape_string($slite3, $_POST['upc'])."';");
+		$_GET['act'] = "lookup";
+	} if ($_GET['act'] == "lookup") {
     if (isset($_POST['upc'])) {
         $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\"='".sqlite3_escape_string($slite3, $ean13)."';");
         $numupc = sql_fetch_assoc($findupc);
@@ -242,6 +372,8 @@ if ($_GET['act'] == "lookup") {
    <div><br /></div>
    <?php if ($usersiteinfo['admin'] == "yes" && $upcinfo['validated'] == "yes") { ?>
    <a href="<?php echo $url_admin_file; ?>?act=editupc&amp;upc=<?php echo $ean13; ?>">Edit UPC</a> | <a href="<?php echo $url_admin_file; ?>?act=deleteupc&amp;upc=<?php echo $ean13; ?>" onclick="if(!confirm('Are you sure you want to delete UPC <?php echo $ean13; ?>?')) { return false; }">Delete UPC</a><br />
+   <?php } if ($usersiteinfo['admin'] == "no" && $upcinfo['validated'] == "yes") { ?>
+   <a href="<?php echo $url_file; ?>?act=editupc&amp;upc=<?php echo $ean13; ?>">Edit UPC Request</a> | <a href="<?php echo $url_file; ?>?act=deleteupc&amp;upc=<?php echo $ean13; ?>" onclick="if(!confirm('Are you sure you want to delete UPC <?php echo $ean13; ?>?')) { return false; }">Delete UPC Request</a><br />
    <?php } ?>
    <a href="<?php echo $url_file; ?>?act=neighbors&amp;upc=<?php echo $ean13; ?>&amp;page=1">List Neighboring Items</a><br />
    <!--<a href="/editform.asp?upc=<?php echo $ean13; ?>">Submit Modification Request</a><br />-->
