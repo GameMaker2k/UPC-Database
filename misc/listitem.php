@@ -191,7 +191,7 @@ if ($_GET['act'] == "latest") { ?>
           $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' ORDER BY \"upc\" ASC;");
       }
       if ($meminfo !== null) {
-          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" AND \"userid\"='".sqlite3_escape_string($slite3, $_GET['id'])."' LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' ORDER BY \"upc\" ASC;");
+          $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."items\" WHERE \"upc\" LIKE '".sqlite3_escape_string($slite3, $findprefix)."%' AND \"userid\"='".sqlite3_escape_string($slite3, $_GET['id'])."' ORDER BY \"upc\" ASC;");
       }
       $numupc = sql_fetch_assoc($findupc);
       $numrows = $numupc['count'];

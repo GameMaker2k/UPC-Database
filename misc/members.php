@@ -51,119 +51,14 @@ if (($_GET['act'] == "login" || $_GET['act'] == "signin") &&
         if ($userinfo['hashtype'] == "NoHash") {
             $PasswordCheck = $_POST['password'];
         }
-        if ($userinfo['hashtype'] == "NoHASH") {
+        elseif ($userinfo['hashtype'] == "NoHASH") {
             $PasswordCheck = $_POST['password'];
         }
-        if ($userinfo['hashtype'] == "PlainText") {
+        elseif ($userinfo['hashtype'] == "PlainText") {
             $PasswordCheck = $_POST['password'];
         }
-        if ($userinfo['hashtype'] == "md2") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "md2");
-        }
-        if ($userinfo['hashtype'] == "md4") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "md4");
-        }
-        if ($userinfo['hashtype'] == "md5") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "md5");
-        }
-        if ($userinfo['hashtype'] == "sha1") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "sha1");
-        }
-        if ($userinfo['hashtype'] == "sha224") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "sha224");
-        }
-        if ($userinfo['hashtype'] == "sha256") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "sha256");
-        }
-        if ($userinfo['hashtype'] == "sha384") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "sha384");
-        }
-        if ($userinfo['hashtype'] == "sha512") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "sha512");
-        }
-        if ($userinfo['hashtype'] == "ripemd128") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "ripemd128");
-        }
-        if ($userinfo['hashtype'] == "ripemd160") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "ripemd160");
-        }
-        if ($userinfo['hashtype'] == "ripemd256") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "ripemd256");
-        }
-        if ($userinfo['hashtype'] == "ripemd320") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "ripemd320");
-        }
-        if ($userinfo['hashtype'] == "salsa10") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "salsa10");
-        }
-        if ($userinfo['hashtype'] == "salsa20") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "salsa20");
-        }
-        if ($userinfo['hashtype'] == "snefru") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "snefru");
-        }
-        if ($userinfo['hashtype'] == "snefru256") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "snefru256");
-        }
-        if ($userinfo['hashtype'] == "gost") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "gost");
-        }
-        if ($userinfo['hashtype'] == "joaat") {
-            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], "joaat");
-        }
-        if ($usehashtype == "md2") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "md2");
-        }
-        if ($usehashtype == "md4") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "md4");
-        }
-        if ($usehashtype == "md5") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "md5");
-        }
-        if ($usehashtype == "sha1") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "sha1");
-        }
-        if ($usehashtype == "sha224") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "sha224");
-        }
-        if ($usehashtype == "sha256") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "sha256");
-        }
-        if ($usehashtype == "sha384") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "sha384");
-        }
-        if ($usehashtype == "sha512") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "sha512");
-        }
-        if ($usehashtype == "ripemd128") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "ripemd128");
-        }
-        if ($usehashtype == "ripemd160") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "ripemd160");
-        }
-        if ($usehashtype == "ripemd256") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "ripemd256");
-        }
-        if ($usehashtype == "ripemd320") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "ripemd320");
-        }
-        if ($usehashtype == "salsa10") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "salsa10");
-        }
-        if ($usehashtype == "salsa20") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "salsa20");
-        }
-        if ($usehashtype == "snefru") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "snefru");
-        }
-        if ($usehashtype == "snefru256") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "snefru256");
-        }
-        if ($usehashtype == "gost") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "gost");
-        }
-        if ($usehashtype == "joaat") {
-            $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, "joaat");
+        else {
+            $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], $userinfo['hashtype']);
         }
         if ($userinfo['password'] != $PasswordCheck) {
             $_GET['act'] = "login";
@@ -222,60 +117,7 @@ if (($_GET['act'] == "join" || $_GET['act'] == "signup") &&
     }
     $UserJoined = time();
     $HashSalt = salt_hmac();
-    if ($usehashtype == "md2") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "md2");
-    }
-    if ($usehashtype == "md4") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "md4");
-    }
-    if ($usehashtype == "md5") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "md5");
-    }
-    if ($usehashtype == "sha1") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "sha1");
-    }
-    if ($usehashtype == "sha224") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "sha224");
-    }
-    if ($usehashtype == "sha256") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "sha256");
-    }
-    if ($usehashtype == "sha384") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "sha384");
-    }
-    if ($usehashtype == "sha512") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "sha512");
-    }
-    if ($usehashtype == "ripemd128") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "ripemd128");
-    }
-    if ($usehashtype == "ripemd160") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "ripemd160");
-    }
-    if ($usehashtype == "ripemd256") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "ripemd256");
-    }
-    if ($usehashtype == "ripemd320") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "ripemd320");
-    }
-    if ($usehashtype == "salsa10") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "salsa10");
-    }
-    if ($usehashtype == "salsa20") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "salsa20");
-    }
-    if ($usehashtype == "snefru") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "snefru");
-    }
-    if ($usehashtype == "snefru256") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "snefru256");
-    }
-    if ($usehashtype == "gost") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "gost");
-    }
-    if ($usehashtype == "joaat") {
-        $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, "joaat");
-    }
+    $NewPassword = b64e_hmac($_POST['password'], $UserJoined, $HashSalt, $usehashtype);
 	$new_user_item_validate = "no";
 	if($validate_items === true) {
 		$new_user_item_validate = "yes";
