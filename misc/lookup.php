@@ -107,9 +107,6 @@ if ($_GET['act'] == "lookup") {
       }
       if ($numrows > 0) {
           $itemvalidated = "no";
-          if ($_COOKIE['MemberID'] == 1) {
-              $itemvalidated = "yes";
-          }
           if ($usersiteinfo['admin'] == "yes") {
               $itemvalidated = "yes";
           }
