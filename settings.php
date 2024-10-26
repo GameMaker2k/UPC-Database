@@ -478,9 +478,9 @@ if (!isset($_COOKIE['MemberName']) && !isset($_COOKIE['MemberID']) && isset($_CO
     setcookie("SessPass", null, -1, $cbasedir, $cookieDomain);
 }
 if (isset($_COOKIE['MemberName']) && isset($_COOKIE['MemberID']) && isset($_COOKIE['SessPass'])) {
-    $findme = sqlite3_query($slite3, "SELECT COUNT(*) AS COUNT FROM \"".$table_prefix."members\" WHERE name='".sqlite3_escape_string($slite3, $_COOKIE['MemberName'])."';");
+    $findme = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."members\" WHERE name='".sqlite3_escape_string($slite3, $_COOKIE['MemberName'])."';");
     $numfindme = sql_fetch_assoc($findme);
-    $numfmrows = $numfindme['COUNT'];
+    $numfmrows = $numfindme['count'];
     if ($numfmrows < 1) {
         unset($_COOKIE['MemberName']);
         setcookie("MemberName", null, -1, $cbasedir, $cookieDomain);
@@ -502,7 +502,7 @@ if (isset($_COOKIE['MemberName']) && isset($_COOKIE['MemberID']) && isset($_COOK
                 $userinfo['canviewsite'] = "yes";
             }
         }
-        if ($userinfo['password'] != $_COOKIE['SessPass']) {
+        if ($userinfo['password'] != $_COOKIE['SessPass'] || $userinfo['name'] != $_COOKIE['MemberName'] || $userinfo['id'] != $_COOKIE['MemberID']) {
             unset($_COOKIE['MemberName']);
             setcookie("MemberName", null, -1, $cbasedir, $cookieDomain);
             unset($_COOKIE['MemberID']);
