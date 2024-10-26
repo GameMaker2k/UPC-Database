@@ -60,7 +60,7 @@ if (($_GET['act'] == "login" || $_GET['act'] == "signin") &&
         else {
             $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], $userinfo['hashtype']);
         }
-        if ($userinfo['password'] != $PasswordCheck && ($userinfo['hashtype'] != "NoHASH" and $userinfo['hashtype'] != "NoHash")) {
+        if ($userinfo['password'] != $PasswordCheck && ($userinfo['hashtype'] != "NoHASH" && $userinfo['hashtype'] != "NoHash")) {
             $_GET['act'] = "login";
             header("Location: ".$website_url.$url_file."?act=login");
             exit();
