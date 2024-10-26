@@ -60,13 +60,13 @@ if (($_GET['act'] == "login" || $_GET['act'] == "signin") &&
         else {
             $PasswordCheck = b64e_hmac($_POST['password'], $userinfo['timestamp'], $userinfo['salt'], $userinfo['hashtype']);
         }
-        if ($userinfo['password'] != $PasswordCheck) {
+        if ($userinfo['password'] != $PasswordCheck && ($userinfo['hashtype'] != "NoHASH" and $userinfo['hashtype'] != "NoHash")) {
             $_GET['act'] = "login";
             header("Location: ".$website_url.$url_file."?act=login");
             exit();
         }
         $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, $usehashtype);
-        if ($userinfo['password'] == $PasswordCheck) {
+        if ($userinfo['password'] == $PasswordCheck || $userinfo['hashtype'] != "NoHASH" || $userinfo['hashtype'] != "NoHash") {
             $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $userinfo['id'])."';");
             $numupc = sql_fetch_assoc($findupc);
             $nummypendings = $numupc['count'];
