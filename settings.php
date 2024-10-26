@@ -39,7 +39,7 @@ $upcdatabase = "http://www.upcdatabase.com/item/%s";
 $sitename = $appname;
 $siteauthor = $appmaker;
 $table_prefix = $sqlitedatabase."_";
-$sdb_file = $sqlitedatabase.".sdb";
+$sdb_file = $sqlitedatabase.".db3";
 
 @ob_start("ob_gzhandler");
 
