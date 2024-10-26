@@ -65,6 +65,7 @@ if (($_GET['act'] == "login" || $_GET['act'] == "signin") &&
             header("Location: ".$website_url.$url_file."?act=login");
             exit();
         }
+        $NewPassword = b64e_hmac($_POST['password'], $userinfo['timestamp'], $NewHashSalt, $usehashtype);
         if ($userinfo['password'] == $PasswordCheck) {
             $findupc = sqlite3_query($slite3, "SELECT COUNT(*) AS count FROM \"".$table_prefix."pending\" WHERE \"userid\"='".sqlite3_escape_string($slite3, $userinfo['id'])."';");
             $numupc = sql_fetch_assoc($findupc);
